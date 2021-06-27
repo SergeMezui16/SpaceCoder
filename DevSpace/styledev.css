@@ -1,0 +1,106 @@
+@keyframes move-twink-back {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+}
+@-webkit-keyframes move-twink-back {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+}
+@-moz-keyframes move-twink-back {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+}
+@-ms-keyframes move-twink-back {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+}
+.stars, .twinkling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 290%;
+    display: block;
+    color: aliceblue;
+}
+.stars {
+    background: #000 url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+    z-index: 1;
+}
+.twinkling{
+  background: transparent url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  z-index: 2;
+
+  -moz-animation: move-twink-back 200s linear infinite;
+  -ms-animation: move-twink-back 200s linear infinite;
+  -o-animation: move-twink-back 200s linear infinite;
+  -webkit-animation: move-twink-back 200s linear infinite;
+  animation: move-twink-back 200s linear infinite;
+}
+*{z-index: 100;}
+
+
+header{
+    z-index: 1;
+    color: rgb(255, 255, 255);
+}
+#title a{
+    color: rgb(255, 255, 255);
+    z-index: 2;
+}
+footer{
+    background: none;
+    z-index: 100;
+}
+
+#lang{
+    display: flex;
+    flex-direction: column;
+}
+#lang div{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 1px rgba(255, 255, 255, 0.301);
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.493);
+    margin-top: 15px;
+    padding: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+#lang div p .iconify{
+    font-size: 90px;
+}
+
+#lang div:nth-child(3){
+    color: grey;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+footer{
+    margin-top: 75px;
+}
+
+@media screen and (min-width: 600px){
+    .stars, .twinkling {
+        height: 150%;
+    }
+    #lang{
+        flex-direction: row;
+    }
+    #lang div{
+        justify-content: space-between;
+        width: 20%;
+        transition: .5s;
+    }
+    #lang div:hover{
+        transform: scale(1.1);
+        transition: .5s;
+    }
+    #lang div:nth-child(3):hover{
+        transform: scale(1);
+    }
+}
