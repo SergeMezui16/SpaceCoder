@@ -1,0 +1,931 @@
+@import 'custom.css';
+@import 'https://fonts.googleapis.com/css2?family=Noto+Sans&wght@500&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap';
+
+
+/* ****************************************************** */
+/*                          BASE                         */
+/* ****************************************************** */
+body{
+    background-color: #f6f6f6;
+    /* @apply sm:bg-red;
+    @apply md:bg-yellow;
+    @apply lg:bg-green;
+    @apply xl:bg-blue;
+    @apply 2xl:bg-gray-500; */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 304 304' width='304' height='304'%3E%3Cpath fill='%23ba9bed' fill-opacity='0.22' d='M44.1 224a5 5 0 1 1 0 2H0v-2h44.1zm160 48a5 5 0 1 1 0 2H82v-2h122.1zm57.8-46a5 5 0 1 1 0-2H304v2h-42.1zm0 16a5 5 0 1 1 0-2H304v2h-42.1zm6.2-114a5 5 0 1 1 0 2h-86.2a5 5 0 1 1 0-2h86.2zm-256-48a5 5 0 1 1 0 2H0v-2h12.1zm185.8 34a5 5 0 1 1 0-2h86.2a5 5 0 1 1 0 2h-86.2zM258 12.1a5 5 0 1 1-2 0V0h2v12.1zm-64 208a5 5 0 1 1-2 0v-54.2a5 5 0 1 1 2 0v54.2zm48-198.2V80h62v2h-64V21.9a5 5 0 1 1 2 0zm16 16V64h46v2h-48V37.9a5 5 0 1 1 2 0zm-128 96V208h16v12.1a5 5 0 1 1-2 0V210h-16v-76.1a5 5 0 1 1 2 0zm-5.9-21.9a5 5 0 1 1 0 2H114v48H85.9a5 5 0 1 1 0-2H112v-48h12.1zm-6.2 130a5 5 0 1 1 0-2H176v-74.1a5 5 0 1 1 2 0V242h-60.1zm-16-64a5 5 0 1 1 0-2H114v48h10.1a5 5 0 1 1 0 2H112v-48h-10.1zM66 284.1a5 5 0 1 1-2 0V274H50v30h-2v-32h18v12.1zM236.1 176a5 5 0 1 1 0 2H226v94h48v32h-2v-30h-48v-98h12.1zm25.8-30a5 5 0 1 1 0-2H274v44.1a5 5 0 1 1-2 0V146h-10.1zm-64 96a5 5 0 1 1 0-2H208v-80h16v-14h-42.1a5 5 0 1 1 0-2H226v18h-16v80h-12.1zm86.2-210a5 5 0 1 1 0 2H272V0h2v32h10.1zM98 101.9V146H53.9a5 5 0 1 1 0-2H96v-42.1a5 5 0 1 1 2 0zM53.9 34a5 5 0 1 1 0-2H80V0h2v34H53.9zm60.1 3.9V66H82v64H69.9a5 5 0 1 1 0-2H80V64h32V37.9a5 5 0 1 1 2 0zM101.9 82a5 5 0 1 1 0-2H128V37.9a5 5 0 1 1 2 0V82h-28.1zm16-64a5 5 0 1 1 0-2H146v44.1a5 5 0 1 1-2 0V18h-26.1zm102.2 270a5 5 0 1 1 0 2H98v14h-2v-16h124.1zM242 149.9V160h16v34h-16v62h48v48h-2v-46h-48v-66h16v-30h-16v-12.1a5 5 0 1 1 2 0zM53.9 18a5 5 0 1 1 0-2H64V2H48V0h18v18H53.9zm112 32a5 5 0 1 1 0-2H192V0h50v2h-48v48h-28.1zm-48-48a5 5 0 0 1-9.8-2h2.07a3 3 0 1 0 5.66 0H178v34h-18V21.9a5 5 0 1 1 2 0V32h14V2h-58.1zm0 96a5 5 0 1 1 0-2H137l32-32h39V21.9a5 5 0 1 1 2 0V66h-40.17l-32 32H117.9zm28.1 90.1a5 5 0 1 1-2 0v-76.51L175.59 80H224V21.9a5 5 0 1 1 2 0V82h-49.59L146 112.41v75.69zm16 32a5 5 0 1 1-2 0v-99.51L184.59 96H300.1a5 5 0 0 1 3.9-3.9v2.07a3 3 0 0 0 0 5.66v2.07a5 5 0 0 1-3.9-3.9H185.41L162 121.41v98.69zm-144-64a5 5 0 1 1-2 0v-3.51l48-48V48h32V0h2v50H66v55.41l-48 48v2.69zM50 53.9v43.51l-48 48V208h26.1a5 5 0 1 1 0 2H0v-65.41l48-48V53.9a5 5 0 1 1 2 0zm-16 16V89.41l-34 34v-2.82l32-32V69.9a5 5 0 1 1 2 0zM12.1 32a5 5 0 1 1 0 2H9.41L0 43.41V40.6L8.59 32h3.51zm265.8 18a5 5 0 1 1 0-2h18.69l7.41-7.41v2.82L297.41 50H277.9zm-16 160a5 5 0 1 1 0-2H288v-71.41l16-16v2.82l-14 14V210h-28.1zm-208 32a5 5 0 1 1 0-2H64v-22.59L40.59 194H21.9a5 5 0 1 1 0-2H41.41L66 216.59V242H53.9zm150.2 14a5 5 0 1 1 0 2H96v-56.6L56.6 162H37.9a5 5 0 1 1 0-2h19.5L98 200.6V256h106.1zm-150.2 2a5 5 0 1 1 0-2H80v-46.59L48.59 178H21.9a5 5 0 1 1 0-2H49.41L82 208.59V258H53.9zM34 39.8v1.61L9.41 66H0v-2h8.59L32 40.59V0h2v39.8zM2 300.1a5 5 0 0 1 3.9 3.9H3.83A3 3 0 0 0 0 302.17V256h18v48h-2v-46H2v42.1zM34 241v63h-2v-62H0v-2h34v1zM17 18H0v-2h16V0h2v18h-1zm273-2h14v2h-16V0h2v16zm-32 273v15h-2v-14h-14v14h-2v-16h18v1zM0 92.1A5.02 5.02 0 0 1 6 97a5 5 0 0 1-6 4.9v-2.07a3 3 0 1 0 0-5.66V92.1zM80 272h2v32h-2v-32zm37.9 32h-2.07a3 3 0 0 0-5.66 0h-2.07a5 5 0 0 1 9.8 0zM5.9 0A5.02 5.02 0 0 1 0 5.9V3.83A3 3 0 0 0 3.83 0H5.9zm294.2 0h2.07A3 3 0 0 0 304 3.83V5.9a5 5 0 0 1-3.9-5.9zm3.9 300.1v2.07a3 3 0 0 0-1.83 1.83h-2.07a5 5 0 0 1 3.9-3.9zM97 100a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-48 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 96a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-144a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM49 36a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM33 68a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 240a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm80-176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm112 176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 180a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 84a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+html{
+    @apply scroll-smooth;
+}
+
+
+.logo{
+    @apply w-10 h-10 object-contain cursor-pointer mx-4 hidden;
+}
+
+.brand{
+    font-family: 'Bungee Inline', cursive;
+    @apply font-thin text-3xl uppercase tracking-widest cursor-pointer select-none;
+}
+
+/* ICON */
+.icon{
+    @apply w-5 h-5 inline-block;
+}
+
+.icon.clickable{
+    @apply text-purple transition ease-in-out delay-75;
+}
+.icon.clickable:hover{
+    @apply text-purple-light;
+}
+
+
+/* TEXT */
+.text-link{
+    @apply underline text-purple transition ease-in-out delay-100;
+}
+.text-link:hover{
+    @apply text-purple-light delay-75;
+}
+.text-link.out:after, a[target="_blank"]:after{
+    @apply content-out inline-block w-4 h-4 ml-1;
+}
+.text-link.danger{
+    @apply text-red;
+}
+.text-link.danger:hover{
+    @apply text-red-light;
+}
+
+/* TITLE */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4{
+    @apply font-bold block my-2
+}
+
+h1, .h1{
+    @apply text-3xl;
+}
+h2, .h2{
+    @apply text-2xl;
+}
+h3, .h3{
+    @apply text-xl;
+}
+h4, .h4{
+    @apply text-lg;
+}
+p, .p{
+    @apply text-base;
+}
+.hero{
+    @apply text-5xl font-bold my-4 capitalize block;
+}
+.hero-text{
+    @apply text-2xl block my-2;
+}
+
+
+/* USER AVATAR */
+.avatar{
+    @apply object-cover cursor-pointer rounded-full;
+}
+/* COMMENTS */
+.avatar.small{ 
+    @apply w-8 h-8 m-2 border;
+}
+/* HEADER */
+.avatar.blink{
+    @apply w-8 h-8 outline-2 outline outline-offset-1 outline-purple;
+}
+.avatar.semi{
+    @apply w-20 h-20 border;
+}
+.avatar.big{
+    @apply w-40 h-40 border;
+}
+
+
+/* FILTRE */
+.filter{
+    @apply bg-white w-fit text-xl border rounded flex items-center h-16;
+}
+.filter-icon{
+    @apply w-8 h-8 m-4;
+}
+.filter-items{
+    @apply flex h-full cursor-pointer;
+}
+
+.filter .item{
+    @apply justify-center items-center flex w-24 px-2;
+}
+.filter .item:hover{
+    @apply bg-transparent-purple;
+}
+.filter .item.active{
+    @apply border-2 border-x-0 border-t-0 border-purple;
+}
+
+/* BUTTON */
+
+.btn{
+    @apply p-3 mx-auto cursor-pointer rounded shadow-md inline-block w-fit text-center transition ease-in-out;
+}
+.btn:hover{
+    @apply delay-150 shadow-lg
+}
+
+.btn.btn-primary{
+    @apply bg-purple text-white hover:bg-purple-light;
+}
+
+.btn.btn-secondary{
+    @apply bg-gray-100 border-gray-200 border text-gray-500;
+}
+
+.btn.btn-danger{
+    @apply bg-red text-white;
+}
+.btn.btn-danger:hover{
+    @apply bg-red-light;
+}
+
+.btn.btn-disable{
+    @apply bg-gray-300 text-gray-500 shadow-none cursor-not-allowed;
+}
+.btn.btn-disable:hover, .btn.btn-loading:hover {
+    @apply shadow-none;
+}
+.btn.btn-loading{
+    @apply bg-gray-300 text-gray-500 shadow-none cursor-wait;
+}
+.btn.btn-primary-outlined{
+    @apply bg-white border border-purple;
+}
+.btn.btn-primary-outlined:hover{
+    @apply bg-purple text-white;
+}
+.btn.big{
+    @apply text-2xl;
+}
+.btn.small{
+    @apply text-sm p-2;
+}
+.btn.left{
+    @apply block;
+}
+.btn.right{
+    @apply text-right;
+}
+.btn.center{
+
+}
+
+
+/* LOADER */
+.loader{
+    @apply inline-block w-10 h-10 border-0 border-purple border-t-2 rounded-full animate-spin;
+}
+.loader.mini{
+    @apply w-4 h-4 mx-2; 
+}
+.loader.large{
+    @apply w-20 h-20; 
+}
+.loader.bigger{
+    @apply w-40 h-40; 
+}
+
+
+/* BACK TO TOP BTN */
+.back-to-top{
+    @apply fixed bottom-10 right-10 rounded hidden justify-center items-center w-10 h-10 z-20 bg-purple stroke-white cursor-pointer;
+}
+
+/* LINK */
+.link{
+    @apply flex max-w-md justify-between items-center rounded p-2 my-3 text-lg shadow-md shadow-transparent-purple border-b-purple border border-t-0 border-x-0;
+}
+.link:hover{
+    @apply bg-transparent-purple;
+}
+.link-brand{
+    @apply flex justify-start items-center;
+}
+.link-brand img{
+    @apply icon mx-2 w-10 h-10;
+}
+
+
+
+/* BREADCRUMB */
+.breadcrumb{
+    @apply text-gray-500 my-3 text-sm block;
+}
+.breadcrumb .breadcrumb-list {
+    @apply p-1;
+}
+.breadcrumb .item{
+    @apply inline;
+}
+.breadcrumb .item a{
+    @apply  rounded underline-offset-2 underline;
+}
+.breadcrumb .item a:hover{
+    @apply bg-transparent-purple no-underline;
+}
+.breadcrumb .item:after{
+    @apply content-['>'] mx-2 text-gray-400;
+}
+.breadcrumb .item:last-child:after{
+    @apply content-[''];
+}
+.breadcrumb .item.active a{
+    @apply cursor-text select-all no-underline p-1 text-left ;
+}
+.breadcrumb .item.active a:hover{
+    @apply bg-transparent;
+}
+
+
+
+/* ALERTS */
+.alert{
+    @apply flex items-center border-2 border-y-transparent border-r-transparent shadow-md bg-gray-100 my-3;
+}
+.alert .icon{
+    @apply m-5;
+}
+.alert div{
+    @apply flex flex-col flex-1;
+}
+.alert .alert-title{
+    @apply h3;
+}
+.alert .alert-content{
+    @apply pr-3 pb-2 text-gray-500;
+}
+/* ALERT INFO */
+.alert.alert-info{
+    @apply border-l-blue bg-transparent-blue;
+}
+.alert.alert-info .alert-title, .alert.alert-info .icon{
+    @apply text-blue-dark;
+}
+/* ALERT SUCCESS */
+.alert.alert-success{
+    @apply border-l-green bg-transparent-green;
+}
+.alert.alert-success .alert-title, .alert.alert-success .icon{
+    @apply text-green-dark;
+}
+/* ALERT DANGER */
+.alert.alert-danger{
+    @apply border-l-red bg-transparent-red;
+}
+.alert.alert-danger .alert-title, .alert.alert-danger .icon{
+    @apply text-red-dark;
+}
+/* ALERT WARNING */
+.alert.alert-warning{
+    @apply border-l-yellow bg-transparent-yellow;
+}
+.alert.alert-warning .alert-title, .alert.alert-warning .icon{
+    @apply text-yellow-dark;
+}
+
+
+/* PAGINATION */
+.pagination{
+    @apply flex text-gray-500 text-lg my-5;
+}
+.pagination .page a, .pagination .page span{
+    @apply mx-1 px-2 py-1 border border-transparent;
+}
+.pagination .page a {
+    @apply bg-gray-200;
+}
+.pagination .page a:hover{
+    @apply bg-transparent-purple border-purple-light;
+}
+.pagination .page span{
+    @apply border-b-purple-dark;
+}
+
+
+/* TOAST BOX */
+.toast-box{
+    @apply fixed flex justify-end flex-col gap-3 bottom-0 right-0 w-96 z-50 m-5;
+}
+
+/* TOAST */
+.toast{
+    @apply relative w-full bg-gray-100 z-50 border shadow rounded; 
+}
+.toast-header{
+    @apply flex gap-3 items-center justify-start py-1 p-2 bg-gray-200;
+}
+.toast-content{
+    @apply p-2;
+}
+.toast-close{
+    @apply cursor-pointer w-6 h-6 absolute top-0 right-0 m-1;
+}
+.toast.danger .toast-header, .toast.danger svg{
+    @apply bg-red text-white stroke-white;
+}
+.toast.info .toast-header, .toast.info svg{
+    @apply bg-blue text-white stroke-white;
+}
+.toast.success .toast-header, .toast.success svg{
+    @apply bg-green text-white stroke-white;
+}
+
+
+
+
+/* ****************************************************** */
+/*                           CARDS                        */
+/* ****************************************************** */
+
+/* PROJET CARD */
+.project-card{
+    @apply flex flex-col bg-gray-100 p-4 max-w-xs rounded shadow-md m-4 border;
+}
+.project-card:hover{
+    @apply border-purple;
+}
+.project-card .title{
+    @apply flex flex-col;
+}
+.project-card img{
+    @apply w-full rounded;
+}
+.project-card .author{
+    @apply my-2 block border-l-purple border border-y-gray-100 border-r-gray-100 pl-4;
+}
+.project-card .visit{
+    @apply text-gray-500 block text-right text-sm;
+}
+
+/* RESSOURCE CARD */
+.ressource-card{
+    @apply max-w-xs shadow-md min-h-max rounded m-4 shadow-transparent-purple backdrop-blur-md cursor-pointer text-gray-100;
+}
+.ressource-content{
+    @apply bg-transparent-black rounded flex flex-col items-start justify-start p-3 transition-all duration-150 border border-transparent;
+}
+.ressource-content:hover{
+    @apply bg-transparent-black-dark transition-all duration-150 border border-purple;
+}
+.ressource-title{
+    @apply h2 text-white mb-2;
+}
+.ressource-click{
+    @apply text-sm mt-2 flex w-full justify-end;
+}
+
+/* TUTORIEL CARD */
+.tuto-card{
+    @apply bg-gray-100 m-4 rounded shadow-md cursor-pointer border hover:border-purple max-w-sm;
+}
+.tuto-card-header{
+    @apply flex justify-between items-center p-4 pb-0 text-gray-500 text-sm rounded;
+}
+.tuto-card-footer{
+    @apply p-4 flex justify-between text-xs text-gray-500;
+}
+.tuto-card-description{
+    @apply text-gray-500 border pl-2 border-l-purple-light border-y-0 border-r-0;
+}
+.tuto-card-title{
+    @apply mb-2;
+}
+.tuto-card-title:hover{
+    @apply text-purple-dark mb-2;
+}
+
+
+
+
+
+/* ****************************************************** */
+/*                           FORMS                        */
+/* ****************************************************** */
+
+/* FORM */
+.form-control {
+    @apply flex-1 flex flex-col justify-start py-2 text-gray-500 max-w-md;
+}
+.form-input{
+    @apply inline-block rounded border border-gray-300;
+}
+.form-input:focus{
+    @apply shadow-md border-transparent outline-none ring-purple
+}
+.form-input:invalid{
+    @apply ring-red border-red;
+}
+
+.form-input.disabled, .form-input[readonly="readonly"], .form-input[readonly]{
+    @apply bg-gray-300; 
+}
+
+.form-control label{
+    @apply cursor-pointer select-none flex flex-row items-center;
+}
+
+.form-control [type="checkbox"]{
+    @apply w-5 h-5 mr-3 text-purple border-gray-300 ring-purple;
+}
+
+/* FILE */
+[type="file"]{
+    @apply p-3 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:cursor-pointer file:text-purple;
+}
+[type="file"]:file{
+    @apply mr-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-purple text-white;
+}
+
+
+.invalid-input{
+    @apply ring-red border-red;
+}
+
+
+/* TOGGLE SWITCH */
+
+
+
+
+/* PASSWORD INPUT */
+[is="password-input"]{
+}
+[is="password-input"] div{
+    @apply flex max-w-md;
+}
+[is="password-input"] div input{
+    @apply flex-1 border-r-gray-200;
+}
+[is="password-input"] div button{
+    @apply w-auto text-gray-100 bg-purple border-purple p-3 border;
+}
+
+/* FORM COPY */
+.form-copy {
+    @apply flex max-w-md my-3;
+}
+
+.copy-input {
+    @apply flex-1 font-mono text-gray-500 overflow-auto bg-gray-200 max-w-md border-none;
+}
+.copy-btn{
+    @apply bg-purple p-3 text-gray-100 w-auto;
+}
+.copy-btn.copied{
+    @apply bg-green;
+}
+.copy-btn.not-copied{
+    @apply bg-red ;
+}
+
+
+
+/* ****************************************************** */
+/*                       LOGIN FORM                       */
+/* ****************************************************** */
+
+.login{
+    @apply flex items-center justify-center h-screen;
+}
+
+.login-card{
+    @apply m-20 flex flex-col backdrop-blur-xl shadow-lg rounded;
+}
+
+.login-img{
+    @apply hidden;
+}
+
+.login-img img{
+    @apply object-cover h-full;
+}
+
+.login-form{
+    @apply flex-1 flex flex-col justify-center p-5;
+}
+
+
+
+
+
+/* ****************************************************** */
+/*                       HEADER                           */
+/* ****************************************************** */
+
+.header{
+    @apply container m-auto flex justify-between items-center p-3 z-40;
+}
+
+.header-box{
+    @apply flex w-full;
+}
+
+.header-title{
+    @apply flex items-center justify-start w-full font-medium;
+}
+
+.header-context{
+    @apply flex justify-between items-center;
+}
+
+.header-search-bar{
+    @apply flex flex-col items-center justify-start backdrop-blur-xl bg-white/50 w-full h-full inset-0 z-40 fixed;
+}
+.header-search-bar.is-visible{
+    @apply hidden;
+}
+
+.header-nav{
+    @apply fixed z-40 inset-0 items-start flex-col justify-start p-3 backdrop-blur-xl bg-white/50;
+}
+
+.header-nav-list{
+    @apply flex items-start justify-center flex-col h-full text-4xl ml-10;
+}
+
+.header-nav-list li a {
+    @apply p-1 my-5;
+}
+
+.header-nav-list li:hover, .header-nav-list li:hover .icon, .header-nav-list li.focus {
+    @apply text-purple transition-all;
+}
+
+.header-nav-list .icon{
+    @apply w-6 h-6 inline mr-4 text-gray-500;
+}
+
+/* HIDE & SHOW */
+.show-header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+
+/* SEARCH BAR */
+.search-form{
+    @apply mx-4 items-center;
+}
+
+.search-label {
+    @apply cursor-pointer; 
+}
+
+
+
+/* ****************************************************** */
+/*                       TUTO                             */
+/* ****************************************************** */
+
+.tuto{
+    @apply z-0 my-3 rounded mx-auto w-auto;
+}
+.tuto-header, .tuto-body{
+    @apply container rounded col-span-5 mx-auto ;
+}
+.tuto-header{
+    @apply mb-6 px-4 py-2 bg-gray-100 shadow-md;
+}
+.tuto-body{
+    @apply grid grid-flow-row gap-5;
+}
+
+
+.tuto-content{
+    @apply p-4 col-span-1 bg-gray-100 shadow-md;
+}
+
+
+.tuto .credits{
+    @apply flex col-span-1 flex-col p-5 rounded bg-transparent-gray text-gray-500 backdrop-blur-sm shadow-md;
+}
+.tuto .credits p{
+    @apply my-2;
+}
+.tuto .credits a{
+    @apply text-link;
+}
+
+
+
+/* LISTES */
+.tuto ul {
+    @apply list-disc list-inside ml-4;
+}
+.tuto ol {
+    @apply list-decimal;
+}
+
+/* KBD */
+.tuto kbd{
+    @apply bg-transparent-gray p-2 rounded shadow-sm;
+}
+
+/* COMMENT */
+.comments{
+    @apply container mx-auto flex flex-col bg-gray-100;
+}
+.comment-form{
+    @apply p-6;
+}
+.comment-list{
+    @apply p-6;
+}
+.comment{
+    @apply p-2;
+}
+.comment-info{
+    @apply flex justify-start my-1;
+}
+.comment-info img{
+    @apply text-red;
+}
+.comment-info .author{
+    @apply text-lg;
+}
+.comment-info .date {
+    @apply text-gray-500 text-sm;
+}
+.comment-info a{
+    @apply text-link;
+}
+.comment-content{
+    @apply  bg-transparent-gray backdrop-blur p-3 rounded max-w-xl; 
+}
+
+
+
+
+.tuto p {
+    @apply my-4;
+}
+.tuto-title{
+    @apply pt-10 pb-14  w-full m-0;
+}
+
+
+/* READ ALSO */
+.tuto .read-also{
+    @apply my-8 p-3 max-w-md block text-sm rounded shadow-md shadow-transparent-purple border-b-purple border border-t-0 border-x-0;
+}
+.tuto .read-also .step-title{
+    @apply h4;
+    @apply inline;
+}
+.tuto .read-also:hover{
+    @apply bg-transparent-purple;
+}
+
+
+
+/* FIGURES */
+.tuto figure{
+    @apply block max-w-sm relative rounded p-3 bg-transparent-gray m-auto my-7;
+}
+.tuto figcaption:before{
+    @apply opacity-0 bg-transparent-black-light absolute cursor-pointer inset-0 content-play content-center flex items-center justify-center ease-in-out duration-100;
+}
+.tuto figure:hover figcaption:before{
+    @apply opacity-100 ease-in-out duration-300;
+}
+.tuto figure figcaption{
+    @apply text-sm text-gray-500 text-center mt-2;
+}
+.tuto figure img{
+    @apply w-fit h-fit object-cover;
+}
+
+
+/* TUTO STEPS */
+.tuto-step{
+    @apply flex flex-col ;
+}
+.step{
+    @apply flex;
+}
+.step-number{
+    @apply p-2 m-3 mt-8 w-10 h-10 bg-gray-300 rounded flex justify-center items-center;
+}
+.step-content{
+    @apply p-3;
+}
+.step-title{
+    @apply h3;
+}
+
+
+/* THANKS */
+.thanks{
+    @apply flex justify-center items-center my-10;
+}
+
+
+/* INTRO */
+.tuto .intro {
+    @apply text-lg mb-5;    
+}
+
+/* TUTO META */
+.tuto .meta {
+    @apply text-sm text-gray-500 flex justify-end;
+}
+.tuto .meta span{
+    /* @apply ml-5; */
+}
+.tuto .meta span:after{
+    @apply content-['•'] mx-5 text-lg;
+}
+.tuto .meta span:last-child:after{
+    @apply content-[''] mx-0;
+}
+
+
+/* TUTO CAROUSEL */
+.carousel{
+    @apply fixed hidden overflow-hidden grid-cols-2 justify-center items-center p-5 inset-0 bg-transparent-black backdrop-blur min-h-full h-full z-50;
+    z-index: 999;
+}
+.carousel .close{
+    @apply text-white text-sm m-3 p-3 border border-white w-fit fixed top-0 right-0 cursor-pointer;
+}
+.carousel.open{
+    @apply grid ease-in-out duration-500 overflow-scroll ;
+}
+.carousel .prev, .carousel .next{
+    @apply text-white p-10 border border-white m-auto auto-cols-min h-fit w-fit flex justify-center items-center cursor-pointer;
+}
+.carousel .prev svg, .carousel .next svg{
+    @apply icon;
+}
+.carousel .prev:hover, .carousel .next:hover {
+    @apply scale-105;
+}
+.carousel .content {
+    @apply order-first col-span-2 w-full flex flex-col items-center justify-center;
+}
+.carousel .content .title{
+    @apply text-white py-5 block text-center;
+}
+.carousel .content img{
+    @apply w-fit object-cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ****************************************************** */
+/*                           MD SCREEN                   */
+/* ****************************************************** */
+
+@screen md {
+
+    /* TOAST BOX */
+    .toast-box{
+        @apply m-5 gap-5;
+    }
+
+    /* TOAST */
+    .toast-header{
+        @apply py-2 p-4 gap-5;
+    }
+    .toast-content{
+        @apply p-4;
+    }
+
+
+    /* ****************************************************** */
+    /*                       LOGIN FORM                       */
+    /* ****************************************************** */
+
+    .login-card{
+        @apply flex-row; 
+        @apply lg:max-w-2xl;
+    }
+    .login-img{
+        @apply block flex-1;
+    }
+
+
+
+
+
+    /* ****************************************************** */
+    /*                       HEADER                           */
+    /* ****************************************************** */
+
+    .header{
+        @apply container mt-5;
+    }
+
+    .header-box{
+        @apply flex-row-reverse justify-end;
+    }
+
+    .header-title{
+        @apply w-auto;
+    }
+
+    .header-context{
+        @apply flex-row-reverse w-full;
+    }
+    
+
+    .header-nav{
+        @apply p-1 flex static z-0 flex-row w-full backdrop-blur-none;
+    }
+
+    .header-nav-list{
+        @apply flex-row ml-auto text-base;
+    }
+
+    .header-nav-list li a {
+        @apply my-0 mx-2;
+    }
+    .header-nav-list li:last-child{
+        @apply hidden;
+        @apply lg:block;
+    }
+
+    .header-nav-list .icon{
+        @apply mr-1 w-4 h-4;
+    }
+
+
+    /* SEARCH BAR */
+    .search-label {
+        @apply p-3;
+    }
+
+
+
+    /* ****************************************************** */
+    /*                       TUTO                             */
+    /* ****************************************************** */
+
+    .tuto{
+        @apply grid;
+    }
+    .tuto-body{
+        @apply grid-flow-col;
+    }
+
+
+    .tuto-content{
+        @apply col-span-10;
+    }
+
+    .tuto .credits{
+        @apply h-fit flex col-span-1;
+    }
+
+
+
+    /* COMMENT */
+    .comments{
+        @apply flex-row;
+    }
+    .comment-form{
+        @apply basis-1/3;
+    }
+    .comment-list{
+        @apply basis-2/3 border border-y-0 border-r-0;
+    }
+
+
+    /* TUTO CAROUSEL */
+    .carousel{
+        @apply grid-cols-5 justify-center;
+    }
+    .carousel .close{
+        @apply text-base m-6 p-6;
+    }
+    .carousel .content {
+        @apply order-none col-span-3;
+    }
+}

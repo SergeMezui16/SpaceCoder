@@ -1,25 +1,31 @@
-import './styles/app.scss';
+import './styles/app.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// Web Components Imports
+import './js/index';
 
 class App extends React.Component
 {
+
+    constructor () {
+        super()
+
+    }
+
     render (){
+
         return (
-            <>
-                <header className="header">
-                     <div className="logo">
-                        <img src="" alt="" />
-                     </div>
-                </header>
-            </>
-            
+        <>
+        </>
         )
     }
 }
 
-
-ReactDOM.createRoot(document.getElementById('react-root')).render(
-    <App/>
-);
+const root = document.getElementById('react-root')
+if(root !== null){
+    console.log(root)
+    ReactDOM.createRoot(root).render(
+        <App/>
+    ) 
+}
