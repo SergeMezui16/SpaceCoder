@@ -3,8 +3,1156 @@
 {% block title %}UI !{% endblock %}
 
 {% block body %}
+{# TOAST INJECTE EN PHP #}
+<span
+    class="js-toast"
+    data-title="Welcome"
+    data-content="Bienvenu sur l'UI de SpaceCoder. Ici vous pouvez contempler les differents composants du site."
+>
+</span>
+<span
+    class="js-toast"
+    data-title="Welcome Info"
+    data-feed="info"
+    data-content="Bienvenu sur l'UI de SpaceCoder. Ici vous pouvez contempler les differents composants du site."
+>
+</span>
+<span
+    class="js-toast"
+    data-title="Welcome Success"
+    data-feed="success"
+    data-content="Bienvenu sur l'UI de SpaceCoder. Ici vous pouvez contempler les differents composants du site."
+>
+</span>
+<span
+    class="js-toast"
+    data-title="Welcome Danger"
+    data-feed="danger"
+    data-content="Bienvenu sur l'UI de SpaceCoder. Ici vous pouvez contempler les differents composants du site."
+>
+</span>
 
-<div id="react-root"></div>
+{# HEADER #}
+<header class="bg-white shadow-md" is="header-componnent">
+    <div class="header" id="header">
+        <div class="header-box">
+            <div class="header-context">
+                <svg id="js-menu-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-6 cursor-pointer md:hidden">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                </svg>
+                <form is="search-bar" action="" class="search-form" method="POST">
+                    <label id="js-search-btn" for="search" class="search-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                        </svg>
+                    </label>
+                    <div id="js-search" class="header-search-bar is-visible">
+                        <input type="search" name="search" id="search" placeholder="Chercher..." class="h-10 mt-20"/>
+                        <p class="text-xs text-center mx-5 w-auto text-slate-500 my-4" >
+                            Trouvez ce que vous cherchez parmis les <strong>Tutoriels</strong>, <strong>Ressources</strong> et <strong>Projets</strong>...
+                        </p>
+                        <input type="submit" name="submit" id="submit" value="Valider" class="hidden"/>
+                        <svg id="js-close-search-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 absolute right-2 top-2 cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                </form>
+                <nav is="hamburger-menu" class="header-nav hidden">
+                    <ul class="header-nav-list">
+                        <li class="">
+                            <a href="" class="flex items-center justify-center" >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"></path>
+                                </svg>
+                                Tutoriels
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="" class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.875 14.25l1.214 1.942a2.25 2.25 0 001.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 011.872 1.002l.164.246a2.25 2.25 0 001.872 1.002h2.092a2.25 2.25 0 001.872-1.002l.164-.246A2.25 2.25 0 0116.954 9h4.636M2.41 9a2.25 2.25 0 00-.16.832V12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 01.382-.632l3.285-3.832a2.25 2.25 0 011.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0021.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 002.25 2.25z"
+                                    ></path>
+                                </svg>
+                                Projets
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="" class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z" />
+                                </svg>
+                                Ressources
+                            </a>
+                        </li>
+                        <li class="focus">
+                            <a href="" class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"></path>
+                                </svg>
+                                DevSpace
+                            </a>
+                        </li>
+                    </ul>
+                    <svg id="js-close-menu-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 absolute right-2 top-2 cursor-pointer md:hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </nav>
+            </div>
+            <a href="" class="header-title">
+                <img src="https://spacecoder.fun/assets/images/logo/favicon.png" alt="Logo" class="logo"/>
+                <h1 class="brand">
+                    SpaceCoder
+                </h1>
+            </a>
+        </div>
+        <div is="header-account" class="">
+            <img id="js-account-toggle" src="https://spacecoder.fun/Tutoriels/assets/images/_tuto-poster/14.jpg" alt="avater" class="avatar blink"/>
+            <div id="js-header-account" class="hidden absolute mt-2 p-3 right-5 border backdrop-blur-xl bg-white z-20" >
+                <img src="https://spacecoder.fun/Tutoriels/assets/images/_tuto-poster/14.jpg" alt="avater" class="avatar small"/>
+                <div class="flex flex-col ml-6 text-md">
+                    <span class="text-xl flex justify-between">
+                        <a href="">Serge Mezui</a>
+                        <a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon clickable">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                        </a>
+                    </span>
+                    <span class="my-2">sergemezui2@gmail.com</span>
+                    <span class="w-full mt-2">
+                        <a href="" class="text-link danger">Deconnexion</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
+{# REACT #}
+{# <div id="react-root"></div> #}
+
+{# ARTICLE #}
+<article class="tuto">
+    <div class="tuto-header">
+        <nav class="breadcrumb container">
+            <ul class="breadcrumb-list">
+                <li class="item"><a href="">Acceuil</a></li>
+                <li class="item">
+                    <a href="">Tutoriels</a>
+                </li>
+                <li class="item active">
+                    <a href="">
+                        Lorem ipsum dolor sit amet
+                        consectetur consectetur consectetur
+                        elit
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <h1 class="tuto-title">
+            Lorem ipsum dolor sit amet consectetur
+            consectetur consectetur adipisicing elit
+        </h1>
+        <div class="meta">
+            <span class="date">Modifié le 10/10/2022</span>
+            <span class="views">14 vues</span>
+        </div>
+    </div>
+    <div class="tuto-body">
+        <div class="tuto-content">
+            <div class="intro">
+                Lorem, ipsum dolor sit
+                <a
+                    href=""
+                    target="_blank"
+                    class="text-link"
+                >
+                    amet
+                </a>
+                consectetur adipisicing elit. Mollitia
+                quisquam atque, provident perspiciatis quis
+                molestiae quibusdam temporibus cumque! Sit
+                quibusdam nam dicta delectus eos, at vero
+                velit adipisci praesentium quod.
+            </div>
+            <div class="tuto-step">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4 class="step-title">
+                            Lorem, ipsum dolor sit amet
+                            consectetur adipisicing elit.
+                        </h4>
+                        <p>
+                            Lorem, ipsum dolor sit amet
+                            consectetur <kbd>CTRL + C</kbd> elit.
+                            Mollitia quisquam atque,
+                            provident perspiciatis quis
+                            <figure>                     
+                                <img src="https://spacecoder.fun/Tutoriels/assets/images/proton/install-2.png" title="Installation ProtonVPN" alt="Installation ProtonVPN" width='100px' />                     
+                                <figcaption>Installation Proton VPN</figcaption>                 
+                            </figure>
+                        </p>
+                        <p>
+                            Lorem, ipsum dolor sit amet
+                            consectetur adipisicing elit.
+                            Mollitia quisquam atque,
+                            provident perspiciatis quis
+                            molestiae quibusdam temporibus
+                            cumque! Sit quibusdam nam dicta
+                            delectus eos, at vero velit
+                            adipisci praesentium quod.
+                        </p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4 class="step-title">
+                            Lorem, ipsum dolor sit amet
+                            consectetur adipisicing elit.
+                        </h4>
+                        <p>
+                            Lorem, ipsum dolor sit amet
+                            consectetur adipisicing elit.
+                            Mollitia quisquam atque, provident
+                            persp.
+                        </p>
+                        <div class="flex justify-around gap-5">
+                            <ul>
+                                <li>Item</li>
+                                <li>Item</li>
+                                <li>Item</li>
+                                <li>Item</li>
+                            </ul>
+
+                            <ol>
+                                <li>Item N°1</li>
+                                <li>Item N°2</li>
+                                <li>Item N°3</li>
+                                <li>Item N°4</li>
+                            </ol>                        
+                        </div>
+                        <a class="read-also" href="">
+                            <span>Lisez aussi :</span>
+                            <span class="step-title">
+                                Lorem, ipsum dolor sit amet
+                                consectetur adipisicing
+                                elit.
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        Lorem, ipsum dolor sit amet
+                        consectetur adipisicing elit.
+                        Mollitia quisquam atque, provident
+                        perspiciatis quis molestiae
+                        quibusdam temporibus cumque! Sit
+                        quibusdam nam dicta delectus eos, at
+                        vero velit adipisci praesentium
+                        quod.
+                        <div class="form-copy" is="copy-form">
+                            <input name="text" class="copy-input js-copy-input" readonly type="text" value="AZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBN"/>
+                            <button class="copy-btn">Copier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="thanks">Merci.../</div>
+        </div>
+        <aside class="credits">
+            <h3>
+                Titre de l&#x27;article ... adipisicing elit
+            </h3>
+            <p>
+                Description ... Lorem ipsum dolor sit amet
+                consectetur consectetur consectetur...
+            </p>
+            <a 
+                is="tuto-share" 
+                href=""
+                data-title="Welcome"
+                data-text="Utiliser un VPN Sécurisé, Sans pub et gratuitement sur son téléphone et sur son ordinateur."
+                data-url="https://spacecoder.fun/Tutoriels/16/utiliser-un-vpn-curise-sans-pub-et-gratuitement-sur-son-telephone-et-sur-son-ordinateur.html"
+
+                class="no-underline my-3 mx-auto"
+            >
+                PARTAGER
+            </a>
+            <hr class="border-gray-500 my-2" />
+            <p>
+                Article écrit par
+                <a href="">Serge Mezui</a>
+                pour Spacecoder.
+            </p>
+            <p>Crée le 17 Aout 2020.</p>
+            <p>
+                Proposé par
+                <a href="">OJH II</a>
+            </p>
+        </aside>
+    </div>
+</article>
+
+{# COMMENTAIRE #}
+<div class="comments">
+    <form action="" class="comment-form">
+        <h3>Envoyez un commentaire</h3>
+        <div class="form-control">
+            <label for="text">Pseudo</label>
+            <input
+                type="text"
+                name="text"
+                value="Serge Mezui"
+                class="form-input"
+                readonly=""
+            />
+        </div>
+        <div class="form-control">
+            <label for="textarea">Votre Commentaire</label>
+            <textarea
+                class="form-input"
+                name="textarea"
+                id="textarea"
+                cols="20"
+                rows="5"
+            ></textarea>
+        </div>
+        <button class="btn btn-primary">ENVOYER</button>
+        <div class="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+            </svg>
+
+            <div class="">
+                <h3 class="alert-title">Info</h3>
+                <p class="alert-content">Soyez le premier a commenter et gagner des coins</p>
+            </div>
+        </div>
+    </form>
+    <div class="comment-list">
+        <h3>Commentaires rescent (3)</h3>
+        <div class="comment">
+            <div class="comment-info">
+                <img
+                    src="https://spacecoder.fun/Tutoriels/assets/images/proton/win.png"
+                    alt=""
+                    class="avatar small"
+                />
+                <div class="flex flex-col">
+                    <span class="author">
+                        <a href="">Serge Mezui</a>
+                    </span>
+                    <span class="date">
+                        07/12/2021 • 10H24
+                    </span>
+                </div>
+            </div>
+            <div class="comment-content">
+                Lorem ipsum dolor, sit amet consectetur
+                adipisicing elit. Nam excepturi laudantium
+                vitae dignissimos, dicta ut. Obcaecati
+                maxime recusandae eaque consequuntur unde
+                dolores ad tempore fuga neque. Laboriosam
+                officiis vel repellendus.
+            </div>
+        </div>
+        <div class="comment">
+            <div class="comment-info">
+                <img
+                    src="https://spacecoder.fun/Tutoriels/assets/images/proton/inscription.png"
+                    alt=""
+                    class="avatar small"
+                />
+                <div class="flex flex-col">
+                    <span class="author">
+                        <a href="">Serge Mezui</a>
+                    </span>
+                    <span class="date">
+                        il y&#x27;a 2 mois
+                    </span>
+                </div>
+            </div>
+            <div class="comment-content">
+                Lorem ipsum dolor, sit amet consectetur
+                adipisicing elit. Nam excepturi laudantium
+                vitae dignissimos, dicta ut. Obcaecati
+                maxime recusandae eaque consequuntur unde
+                dolores ad tempore fuga neque. Laboriosam
+                officiis vel repellendus. Lorem ipsum dolor,
+                sit amet consectetur adipisicing elit. Nam
+                excepturi laudantium vitae dignissimos,
+                dicta ut. Obcaecati maxime recusandae eaque
+                consequuntur unde dolores ad tempore fuga
+                neque. Laboriosam officiis vel repellendus.
+            </div>
+        </div>
+        <div class="comment">
+            <div class="comment-info">
+                <img
+                    src="https://spacecoder.fun/Tutoriels/assets/images/proton/install-2.png"
+                    alt=""
+                    class="avatar small"
+                />
+                <div class="flex flex-col">
+                    <span class="author">
+                        <a href="">Serge Mezui</a>
+                    </span>
+                    <span class="date">
+                        07/12/2021 • 10H24
+                    </span>
+                </div>
+            </div>
+            <div class="comment-content">
+                Lorem ipsum dolor, sit amet consectetur
+                adipisicing elit. Nam excepturi laudantium
+                vitae dignissimos, dicta ut. Obcaecati
+                maxime recusandae eaque consequuntur.
+            </div>
+        </div>
+    </div>
+</div>
+
+{# TITLES #}
+<div class="container m-auto flex flex-col md:flex-row">
+    <div class="bg-gray-100 m-3 p-3 flex-1 rounded shadow-md">
+        <span class="hero">Hero title</span>
+        <p class="hero-text">Hero Texte Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sequi earum amet beatae, obcaecati aliquam esse repudiandae laborum ipsam soluta, labore rem et dignissimos ducimus? Eius ad culpa odio architecto!</p>
+    </div>
+
+    <hr class="block md:hidden my-10" />
+
+    <div class="bg-gray-100 m-3 p-3 flex-1 rounded shadow-md">
+        <h1 class="h1">Titre niveau 1</h1>
+        <h2 class="h2">Titre niveau 2</h2>
+        <h3 class="h3">Titre niveau 3</h3>
+        <h4 class="h4">Titre niveau 4</h4>
+        <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam pariatur cupiditate voluptatem explicabo corporis nisi in temporibus consequatur! Beatae praesentium id nesciunt suscipit iure veritatis. Maxime, illum. Facilis, at tenetur.</p>
+    </div>
+</div>
+
+{# BUTTONS & ALERTS & TOAST #}
+<div class="container m-auto flex flex-col md:flex-row">
+    <div class="bg-gray-100 m-3 p-3 rounded shadow-md flex-1">
+        <h1 class="text-3xl font-bold block my-2">Boutons et liens</h1>
+        <a href="" class="btn btn-primary">Bouton Primaire</a>
+        <a href="" class="btn btn-secondary">Bouton Secondaire</a>
+        <a href="" class="btn btn-danger">Bouton Danger</a>
+        <button class="btn btn-disable" disabled>Bouton Desactivé</button>
+        <a href="" class="btn btn-loading" onClick="(e) => e.preventDefault()">
+            <span class="loader mini" ></span> Recharge...
+        </a>
+        <a href="" class="btn btn-primary-outlined">Bouton Primaire Outlined</a>
+        <button class="btn btn-primary big" disabled>Bouton Big</button>
+        <button class="btn btn-secondary small" disabled>Bouton Small</button>
+        <button class="btn btn-primary-outlined small" disabled>Bouton Small</button>
+
+        <a href="" class="text-link">Text link</a> 
+        <a href="" class="text-link out">Text link out</a>
+        <a href="" class="text-link danger">Text link danger</a>
+
+        <h1>Breadcrumb</h1>
+        <nav class="breadcrumb">
+            <ul class="breadcrumb-list">
+                <li class="item"><a href="">item 1</a></li>
+                <li class="item"><a href="">item 2</a></li>
+                <li class="item active">
+                    <a href="">item active</a>
+                </li>
+            </ul>
+        </nav>
+
+        <h1>Navigation</h1>
+        <ul class="pagination">
+            <li class="page"><a href="">1</a></li>
+            <li class="page"><a href="">2</a></li>
+            <li class="page"><a href="">3</a></li>
+            <li class="page"><a href="">4</a></li>
+            <li class="page"><span>5</span></li>
+            <li class="page"><a href="">6</a></li>
+            <li class="page"><a href="">7</a></li>
+            <li class="page"><a href="">8</a></li>
+            <li class="page"><a href="">9</a></li>
+            <li class="page"><a href="">10</a></li>
+        </ul>
+        <h1>Toast</h1>
+        <button class="btn btn-secondary js-test-toast">Ajouter une Toast</button>
+
+    </div>
+
+    <div class="bg-gray-100 m-3 p-3 rounded shadow-md flex-1">
+        <h1 class="text-3xl font-bold block my-2">Alerts</h1>
+
+        <div class="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+            </svg>
+
+            <div class="">
+                <h3 class="alert-title">Info</h3>
+                <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti maxime natus soluta voluptatibus pariatur inventore praesentium eaque atque temporibus nobis laborum quisquam iusto, consectetur nulla tempora! Quia quibusdam dolorum magnam.</p>
+            </div>
+        </div>
+
+        <div class="alert alert-success">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+
+            <div class="">
+                <h3 class="alert-title">Success</h3>
+                <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti maxime natus soluta voluptatibus pariatur inventore praesentium eaque atque temporibus nobis laborum quisquam iusto, consectetur nulla tempora! Quia quibusdam dolorum magnam.</p>
+            </div>
+        </div>
+
+        <div class="alert alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+
+            <div class="">
+                <h3 class="alert-title">Warning</h3>
+                <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti maxime natus soluta voluptatibus pariatur inventore praesentium eaque atque temporibus nobis laborum quisquam iusto, consectetur nulla tempora! Quia quibusdam dolorum magnam.</p>
+            </div>
+        </div>
+
+        <div class="alert alert-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+            </svg>
+
+            <div class="">
+                <h3 class="alert-title">Danger</h3>
+                <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti maxime natus soluta voluptatibus pariatur inventore praesentium eaque atque temporibus nobis laborum quisquam iusto, consectetur nulla tempora! Quia quibusdam dolorum magnam.</p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{# TUTO CAROUSSEL & LINKS #}
+<div class="container m-auto flex flex-col md:flex-row">
+    <div class="bg-gray-100 m-3 p-3 rounded shadow-md flex-1">
+        
+        <h1>Tuto Carousel</h1>
+        <article class="tuto">
+            <figure>                     
+                <img src="https://spacecoder.fun/Tutoriels/assets/images/proton/install-3.png" title="Connexion ProtonVPN" alt="Connexion ProtonVPN" width='100px' />                     
+                <figcaption>Connexion</figcaption>                 
+            </figure>
+        </article>
+
+        <h1>Filtre</h1>
+        <div class="filter m-auto my-10">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="filter-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+            </svg>
+
+            <div class="filter-items">
+                <div class="item">Titre</div>
+                <div class="item after:content-top active">
+                    Vues
+                </div>
+                <div class="item">Sortie</div>
+            </div>
+        </div>
+
+        <h1>Avatar</h1>
+        <div class="flex gap-10 items-center">
+            <img src="/favicon.svg" alt="avatar big" title="avatar big" class="avatar big" />
+            <img src="/favicon.svg" alt="avatar mini" title="avatar mini" class="avatar semi" />
+            <img src="/favicon.svg" alt="avatar blink" title="avatar blink" class="avatar blink border" />
+            <img src="/favicon.svg" alt="avatar small" title="avatar small" class="avatar small border" />
+        </div>
+
+        
+        <h1>Loaders</h1>
+
+        <div class="flex gap-10 items-center">
+            <div class="loader bigger"></div>
+            <div class="loader large"></div>
+            <div class="loader"></div>
+            <div class="loader mini"></div>
+        </div>
+
+    </div>
+
+    <div class="bg-gray-100 m-3 p-3 rounded shadow-md flex-1">
+        
+        <h1>Links</h1>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-facebook.svg" alt="facebook" />
+                <span>Facebook</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-github.svg" alt="github" />
+                <span>GitHub</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-instagram.svg" alt="github" />
+                <span>Instagram</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-linkedin.svg" alt="github" />
+                <span>Linkedin</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-mail.svg" alt="github" />
+                <span>Mail</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-snapchat.svg" alt="github" />
+                <span>Snapchat</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-spotify.svg" alt="Spotify" />
+                <span>Spotify</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-telegram.svg" alt="Telegram" />
+                <span>Telegram</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-tiktok.svg" alt="TikTok" />
+                <span>TikTok</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-twitch.svg" alt="Twitch" />
+                <span>Twitch</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-vk.svg" alt="VK" />
+                <span>VK</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-twitter.svg" alt="Twitter" />
+                <span>Twitter</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-whatsapp.svg" alt="Whatsapp" />
+                <span>Whatsapp</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-xbox.svg" alt="Xbox" />
+                <span>Xbox</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+        <a href="" class="link">
+            <span class="link-brand">
+                <img class="brand" src="/icons/social/z-youtube.svg" alt="Youtube" />
+                <span>Youtube</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+        </a>
+    </div>
+    
+</div>
+
+{# CARDS #}
+<div class="container m-auto flex flex-col justify-center items-center md:flex-row mt-20">
+    <h1 class="text-3xl font-bold block my-2">Cards</h1>
+
+    <div class="project-card">
+        <img src="https://spacecoder.fun/assets/images/projets/servant.jpg" alt="projet" />
+        <div class="flex flex-col">
+            <h2>Nom du Projet</h2>
+            <span class="author">Serge Serge, ERT</span>
+            <p class="text-sm text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt deleniti excepturi temporibus, ducimus, enim quas eaque veritatis aspernatur adipisci voluptatibus omnis mollitia vel accusamus odit officia assumenda quaerat suscipit amet?</p>
+        </div>
+        <a href="" class="btn btn-primary m-5">VISITER </a>
+        <span class="visit">29 visites</span>
+    </div>
+
+    <div class="ressource-card" is="ressource-card" style="background: no-repeat center/110% url('https://spacecoder.fun/assets/images/projets/servant.jpg')">
+        {# <img src="/favicon.svg" alt="ressource" class="ressource-img" /> #}
+        <div class="ressource-content">
+            <a href="" class="ressource-title">Ressource Title</a>
+            <div id="js-ressource-description" class="ressource-description">
+                Lorem ipsum dolor sit amet consectetur adipisora recusandae nulla assumenda. Ad reprehenderit id quis enim, tenetur nemo ipsam voluptatum. Quisquam aliquam aspernatur quis distinctio tempore.
+            </div>
+            <div class="ressource-click">12 cliques</div>            
+        </div>
+    </div>
+
+    <div class="tuto-card">
+        <div class="tuto-card-header">
+            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.A4ac9mYPqTHax3rQJTSB7wHaHs%26pid%3DApi&f=1&ipt=049c9b24f2c4b45148b3b0e01850dc7deef551bcc56c8bf84d60d89fc45cde72&ipo=images" alt="alt" class="w-8 h-8" />
+            <span class="text-sm">33 vues</span>
+        </div>
+        <div class="p-4">
+            <h3 class="tuto-card-title">Télécharger de la musique de haute qualité avec AIDS (Android)</h3>
+            <p class="tuto-card-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni nulla, debitis, minus beatae quis aperiam, labore optio...</p>
+        </div>
+        <div class="tuto-card-footer">
+            <span>
+                14 commentaires
+            </span>
+            <span>il y'a 12 mois</span>
+        </div>                        
+    </div>
+</div>
+
+{# FORMS #}
+<div class="container mx-auto my-10 bg-gray-100 p-6 flex flex-col md:flex-row flex-wrap justify-self-center justify-around gap-10">
+
+    <div class="w-full md:w-fit">
+        <h1>Formulaires</h1>
+        <div class="form-control">
+            <label for="text">Text</label>
+            <input type="text" name="text" class="form-input" required />
+        </div>
+
+        <div class="form-control" is="pseudo-checker">
+            <label for="text">Pseudo</label>
+            <input type="text" name="text" class="form-input" />
+        </div>
+
+        <div class="form-control">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-input" />
+        </div>
+
+        <div class="form-control">
+            <label for="url">URL</label>
+            <input type="url" name="url" id="url" class="form-input" />
+        </div>    
+
+        <div class="form-control">
+            <label for="select">Select</label>
+            <select name="select" id="select" class="form-input">
+                <option value="">Choose a country</option>
+                <option value="GA">Gabon</option>
+                <option value="RW">Rwanda</option>
+                <option value="CA">Cameroun</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="">
+
+        <div class="form-control">
+            <label for="datetime-local">Date</label>
+            <input type="date" name="datetime-local" id="datetime-local" class="form-input" />
+        </div>
+
+        <div class="form-control">
+            <label for="checkbox" class="">
+                <input type="checkbox" name="checkbox" id="checkbox" class="form-input" />
+                Checkbox Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, sit. Earum aut maxime, dolores esse laboriosam aperiam temporibus explicabo. Culpa, nobis molestias provident saepe soluta praesentium animi rerum quibusdam incidunt!
+            </label>
+        </div>
+
+        <label for="" class="ml-0 text-gray-500 py-2 my-2 cursor-pointer w-fit relative flex justify-between items-center p-2 max-w-md">
+            Toggle Switch
+            <input type="checkbox" name="" id="" class="absolute left-0 top-0 w-full h-full peer cursor-pointer opacity-0"/>
+            <span class="bg-gray-300 w-12 h-7 rounded-full flex flex-shrink-0 items-center after:bg-white after:w-5 after:h-5 after:rounded-full p-1 peer-checked:bg-purple peer-checked:after:translate-x-5 ease-in-out duration-300 after:duration-300 ml-4"></span>
+        </label>
+
+        <div class="form-control" is="password-input">
+            <label for="password">Password</label>
+            <div class="">
+                <input type="password" name="password" class="form-input"/>
+                <button class="show-btn">Voir</button>
+            </div>
+        </div>
+
+
+        <div class="form-control" is="password-input">
+            <label for="password">Confirm Password</label>
+            <div class="">
+                <input type="password" name="password" class="form-input" required/>
+                <button class="show-btn">Voir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        
+        <div class="form-control">
+            <label for="textarea">Textarea</label>
+            <textarea class="form-input" name="textarea" id="textarea" cols="20" rows="5"></textarea>
+        </div>
+
+        <div class="form-control">
+            <label for="file">File</label>
+            <input type="file" name="file" id="file" class="form-input" />
+        </div> 
+        
+            
+        <div class="form-copy" is="copy-form">
+            <input name="text" class="copy-input js-copy-input" readonly type="text" value="AZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBNAZERTYUIOPMLKJHGFDSQWXCVBN"/>
+            <button class="copy-btn">Copier</button>
+        </div>
+
+        <button class="btn btn-primary">S'inscrire</button>
+
+    </div>
+
+</div>
+
+
+
+
+
+{# FOOTER #}
+<footer class="bg-gray-500 text-gray-100 py-10 md:py-20">
+    <div
+        class="container mx-auto flex flex-col-reverse md:flex-row justify-between justify-self-start gap-16 p-6 md:p-0"
+    >
+        <div class="md:basis-1/3">
+            <h3 class="brand flex items-center gap-4">
+                <img
+                    src="/favicon.svg"
+                    alt="SpaceCoder Logo"
+                    class="icon"
+                />
+                SpaceCoder
+            </h3>
+            <p>
+                Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Deserunt accusantium atque
+                eveniet, vel molestias commodi totam
+                recusandae sunt esse quis quae natus,
+                necessitatibus provident doloremque fugiat
+                ducimus. Officia, mollitia ipsum?
+            </p>
+            <br />
+            <img
+                src="https://spacecoder.fun/assets/images/logo/logo1.png"
+                alt="PASKER"
+                width="150px"
+            />
+            <p>Copyright © - All Right Reserved - 2022</p>
+            <p>Version 3.1</p>
+        </div>
+        <div class="md:basis-1/3 flex flex-col">
+            <h3 class="brand">En savoir plus</h3>
+            <div class="flex flex-col gap-3 mt-2">
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                        ></path>
+                    </svg>
+                    Me contacter
+                </a>
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
+                        ></path>
+                    </svg>
+                    GitHub
+                </a>
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                        ></path>
+                    </svg>
+                    A propos de moi
+                </a>
+                <a 
+                class="flex items-center gap-2" 
+                href=""
+                is="tuto-share" 
+                data-title="SpaceCoder"
+                data-text="SergeMezui"
+                data-url="https://spacecoder.fun/"
+                
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                        ></path>
+                    </svg>
+                    Partager
+                </a>
+                <a
+                    href="https://sergemezui.com"
+                    class="underline"
+                >
+                    Hosted by ...
+                </a>
+            </div>
+        </div>
+        <div class="md:basis-1/3 flex flex-col">
+            <h3 class="brand">Liens</h3>
+            <div class="flex flex-col gap-3 mt-2">
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
+                        ></path>
+                    </svg>
+                    Tutoriels
+                </a>
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M7.875 14.25l1.214 1.942a2.25 2.25 0 001.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 011.872 1.002l.164.246a2.25 2.25 0 001.872 1.002h2.092a2.25 2.25 0 001.872-1.002l.164-.246A2.25 2.25 0 0116.954 9h4.636M2.41 9a2.25 2.25 0 00-.16.832V12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 01.382-.632l3.285-3.832a2.25 2.25 0 011.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0021.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 002.25 2.25z"
+                        ></path>
+                    </svg>
+                    Projets
+                </a>
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"
+                        ></path>
+                    </svg>
+                    Ressources
+                </a>
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
+                        ></path>
+                    </svg>
+                    DevSapce
+                </a>
+                <a class="flex items-center gap-2" href="">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="icon"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
+                        ></path>
+                    </svg>
+                    Politique de confidentialité
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{# CAROUSEL BOX #}
+<div class="carousel" is="tuto-carousel">
+    <div class="prev" title="Précedent">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+        </svg>
+    </div>
+    <div class="content">
+        <img src="" alt="" />
+        <span class="title"></span>
+        <span class="close">FERMER</span>
+    </div>
+    <div class="next" title="Suivant">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+        </svg>
+    </div>
+</div>
+
+{# TOAST BOX #}
+<div class="toast-box" is="toast-box"></div>
+
+{# DOM ELEMENTS #}
+<span is="dom-elements"></span>
+
+{# BACK TO TP #}
+<div href="#top" class="back-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18" />
+    </svg>
+</div>
+
+{# TEMPLATES HTML #}
+
+{# TOAST #}
+<template id="toast-layout">
+    <div class="toast" is="toast-item">
+        <div class="toast-header">
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="icon stroke-purple"
+            >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"
+            ></path>
+            </svg>
+            <div class="toast-title">Toast</div>
+        </div>
+        <div class="toast-content">
+            Lorem ipsum, dolor sit amet coa repellendus ex laborum
+            error velit a.
+        </div>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="toast-close"
+        >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+            ></path>
+        </svg>
+    </div>
+</template>
 
 {% endblock %}

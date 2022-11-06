@@ -3,18 +3,34 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="login">
+    <div class="login-card">
+        <div class="login-img">
+            <img class="" src="https://blush.design/api/download?shareUri=irHcRwfWyq5sQrx6&c=Bottom_0%7E342a83-0.1%7E2b44ff_Hair_0%7Eb58143-0.1%7E2c1b18_Skin_0%7Eb28b67-0.1%7E57331f_Top_0%7Eff4133-0.1%7Ef2f2f2&bg=9000f7&w=800&h=800&fm=png" alt="Login" />
+        </div>
+        <form action="" method="POST" class="login-form">
+            <h1 class="text-center text-4xl mb-10">Connexion</h1>
+            <div class="form-control">
+                <label for="username" class="">Pseudo</label>
+                <input type="text" name="pseudo" id="username" class="w-full form-input"/>
+            </div>
+            <div class="form-control">
+                <label for="password" class="">Mot de passe</label>
+                <input type="password" name="password" id="password" class="w-full form-input" />
+            </div>
+            <div class="form-control">
+                <label for="checkbox" class="">
+                    <input type="checkbox" name="checkbox" id="checkbox" class="mr-2 form-input" />
+                    Se souvenir de moi.
+                </label>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/spacecoder.test/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/spacecoder.test/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+            <div class="flex justify-center">
+                <input type="submit" name="submit" id="sub" value="Se connecter >" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
+
 {% endblock %}
