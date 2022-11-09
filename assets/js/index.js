@@ -26,4 +26,4 @@ customElements.define('dom-elements', DomElements, {extends: 'span'})
 // customElements.define('toast-item', Taost)
 
 // TEST ADD TOAST - UI
-document.querySelector('.js-test-toast').addEventListener('click', () => addToast('Lorem', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'))
+document.querySelector('.js-test-toast')?.addEventListener('click', () => addToast('Lorem', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'))
