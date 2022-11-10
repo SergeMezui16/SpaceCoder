@@ -3,6 +3,7 @@
 namespace App\Trait;
 
 
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,16 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
  * an entity before it is persisted in the database
  */
 #[ORM\HasLifecycleCallbacks]
-trait PrePersistTrait
+trait GenerateSlugTrait
 {
     /**
-     * Init default date on creation
+     * Generate a slug from pseudo before persist or update
+     *
      * @return void
      */
     #[ORM\PrePersist]
-    public function prePersist() : void
-    {
-        $this->setCreateAt(new \DateTimeImmutable());
-        $this->setUpdateAt(new \DateTimeImmutable());
+    #[ORM\PreUpdate]
+    public function generateSlug() {
+        $this->slug = (new Slugify())->slugify($this);
     }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * This trait allows to give default values to properties of 
  * an entity before his data has udated on database
  */
+#[ORM\HasLifecycleCallbacks]
 trait PreUpdateTrait
 {
     /**

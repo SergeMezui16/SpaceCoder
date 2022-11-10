@@ -1,3 +1,7 @@
 controllers:
-    resource: ../src/Controller/
+    resource: ../src/
     type: attribute
+
+authentication_logout:
+    path: /logout
+    methods: GET
