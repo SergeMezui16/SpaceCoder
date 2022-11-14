@@ -38,7 +38,7 @@ export default class Header extends HTMLElement {
             this.classList.add('show-header')
             this.animate(this.#keyframe, this.#options)
             this.show = true
-                
+
         } else if(this.prevScrollpos < currentScrollPos && this.show) {
 
             let anim = this.animate([
