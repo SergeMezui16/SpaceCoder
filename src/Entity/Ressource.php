@@ -45,6 +45,9 @@ class Ressource
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
+    #[ORM\Column]
+    private array $categories = [];
+
     public function __toString()
     {
         return $this->name;
@@ -147,6 +150,18 @@ class Ressource
     public function setCreateAt(\DateTimeImmutable $createAt): self
     {
         $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    public function getCategories(): array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(array $categories): self
+    {
+        $this->categories = $categories;
 
         return $this;
     }

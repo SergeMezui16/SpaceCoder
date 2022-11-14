@@ -64,6 +64,11 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         $this->roles = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->user;
+    }
+
 
     /**
      * Verify if is the first connexion

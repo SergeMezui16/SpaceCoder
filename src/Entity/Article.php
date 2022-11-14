@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
 use App\Trait\GenerateSlugTrait;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -65,6 +66,9 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\Column]
+    private ?int $level = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -73,6 +77,16 @@ class Article
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * Verify if the article has been pubished and if can be read
+     *
+     * @return boolean
+     */
+    public function isPublised() : bool
+    {
+        return ($this->publishedAt < (new DateTime())) ? true : false;
     }
 
     public function getId(): ?int
@@ -250,6 +264,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

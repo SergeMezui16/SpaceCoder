@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Authentication\Entity\Role;
 use App\Repository\ProjectRepository;
 use App\Trait\GenerateSlugTrait;
 use App\Trait\PrePersistTrait;
@@ -44,6 +45,9 @@ class Project
 
     #[ORM\Column(length: 255)]
     private ?string $authors = null;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    private ?Role $role = null;
 
 
     public function __toString()
@@ -148,6 +152,18 @@ class Project
     public function setAuthors(string $authors): self
     {
         $this->authors = $authors;
+
+        return $this;
+    }
+
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

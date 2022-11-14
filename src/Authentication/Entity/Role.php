@@ -2,6 +2,7 @@
 
 namespace App\Authentication\Entity;
 
+use App\Entity\Project;
 use App\Trait\PreUpdateTrait;
 use App\Trait\PrePersistTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,6 +36,9 @@ class Role
     #[ORM\ManyToMany(targetEntity: UserAuthentication::class, inversedBy: 'roles')]
     private $users;
 
+    #[ORM\OneToMany(mappedBy: 'role', targetEntity: Project::class)]
+    private Collection $projects;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $updateAt = null;
 
@@ -45,6 +49,7 @@ class Role
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     } 
 
     public function __toString()
@@ -113,6 +118,36 @@ class Role
     public function removeUser(UserAuthentication $user): self
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getRole() === $this) {
+                $project->setRole(null);
+            }
+        }
 
         return $this;
     }
