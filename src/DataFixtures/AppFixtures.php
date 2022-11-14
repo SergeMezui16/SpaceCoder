@@ -9,6 +9,11 @@ use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\Authentication\Entity\UserAuthentication;
+use App\Entity\Article;
+use App\Entity\Comment;
+use App\Entity\Project;
+use App\Entity\Ressource;
+use DateTimeImmutable;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -21,38 +26,33 @@ class AppFixtures extends Fixture
         $fake = (new Factory())::create('fr_FR');
 
         // Configuration
-        $appName = (new Configuration())
-            ->setName('APP_NAME')
-            ->setValue('SPACECODER')
-            ->setCategory('APP')
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable());
-        $appVersion = (new Configuration())
-            ->setName('APP_VERSION')
-            ->setValue('3.0')
-            ->setCategory('APP')
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable());
+        $manager->persist(
+            (new Configuration())
+                ->setName('APP_NAME')
+                ->setValue('SPACECODER')
+                ->setCategory('APP')
+        );
+        $manager->persist(
+            (new Configuration())
+                ->setName('APP_VERSION')
+                ->setValue('3.0')
+                ->setCategory('APP')
+        );
+            
+        
 
 
         // ROLES
         $adminRole = (new Role())->setName('ROLE_ADMIN')->setContext('Administration')
-            ->setValid(true)
-            // ->setCreateAt(new \DateTimeImmutable())
-            // ->setUpdateAt(new \DateTimeImmutable())
-            ;
+            ->setValid(true);
 
         $userRole = (new Role())->setName('ROLE_USER')->setContext('Utilisateur')
-            ->setValid(true)
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable());
+            ->setValid(true);
 
         $projectRole = (new Role())->setName('ROLE_PROJECT_X')->setContext('Projet X')
-            ->setValid(true)
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable());
+            ->setValid(true);
 
-
+        $roles = [$adminRole, $userRole];
         $manager->persist($adminRole);
         $manager->persist($userRole);
         $manager->persist($projectRole);
@@ -60,21 +60,17 @@ class AppFixtures extends Fixture
         // ME
         $myAuth = new UserAuthentication();
         $myPass = $this->encoder->hashPassword($myAuth, 'pass');
-    
-        $myAuth
-            ->setEmail('serge@mezui.com')
-            ->setPassword($myPass)
-            ->setBlocked(false)
-            ->addRole($adminRole)
-            ->addRole($userRole)
-            ->addRole($projectRole)
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable());
 
         $me = (new User())
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable())
-            ->setAuth($myAuth)
+            ->setAuth(
+               $myAuth
+               ->setEmail('serge@mezui.com')
+               ->setPassword($myPass)
+               ->setBlocked(false)
+               ->addRole($adminRole)
+               ->addRole($userRole)
+               ->addRole($projectRole)
+            )
             ->setPseudo('Serge Mezui')
             ->setSlug('SergeMezui')
             ->setCountry('Gabon')
@@ -84,7 +80,8 @@ class AppFixtures extends Fixture
         $manager->persist($myAuth);
         $manager->persist($me);
 
-        // Users
+        // USERS
+        $users = [];
         for ($i = 0; $i < 5; $i++) {
 
             $auth = new UserAuthentication();
@@ -94,15 +91,11 @@ class AppFixtures extends Fixture
                 ->setEmail($fake->email())
                 ->setPassword($pass)
                 ->setBlocked($fake->boolean())
-                ->setCreateAt(new \DateTimeImmutable())
-                ->setUpdateAt(new \DateTimeImmutable())
                 ->addRole($userRole);
 
             $manager->persist($auth);
 
-            $user = (new User())
-                ->setCreateAt(new \DateTimeImmutable())
-                ->setUpdateAt(new \DateTimeImmutable())
+            $users[] = $user = (new User())
                 ->setAuth($auth)
                 ->setSlug('slugUser' . $i)
                 ->setPseudo($fake->name())
@@ -113,9 +106,64 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
+        // ARTICLE
+        $articles = [];
+        for ($i=0; $i < 10; $i++) { 
+            $articles[] = $article = (new Article())
+                ->setTitle($fake->sentence())
+                ->setSubject($fake->sentence(2))
+                ->setDescription($fake->paragraph())
+                ->setContent($fake->text(1000))
+                ->setViews($fake->numberBetween(0, 200))
+                ->setImage($fake->imageUrl(640, 350))
+                ->setSuggestedBy($fake->randomElement($users))
+                ->setAuthor($fake->randomElement($users))
+                ->setLevel($fake->randomElement([1, 2, 3]))
+                ->setPublishedAt(new DateTimeImmutable())
+            ;
+            $manager->persist($article);
+        }
 
-        $manager->persist($appName);
-        $manager->persist($appVersion);
+
+        // COMMENT
+        $comments = [];
+        for ($i=0; $i < 30; $i++) { 
+            $comments[] = $comment = (new Comment())
+                ->setArticle($fake->randomElement($articles))
+                ->setAuthor($fake->randomElement($users))
+                ->setReplyTo($fake->randomElement($comments))
+                ->setContent($fake->sentence(10, true))
+            ;
+            $manager->persist($comment);
+        }
+
+        // PROJECT
+        $projects = [];
+        for ($i=0; $i < 10; $i++) { 
+            $projects[] = $project = (new Project())
+                ->setName($fake->sentence(2))
+                ->setDescription($fake->paragraph())
+                ->setVisit($fake->numberBetween(0, 100))
+                ->setImage($fake->imageUrl(640, 350))
+                ->setAuthors($fake->sentence(2))
+                ->setRole($projectRole)
+            ;
+            $manager->persist($project);
+        }
+
+        // RESSOURCE
+        $ressources = [];
+        for ($i=0; $i < 10; $i++) { 
+            $ressources[] = $ressource = (new Ressource())
+                ->setName($fake->sentence(2))
+                ->setImage($fake->imageUrl(640, 350))
+                ->setDescription($fake->paragraph())
+                ->setClicks($fake->numberBetween(0, 100))
+                ->setLink($fake->url())
+                ->setCategories($fake->words())
+            ;
+            $manager->persist($ressource);
+        }
 
         $manager->flush();
     }
