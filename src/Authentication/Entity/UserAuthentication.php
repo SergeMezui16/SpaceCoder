@@ -66,7 +66,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
 
     public function __toString()
     {
-        return $this->user;
+        return $this->email;
     }
 
 

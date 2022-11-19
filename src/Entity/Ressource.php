@@ -34,7 +34,7 @@ class Ressource
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $clicks = null;
+    private ?int $clicks = 0;
 
     #[ORM\Column(length: 255)]
     private ?string $link = null;

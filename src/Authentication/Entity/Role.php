@@ -6,10 +6,10 @@ use App\Entity\Project;
 use App\Trait\PreUpdateTrait;
 use App\Trait\PrePersistTrait;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Authentication\Entity\UserAuthentication;
+use App\Authentication\Repository\RoleRepository;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 #[ORM\HasLifecycleCallbacks]

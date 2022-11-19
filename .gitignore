@@ -25,3 +25,9 @@ yarn-error.log
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+
+###> spacecoder/data/uploads ###
+/public/data/article/images/*
+/public/data/project/images/*
+###< spacecoder/data/uploads ###

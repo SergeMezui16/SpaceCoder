@@ -74,6 +74,86 @@ class User
         return $this->pseudo;
     }
 
+
+    public function getEmail() : string
+    {
+        return $this->auth->getEmail();
+    }
+
+    public function setEmail(string $email) : self
+    {
+        $this->auth->setEmail($email);
+        
+        return $this;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Collection<int, Role>
+     */
+    public function getAuthRole() : array
+    {
+        return [...$this->auth->getRoles()];
+    }
+
+    public function setAuthRole(Collection $roles) : self
+    {
+        $this->auth->setRoles($roles);
+
+        return $this;
+    }
+
+    public function isAuthBlocked() : bool
+    {
+        return $this->auth->isBlocked();
+    }
+
+    public function setAuthBlocked(bool $blocked) : self
+    {
+        $this->auth->setBlocked($blocked);
+
+        return $this;
+    }
+
+    public function getAuthLastConnexion(): ?\DateTimeInterface
+    {
+        return $this->auth->getLastConnexion();
+    }
+
+    public function setAuthLastConnexion(?\DateTimeInterface $lastConnexion): self
+    {
+        $this->auth->setLastConnexion($lastConnexion);
+
+        return $this;
+    }
+
+    public function getFirstConnexion(): ?\DateTimeInterface
+    {
+        return $this->auth->getFirstConnexion();
+    }
+
+    public function setFirstConnexion(?\DateTimeInterface $firstConnexion): self
+    {
+        $this->auth->setFirstConnexion($firstConnexion);
+
+        return $this;
+    }
+
+    public function getAuthIp(): array
+    {
+        return [...$this->auth->getIP()];
+    }
+
+    public function setAuthIp(?array $ip): self
+    {
+        $this->auth->setIp($ip);
+
+        return $this;
+    }
+
+
+
     public function getId(): ?int
     {
         return $this->id;

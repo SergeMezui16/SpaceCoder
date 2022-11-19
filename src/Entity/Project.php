@@ -32,10 +32,10 @@ class Project
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $visit = null;
+    private ?int $visit = 0;
 
     #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    private ?string $image = '';
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
