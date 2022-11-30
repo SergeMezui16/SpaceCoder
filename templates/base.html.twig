@@ -14,6 +14,52 @@
         {% endblock %}
     </head>
     <body>
+        {% for label, messages in app.flashes %}
+
+            <span
+                class="js-toast"
+                data-title="{{ title }}"
+                data-feed="{{ label }}"
+                data-content="{{ messages | join(', ')  }}"
+            >
+
+        {% endfor %}
+        
         {% block body %}{% endblock %}
+
+        {# TOAST BOX #}
+        <div class="toast-box" is="toast-box"></div>
+
+        {# DOM ELEMENTS #}
+        <span is="dom-elements"></span>
+
+        {# BACK TO TP #}
+        <div href="#top" class="back-to-top">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"/>
+            </svg>
+        </div>
+
+        {# TEMPLATES HTML #}
+
+        {# TOAST #}
+        <template id="toast-layout">
+            <div class="toast" is="toast-item">
+                <div class="toast-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon stroke-purple">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"></path>
+                    </svg>
+                    <div class="toast-title">Toast</div>
+                </div>
+                <div class="toast-content">
+                    Lorem ipsum, dolor sit amet coa repellendus ex laborum
+                                error velit a.
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="toast-close">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+        </template>
+
     </body>
 </html>

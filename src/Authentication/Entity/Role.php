@@ -3,8 +3,8 @@
 namespace App\Authentication\Entity;
 
 use App\Entity\Project;
-use App\Trait\PreUpdateTrait;
-use App\Trait\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use App\Traits\PrePersistTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;

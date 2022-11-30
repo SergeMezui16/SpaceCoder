@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
-use App\Trait\PrePersistTrait;
-use App\Trait\PreUpdateTrait;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

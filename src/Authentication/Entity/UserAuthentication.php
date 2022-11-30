@@ -3,18 +3,25 @@
 namespace App\Authentication\Entity;
 
 
-use App\Trait\PreUpdateTrait;
-use App\Trait\PrePersistTrait;
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\User;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
 use App\Authentication\Repository\UserAuthenticationRepository;
+use App\Entity\User;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserAuthenticationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(
+    'email',
+    message: 'Un utilisateur avec cet email existe déjà.'
+)]
 class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use PreUpdateTrait;
@@ -26,15 +33,22 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(
+        message: 'Cet email n\'est pas valide.',
+    )]
     private ?string $email = null;
 
-    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users', cascade:['persist'])]
     private ?Collection $roles;
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Regex(
+        pattern: '/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/',
+        message: 'Ce mot de passe n\'est pas valide.'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(options: ['default' => true])]
@@ -59,6 +73,12 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
+    #[Assert\EqualTo(
+        propertyPath: 'password',
+        message: 'Les mots de passe ne sont pas identiques.'
+    )]
+    public ?string $confirmPassword;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
@@ -69,15 +89,19 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         return $this->email;
     }
 
-
     /**
-     * Verify if is the first connexion
+     * Reload connexion informations
      *
-     * @return boolean
+     * @param Request $request
+     * @return UserAuthentication
      */
-    public function isFirstConnexion() : bool
+    public function load(Request $request): self
     {
-        return $this->firstConnexion === null ? true : false;
+        $this->addIp($request->server->get('REMOTE_ADDR'));
+        $this->lastConnexion = new \DateTimeImmutable();
+        if($this->firstConnexion === null) $this->firstConnexion = new \DateTimeImmutable();
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -129,6 +153,19 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         return $this;
     }
 
+    
+    public function getURoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function setURoles(Collection $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     public function addRole(Role $newRole): self
     {
         if (!$this->roles->contains($newRole)) {
@@ -151,7 +188,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }

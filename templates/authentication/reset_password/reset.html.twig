@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block body %}
+<form action="" method="post" class="flex justify-center">
+	{{ form_start(form) }}
+	{{ form_row(form._token) }}
+
+	<div class="row">
+
+		<div class="form-control {% if form_errors(form.newPassword) %} invalid {% endif %}" is="password-input">
+			{{ form_label(form.newPassword) }}
+			<div class="">
+				{{ form_widget(form.newPassword) }}
+				<button class="show-btn" tabindex="-1">
+					Voir
+				</button>
+			</div>
+			{{ form_errors(form.newPassword) }}
+			{{ form_help(form.newPassword) }}
+		</div>
+
+		<div class="form-control {% if form_errors(form.confirmPassword) %} invalid {% endif %}" is="password-input">
+			{{ form_label(form.confirmPassword) }}
+			<div class="">
+				{{ form_widget(form.confirmPassword) }}
+				<button class="show-btn" tabindex="-1">
+					Voir
+				</button>
+			</div>
+			{{ form_errors(form.confirmPassword) }}
+			{{ form_help(form.confirmPassword) }}
+		</div>
+
+		<div class="mt-6 flex justify-end">
+			<input type="submit" name="submit" id="sub" value="METTRE A JOUR" class="btn btn-primary"/>
+		</div>
+	</div>
+	{{ form_end(form) }}
+
+</form>
+
+{% endblock %}

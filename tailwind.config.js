@@ -20,7 +20,10 @@ module.exports = {
         'out': "url('/public/icons/out.svg')",
         'top': "url('/public/icons/top.svg')",
         'down': "url('/public/icons/down.svg')",
-        '': ""
+        'info': "url('/public/icons/info.svg')",
+        'error': "url('/public/icons/error.svg')",
+        'edit-img': "url('/public/icons/edit-img.svg')",
+        '': "",
       }
     },
     fontFamily: {
@@ -55,7 +58,7 @@ module.exports = {
       current: 'currentColor',
       'white': '#FEFEFE',
       'purple': {
-        light: '#A32DF',
+        light: '#A32DFF',
         DEFAULT: '#9000F7',
         dark: '#7300C4',
         },

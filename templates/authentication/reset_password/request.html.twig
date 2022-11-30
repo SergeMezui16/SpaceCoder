@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurer votre mot de passe{% endblock %}
+
+{% block body %}
+<form action="" method="post" class="flex justify-center">
+	{{ form_start(form) }}
+	{{ form_row(form._token) }}
+
+	<div class="row">
+
+		<div class="form-control {% if form_errors(form.email) %} invalid {% endif %}">
+			{{ form_label(form.email) }}
+			{{ form_widget(form.email) }}
+			{{ form_errors(form.email) }}
+			{{ form_help(form.email) }}
+		</div>
+
+		<div class="mt-6">
+			<input type="submit" name="submit" id="sub" value="ENVOYER L'EMAIL DE RESTAURATION" class="btn btn-primary"/>
+		</div>
+	</div>
+	{{ form_end(form) }}
+</form>
+{% endblock %}

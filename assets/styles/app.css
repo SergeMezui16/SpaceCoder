@@ -92,6 +92,17 @@ p, .p{
 .avatar{
     @apply object-cover cursor-pointer rounded-full;
 }
+.edit{
+    @apply rounded-full border-0 flex justify-end items-end cursor-pointer w-fit;
+}
+.edit .avatar{
+    @apply z-10;
+}
+.edit:after {
+    @apply content-edit-img absolute rounded-full bg-purple w-12 h-12 z-20 flex justify-center items-center;
+}
+
+
 /* COMMENTS */
 .avatar.small{ 
     @apply w-8 h-8 m-2 border;
@@ -253,7 +264,10 @@ p, .p{
 
 
 /* ALERTS */
-.alert{
+.alert-line{
+    @apply block p-3 text-gray-500;
+}
+.alert, .alert-line{
     @apply flex items-center border-2 border-y-transparent border-r-transparent shadow-md bg-gray-100 my-3;
 }
 .alert .icon{
@@ -269,28 +283,28 @@ p, .p{
     @apply pr-3 pb-2 text-gray-500;
 }
 /* ALERT INFO */
-.alert.alert-info{
+.alert.alert-info, .alert-line.alert-info{
     @apply border-l-blue bg-transparent-blue;
 }
 .alert.alert-info .alert-title, .alert.alert-info .icon{
     @apply text-blue-dark;
 }
 /* ALERT SUCCESS */
-.alert.alert-success{
+.alert.alert-success, .alert-line.alert-success{
     @apply border-l-green bg-transparent-green;
 }
 .alert.alert-success .alert-title, .alert.alert-success .icon{
     @apply text-green-dark;
 }
 /* ALERT DANGER */
-.alert.alert-danger{
+.alert.alert-danger, .alert-line.alert-danger{
     @apply border-l-red bg-transparent-red;
 }
 .alert.alert-danger .alert-title, .alert.alert-danger .icon{
     @apply text-red-dark;
 }
 /* ALERT WARNING */
-.alert.alert-warning{
+.alert.alert-warning, .alert-line.alert-warning{
     @apply border-l-yellow bg-transparent-yellow;
 }
 .alert.alert-warning .alert-title, .alert.alert-warning .icon{
@@ -421,13 +435,16 @@ p, .p{
     @apply flex-1 flex flex-col justify-start py-2 text-gray-500 max-w-md;
 }
 .form-input{
-    @apply inline-block rounded border border-gray-300;
+    @apply inline-block rounded border border-gray-300 p-3;
 }
-.form-input:focus{
+.form-input::placeholder {
+    @apply text-gray-200;
+}
+.form-input:focus, .form-select-date select:focus{
     @apply shadow-md border-transparent outline-none ring-purple
 }
-.form-input:invalid{
-    @apply ring-red border-red;
+.form-control label.required:after{
+    @apply content-['*'] text-red mx-2;
 }
 
 .form-input.disabled, .form-input[readonly="readonly"], .form-input[readonly]{
@@ -439,7 +456,7 @@ p, .p{
 }
 
 .form-control [type="checkbox"]{
-    @apply w-5 h-5 mr-3 text-purple border-gray-300 ring-purple;
+    @apply w-5 h-5 mr-3 text-purple ring-purple;
 }
 
 /* FILE */
@@ -450,11 +467,41 @@ p, .p{
     @apply mr-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-purple text-white;
 }
 
-
-.invalid-input{
+/* INVALID FORM */
+.form-input:invalid, .invalid-input, .form-control.invalid .form-input{
     @apply ring-red border-red;
 }
+.feedback{
+    @apply text-sm block mx-1 text-red;
+}
+.feedback.mute{
+    @apply text-gray-500;
+}
 
+
+/* FORM ERRORS */
+.form-control ul li {
+    @apply feedback; 
+    @apply flex items-center;
+}
+.form-control ul li:before{
+    @apply content-error mx-2 inline-flex justify-center items-center;
+}
+
+/* SELECT DATE INPUT */
+.form-select-date{
+    @apply flex gap-2;
+}
+.form-select-date select{
+    @apply rounded border border-gray-300;
+}
+/* HELP TEXT */
+.help-text{
+    @apply text-sm mx-1 text-gray-500 flex items-center;
+}
+.help-text:before{
+    @apply content-info mx-2 flex justify-center items-center;
+}
 
 /* TOGGLE SWITCH */
 
@@ -468,7 +515,7 @@ p, .p{
     @apply flex max-w-md;
 }
 [is="password-input"] div input{
-    @apply flex-1 border-r-gray-200;
+    @apply flex-1 border-r-gray-200 rounded-r-none border-r-0;
 }
 [is="password-input"] div button{
     @apply w-auto text-gray-100 bg-purple border-purple p-3 border;
@@ -824,8 +871,7 @@ p, .p{
     /* ****************************************************** */
 
     .login-card{
-        @apply flex-row; 
-        @apply lg:max-w-2xl;
+        @apply flex-row;
     }
     .login-img{
         @apply block flex-1;
@@ -869,7 +915,6 @@ p, .p{
     }
     .header-nav-list li:last-child{
         @apply hidden;
-        @apply lg:block;
     }
 
     .header-nav-list .icon{
@@ -927,5 +972,28 @@ p, .p{
     }
     .carousel .content {
         @apply order-none col-span-3;
+    }
+}
+
+
+/* ****************************************************** */
+/*                           LG SCREEN                   */
+/* ****************************************************** */
+@screen lg {
+
+    /* ****************************************************** */
+    /*                       LOGIN FORM                       */
+    /* ****************************************************** */
+
+    .login-card{
+        @apply max-w-2xl;
+    }
+
+    /* ****************************************************** */
+    /*                       HEADER                           */
+    /* ****************************************************** */
+
+    .header-nav-list li:last-child{
+        @apply block;
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Trait\PreUpdateTrait;
-use App\Trait\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use App\Traits\PrePersistTrait;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ConfigurationRepository;
 

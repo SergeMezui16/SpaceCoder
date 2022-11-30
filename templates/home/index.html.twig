@@ -5,8 +5,50 @@
 {% block body %}
 
 <h1>Bonjour - Home</h1>
-<a href="/logout">Deconnexion</a>
+{% if app.user %}
 <br>
-<a href="/admin">Admin</a>
+<a href="{{path('profile', {slug: app.user.user.slug})}}">
+    {{ app.user.user.pseudo }}
+</a>
+<br>
+<a href="/logout">
+	Deconnexion
+</a>
+<br>
+<a href="{{path('admin')}}">
+	Admin
+</a>
+{% else %}
+<br>
+<a href="{{path('registration')}}">
+	Inscription
+</a>
+<br>
+<a href="{{path('login')}}">
+	Connexion
+</a>
+{% endif %}
+
+<h2>
+	<a href="{{path('article')}}">
+		Articles
+	</a>
+</h2>
+<h2>
+	<a href="">
+		Projets
+	</a>
+</h2>
+<h2>
+	<a href="">
+		Ressources
+	</a>
+</h2>
+<h2>
+	<a href="">
+		DevSpace
+	</a>
+</h2>
+
 
 {% endblock %}

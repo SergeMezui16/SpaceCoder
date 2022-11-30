@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+<a href="{{path('profile', {slug: app.user.user.slug})}}">Moi</a>
+<br>
+<a href="{{path('profile_edit')}}">Edit</a>
+<br>
+<a href="{{path('profile_changepassword')}}">Changer de mot de passe</a>
+<br>
+<a href="{{path('change_email')}}">
+	Changer d'email
+</a>
+<br>
+<a href="{{path('reset_password_request')}}">
+	Mot de passe oublié
+</a>
+
+<pre>
+    {{ dump(user) }}
+</pre>
+{% endblock %}

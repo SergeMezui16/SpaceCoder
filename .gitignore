@@ -30,4 +30,5 @@ yarn-error.log
 ###> spacecoder/data/uploads ###
 /public/data/article/images/*
 /public/data/project/images/*
+/public/data/user/avatar/*
 ###< spacecoder/data/uploads ###

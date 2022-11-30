@@ -3,15 +3,14 @@
 namespace App\Entity;
 
 use App\Entity\User;
-use App\Trait\PreUpdateTrait;
-use App\Trait\PrePersistTrait;
+use App\Repository\ArticleRepository;
+use App\Traits\GenerateSlugTrait;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ArticleRepository;
-use App\Trait\GenerateSlugTrait;
-use DateTime;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -86,7 +85,7 @@ class Article
      */
     public function isPublised() : bool
     {
-        return ($this->publishedAt < (new DateTime())) ? true : false;
+        return ($this->publishedAt < (new \DateTimeImmutable())) ? true : false;
     }
 
     public function getId(): ?int

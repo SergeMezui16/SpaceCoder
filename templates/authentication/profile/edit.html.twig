@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+<form action="" method="post" enctype="multipart/form-data" class="flex justify-center">
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+            
+    <div is="avatar-form" class="form-control" data-btn=".edit" data-img=".edit img">
+        <div class="edit">
+            <img src="{% if user.avatar %}{{user.avatar}}{% else %}/favicon.svg{% endif %}" alt="avatar edit big" title="avatar edit big" class="avatar big" />
+        </div>
+        <div style="display:none;">{{ form_widget(form.avatar) }}</div>
+        {{ form_errors(form.avatar) }}
+        {{ form_help(form.avatar) }}
+    </div>
+
+    <div class="row">
+        <div class="form-control {% if form_errors(form.bornAt) %} invalid {% endif %}">
+            {{ form_label(form.bornAt) }}
+            {{ form_widget(form.bornAt) }}
+            {{ form_errors(form.bornAt) }}
+        </div>
+
+        <div class="form-control {% if form_errors(form.country) %} invalid {% endif %}">
+            {{ form_label(form.country) }}
+            {{ form_widget(form.country) }}
+            {{ form_errors(form.country) }}
+        </div>
+
+
+        <div class="mt-6 flex justify-between gap-0 ">
+            <input type="reset" name="reset" id="res" value="REINITIALISER" class="btn btn-secondary" />
+            <input type="submit" name="submit" id="sub" value="METTRE A JOUR" class="btn btn-primary" />
+        </div>
+    </div>
+    {{ form_end(form) }}            
+</form>
+{% endblock %}

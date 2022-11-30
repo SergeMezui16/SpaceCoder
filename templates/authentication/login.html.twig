@@ -3,21 +3,29 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-
 <div class="login">
     <div class="login-card">
         <div class="login-img">
-            <img class="" src="https://blush.design/api/download?shareUri=irHcRwfWyq5sQrx6&c=Bottom_0%7E342a83-0.1%7E2b44ff_Hair_0%7Eb58143-0.1%7E2c1b18_Skin_0%7Eb28b67-0.1%7E57331f_Top_0%7Eff4133-0.1%7Ef2f2f2&bg=9000f7&w=800&h=800&fm=png" alt="Login" />
+            <img class="" src="/image/woman.png" alt="Woman working" />
         </div>
-        <form action="{{ path('authentication_login') }}" method="POST" class="login-form">
-            <h1 class="text-center text-4xl mb-10">Connexion</h1>
+        <form action="{{ path('login') }}" method="POST" class="login-form">
+            
+            <h1 class="text-center text-4xl mb-8">Connexion</h1>
+
+            {% if error %}
+            <div class="alert-line alert-danger">Email ou mot de passe incorect.</div>
+            {% endif %}
+
             <div class="form-control">
                 <label for="username" class="">Email</label>
-                <input type="text" name="_username" class="w-full form-input"/>
+                <input type="email" name="_username" class="w-full form-input" value="{{ last_email }}"/>
             </div>
-            <div class="form-control">
+            <div class="form-control" is="password-input">
                 <label for="password" class="">Mot de passe</label>
-                <input type="password" name="_password" id="password" class="w-full form-input" />
+                <div class="">
+                    <input type="password" name="_password" id="password" class="w-full form-input" />
+                    <button class="show-btn" tabindex="-1">Voir</button>
+                </div>
             </div>
             <div class="form-control">
                 <label for="checkbox" class="">
@@ -27,9 +35,25 @@
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <div class="flex justify-center">
-                <input type="submit" name="submit" id="sub" value="Se connecter >" class="btn btn-primary" />
+            <div class="text-gray-500 my-5">
+                Mot de passe oublié ?
+                <a href="{{ path('reset_password_request') }}" class="text-link">
+                    Restaurez le.
+                </a>
             </div>
+
+
+            <div class="flex justify-center mt-3">
+                <input type="submit" name="submit" id="sub" value="SE CONNECTER" class="btn btn-primary" />
+            </div>
+
+            <div class="text-gray-500 text-center my-8">
+                Je n'ai pas de compte.
+                <a href="{{ path('registration') }}" class="text-link">
+                    Je m'inscris.
+                </a>
+            </div>
+
         </form>
     </div>
 </div>

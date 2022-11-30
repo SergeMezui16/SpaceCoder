@@ -20,9 +20,9 @@ security:
             provider: app_user_provider
 
             form_login:
-                login_path: authentication_login
-                check_path: authentication_login
-                default_target_path: authentication_login_success
+                login_path: login
+                check_path: login
+                default_target_path: login_success
                 enable_csrf: true
 
             remember_me:
@@ -30,8 +30,8 @@ security:
                 lifetime: 31536000
             
             logout: 
-                path: authentication_logout
-                target: authentication_login
+                path: logout
+                target: login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

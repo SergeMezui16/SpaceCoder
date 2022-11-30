@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<form action="" method="post" class="flex justify-center">
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+
+    <div class="row">
+        <div class="form-control {% if form_errors(form.pseudo) %} invalid {% endif %}">
+            {{ form_label(form.pseudo) }}
+            {{ form_widget(form.pseudo) }}
+            {{ form_errors(form.pseudo) }}
+            {{ form_help(form.pseudo) }}
+        </div>
+
+        <div class="form-control {% if form_errors(form.auth.email) %} invalid {% endif %}">
+            {{ form_label(form.auth.email) }}
+            {{ form_widget(form.auth.email) }}
+            {{ form_errors(form.auth.email) }}
+            {{ form_help(form.auth.email) }}
+        </div>
+
+        <div class="form-control {% if form_errors(form.country) %} invalid {% endif %}">
+            {{ form_label(form.country) }}
+            {{ form_widget(form.country) }}
+            {{ form_errors(form.country) }}
+        </div>
+
+        <div class="form-control {% if form_errors(form.bornAt) %} invalid {% endif %}">
+            {{ form_label(form.bornAt) }}
+            {{ form_widget(form.bornAt) }}
+            {{ form_errors(form.bornAt) }}
+        </div>
+
+        <div class="form-control {% if form_errors(form.auth.password) %} invalid {% endif %}" is="password-input">
+            {{ form_label(form.auth.password) }}
+            <div class="">
+                {{ form_widget(form.auth.password) }}
+                <button class="show-btn" tabindex="-1">Voir</button>
+            </div>
+            {{ form_errors(form.auth.password) }}
+            {{ form_help(form.auth.password) }}
+        </div>
+
+        <div class="form-control {% if form_errors(form.auth.confirmPassword) %} invalid {% endif %}" is="password-input">
+            {{ form_label(form.auth.confirmPassword) }}
+            <div class="">
+                {{ form_widget(form.auth.confirmPassword) }}
+                <button class="show-btn" tabindex="-1">Voir</button>
+            </div>
+            {{ form_errors(form.auth.confirmPassword) }}
+            {{ form_help(form.auth.confirmPassword) }}
+        </div>
+
+        <div class="mt-6">
+            <input type="submit" name="submit" id="sub" value="S'INSCRIRE" class="btn btn-primary" />
+        </div>
+    </div>
+{{ form_end(form) }}
+                    
+</form>
+
+{% endblock %}

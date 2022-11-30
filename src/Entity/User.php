@@ -3,17 +3,23 @@
 namespace App\Entity;
 
 use App\Entity\Article;
-use App\Trait\PreUpdateTrait;
-use App\Trait\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use App\Traits\PrePersistTrait;
+use App\Traits\GenerateSlugTrait;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Authentication\Entity\UserAuthentication;
-use App\Trait\GenerateSlugTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(
+    'pseudo',
+    message: 'Ce pseudo existe déjà, veuillez réessayer avec un nouveau.'
+)]
 class User
 {
     use PreUpdateTrait;
@@ -23,12 +29,25 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 20,
+        minMessage: 'Le pseudo doit contenir au moins 3 caractères.',
+        maxMessage: 'Le pseudo doit contenir au plus 20 caractères.',
+    )]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\File(
+        maxSize: '2048k',
+        maxSizeMessage: 'Cette image est trop lourde.',
+        mimeTypes: ['image/jpg', 'image/png', 'image/gif', 'image/jpeg'],
+        mimeTypesMessage: 'Le format de l\'image n\'est pas valide.',
+    )]
     private ?string $avatar = null;
 
     #[ORM\Column(length: 255)]
@@ -43,6 +62,7 @@ class User
     #[ORM\Column]
     private ?\DateTimeImmutable $bornAt = null;
 
+    #[Assert\Valid]
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserAuthentication $auth = null;
 
@@ -61,7 +81,6 @@ class User
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
     private Collection $comments;
 
-
     public function __construct()
     {
         $this->suggestions = new ArrayCollection();
@@ -72,19 +91,6 @@ class User
     public function __toString()
     {
         return $this->pseudo;
-    }
-
-
-    public function getEmail() : string
-    {
-        return $this->auth->getEmail();
-    }
-
-    public function setEmail(string $email) : self
-    {
-        $this->auth->setEmail($email);
-        
-        return $this;
     }
 
     /**

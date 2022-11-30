@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RessourceRepository;
-use App\Trait\GenerateSlugTrait;
-use App\Trait\PrePersistTrait;
-use App\Trait\PreUpdateTrait;
+use App\Traits\GenerateSlugTrait;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]

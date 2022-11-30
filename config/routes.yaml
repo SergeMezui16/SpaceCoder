@@ -2,6 +2,11 @@ controllers:
     resource: ../src/
     type: attribute
 
-authentication_logout:
+logout:
     path: /logout
+    methods: GET
+
+profile:
+    path: /{slug}
+    controller: App\Authentication\Controller\ProfileController::index
     methods: GET
