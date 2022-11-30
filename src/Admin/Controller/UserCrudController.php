@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -41,24 +42,21 @@ class UserCrudController extends AbstractCrudController
     {        
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('pseudo', 'Pseudo');
-        yield EmailField::new('email', 'Email');
+        yield AssociationField::new('auth', 'Auth')->hideOnForm()->setCrudController(UserAuthenticationCrudController::class);
         yield CountryField::new('country', 'Pays');
 
-        yield CollectionField::new('authRole', 'Roles')->onlyOnIndex();
-        yield ArrayField::new('authRole', 'Roles')->hideOnIndex();
+
+        // yield CollectionField::new('authRole', 'Roles')->onlyOnIndex();
+        // yield ArrayField::new('authRole', 'Roles')->hideOnIndex();
 
         yield ImageField::new('avatar', 'avatar')->onlyOnDetail();
         yield SlugField::new('slug', 'Slug')->setTargetFieldName('title')->onlyOnDetail();
         yield NumberField::new('coins', 'Points');
-        yield ArrayField::new('authip', 'Adresses Ip')->onlyOnDetail();
 
         yield ArrayField::new('comments', 'Commentaires')->onlyOnDetail();
 
         yield ArrayField::new('articles', 'Articles')->onlyOnDetail();
         yield ArrayField::new('suggestions', 'Suggestions')->onlyOnDetail();
-        yield BooleanField::new('authblocked', 'Bloqué')->hideWhenCreating()->renderAsSwitch(false);
-        yield DateTimeField::new('authlastconnexion', 'Dernière Connexion');
-        yield DateTimeField::new('authfirstconnexion', 'Première Connexion')->onlyOnDetail();
         yield DateTimeField::new('bornAt', 'Né(e) le')->onlyOnDetail();
         yield DateTimeField::new('updateAt', 'Modifié(e) le')->onlyOnDetail();
         yield DateTimeField::new('createAt', 'Créé(e) le')->onlyOnDetail();
