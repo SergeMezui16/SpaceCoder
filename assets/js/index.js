@@ -11,6 +11,7 @@ import Header from "./components/Header"
 import { addToast } from "./functions"
 import DomElements from "./components/DomElements"
 import AvatarForm from "./components/AvatarForm"
+import CommentForm from "./components/CommentForm"
 
 
 // Web Components
@@ -25,6 +26,7 @@ customElements.define('toast-box', ToastBox, {extends: 'div'})
 customElements.define('copy-form', CopyForm, {extends: 'div'})
 customElements.define('dom-elements', DomElements, {extends: 'span'})
 customElements.define('avatar-form', AvatarForm, {extends: 'div'})
+customElements.define('comment-form', CommentForm, {extends: 'form'})
 // customElements.define('toast-item', Taost)
 
 // TEST ADD TOAST - UI

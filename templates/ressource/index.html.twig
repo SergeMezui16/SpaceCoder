@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+{# <pre>
+
+{{ dump(pagination) }}
+
+</pre> #}
+
+{# total items count #}
+<div class="count">
+	Nombre de resultat : {{ pagination.getTotalItemCount }}
+</div>
+
+<div>
+
+	{% include "ressource/_filtre.html.twig" %}
+
+	<div class="grid grid-cols-4 gap-1">
+		<div class=""></div>
+		<div class=""></div>
+
+		{% for ressource in pagination %}
+			{% include "ressource/_ressource_card.html.twig" %}
+		{% endfor %}
+	</div>
+</div>
+
+{# display navigation #}
+<div class="navigation flex justify-center">
+	{{ knp_pagination_render(pagination) }}
+</div>
+
+{% endblock %}

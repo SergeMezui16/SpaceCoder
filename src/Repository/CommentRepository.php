@@ -39,6 +39,22 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByArticle(int $id)
+    {
+        return 
+            $this
+                ->createQueryBuilder('c')
+                ->select('c', 'r', 'rt')
+                ->join('c.replies', 'r')
+                ->join('c.replyTo', 'rt')
+                ->andWhere('c.article = :val')
+                ->setParameter('val', $id)
+                ->orderBy('c.updateAt')
+                ->getQuery()
+                ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

@@ -4,6 +4,7 @@ namespace App\Authentication\Controller;
 
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Form\ChangePasswordType;
+use App\Authentication\Form\DeleteUserAccountType;
 use App\Authentication\Form\EditProfileType;
 use App\Authentication\Form\Model\ChangePasswordModel;
 use App\Entity\User;
@@ -17,6 +18,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ProfileController extends AbstractController
 {
@@ -95,6 +97,49 @@ class ProfileController extends AbstractController
             'title' => 'Changer de mot de passe',
             'form' => $form->createView(),
             'myPass' => 'rcb5mP7q8yxgtaY?'
+        ]);
+    }
+
+
+    #[Route('/delete', name: 'profile_delete')]
+    public function delete(Request $request, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
+    {
+        $form = $this->createForm(DeleteUserAccountType::class);
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()){
+            /** @var UserAuthentication */
+            $auth = $this->getUser();
+            
+            foreach ($auth->getUser()->getComments() as $comment) {
+                $comment->setAuthor(null);
+            }
+
+            foreach ($auth->getUser()->getSuggestions() as $article) {
+                $article->setSuggestedBy(null);
+            }
+
+            foreach ($auth->getUser()->getArticles() as $article) {
+                $article->setAuthor(null);
+            }
+
+            $entityManager->flush();
+
+            $entityManager->remove($auth->getUser());
+            $entityManager->remove($auth);
+
+            $entityManager->flush();
+            
+            // Remove Session
+            $request->getSession()->invalidate();
+            $tokenStorage->setToken();
+            
+            return $this->redirectToRoute('home');
+        }
+        
+        return $this->render('authentication/profile/delete.html.twig', [
+            'title' => 'Suppression de compte',
+            'form' => $form->createView()
         ]);
     }
 

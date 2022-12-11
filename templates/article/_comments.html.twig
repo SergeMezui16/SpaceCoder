@@ -1,0 +1,8 @@
+<div class="comments">
+    {% include "article/_comment_form.html.twig" %}
+    <div class="comment-list">
+        <h3 class="pl-6">Commentaires rescent ({{comments | length}})</h3>
+        <hr>
+        {% include "article/_comment.html.twig" %}
+    </div>
+</div>

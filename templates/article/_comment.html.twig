@@ -1,0 +1,69 @@
+{% for comment in comments %}
+	{% if comment.replyTo == null %}
+
+		{% set author = comment.author %}
+
+		<div class="comment main" data-id="{{comment.id}}">
+			<div class="comment-info">
+				<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
+				<div class="flex flex-col">
+					<span class="author">
+						{% if author != null %}
+							<a href="{{path('profile', {slug: author.slug})}}">
+								{{author}}
+							</a>
+						{% else %}
+							<em>Compte supprimé</em>
+						{% endif %}
+					</span>
+					<span class="date">
+						{{comment.updateAt | date('d/m/Y • H:i')}}
+						<span class="btn-mini js-btn-reply">
+							Répondre
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="comment-content">
+				{{comment.content}}
+			</div>
+		</div>
+
+		{% for reply in comment.replies %}
+
+			{% if reply.replyTo != null %}
+				{% set author = reply.author %}
+
+				<div class="comment ml-10" data-id="{{reply.id}}">
+					<div class="comment-info">
+						<img src="{% if author != null %}{{author.avatar}}{% else %} '/favicon.svg' {% endif %}" alt="" class="avatar small"/>
+						<div class="flex flex-col">
+							<span class="author">
+								{% if author != null %}
+									<a href="{{path('profile', {slug: author.slug})}}">
+										{{author}}
+									</a>
+								{% else %}
+									<em>Compte supprimé</em>
+								{% endif %}
+							</span>
+							<span class="date">
+								{{reply.updateAt | date('d/m/Y • H:i')}}
+							</span>
+						</div>
+					</div>
+					<div class="comment-content">
+						{{reply.content}}
+					</div>
+				</div>
+			{% endif %}
+
+		{% endfor %}
+	{% endif %}
+
+	{% if not loop.last %}
+		<hr>
+	{% endif %}
+
+
+{% endfor %}

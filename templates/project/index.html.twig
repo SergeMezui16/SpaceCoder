@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+
+
+{# <pre>
+    {{ dump(projects) }}
+</pre> #}
+
+
+<div>
+	<div class="grid grid-cols-4 gap-1">
+		<div class=""></div>
+		<div class=""></div>
+
+		{% for project in projects %}
+			{% include "project/_project_card.html.twig" %}
+		{% endfor %}
+	</div>
+</div>
+
+
+{% endblock %}

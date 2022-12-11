@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+<form action="" method="post" class="flex justify-center">
+	{{ form_start(form) }}
+	{{ form_row(form._token) }}
+
+	<div class="row">
+
+		<div class="form-control {% if form_errors(form.password) %} invalid {% endif %}" is="password-input">
+			{{ form_label(form.password) }}
+			<div class="">
+				{{ form_widget(form.password) }}
+				<button class="show-btn" tabindex="-1">
+					Voir
+				</button>
+			</div>
+			{{ form_errors(form.password) }}
+			{{ form_help(form.password) }}
+		</div>
+
+		<div class="mt-6 flex justify-end">
+			<input type="submit" name="submit" id="sub" value="SUPPRIMER" class="btn btn-danger"/>
+		</div>
+	</div>
+	{{ form_end(form) }}
+
+</form>
+
+{% endblock %}

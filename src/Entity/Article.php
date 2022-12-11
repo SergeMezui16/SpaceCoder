@@ -50,7 +50,8 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'suggestions')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'suggestions')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $suggestedBy = null;
 
     #[ORM\Column]
@@ -59,10 +60,11 @@ class Article
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $comments;
 
     #[ORM\Column]

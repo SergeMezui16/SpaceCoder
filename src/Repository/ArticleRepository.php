@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,43 @@ class ArticleRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllPublishedQuery(string $q = ''): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder
+            ->select('a', 'c')
+            ->join('a.comments', 'c')
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+        ;
+
+        if($q !== ''){
+            $queryBuilder
+                ->andWhere('a.title LIKE :title')
+                ->orWhere('a.subject LIKE :subject')
+                ->orWhere('a.description LIKE :description')
+                ->setParameter('title', "%$q%")
+                ->setParameter('subject', "%$q%")
+                ->setParameter('description', "%$q%")
+                ->orderBy('a.title', 'ASC');
+        } else{
+            $queryBuilder->orderBy('a.updateAt', 'DESC');
+        }
+
+        return $queryBuilder->getQuery();
+    }
+
+    public function findOneBySlug($slug): array
+    {
+        return
+        $this
+            ->createQueryBuilder('a') 
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**

@@ -89,6 +89,16 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         return $this->email;
     }
 
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
+
+    public function unserialize($data)
+    {
+        $this->id = unserialize($data);
+    }
+
     /**
      * Reload connexion informations
      *

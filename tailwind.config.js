@@ -23,6 +23,11 @@ module.exports = {
         'info': "url('/public/icons/info.svg')",
         'error': "url('/public/icons/error.svg')",
         'edit-img': "url('/public/icons/edit-img.svg')",
+        'next': "url('/public/icons/next.svg')",
+        'prev': "url('/public/icons/prev.svg')",
+        'last': "url('/public/icons/last.svg')",
+        'first': "url('/public/icons/first.svg')",
+        'reply': "url('/public/icons/reply.svg')",
         '': "",
       }
     },

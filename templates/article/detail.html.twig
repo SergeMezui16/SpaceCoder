@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+{#
+<pre>
+    {{ dump(article) }}
+</pre>
+#}
+
+{% include "article/_article.html.twig" %}
+{% include "article/_comments.html.twig" %}
+
+{% endblock %}

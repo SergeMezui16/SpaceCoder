@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -22,21 +23,26 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $author = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Article $article = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'replies')]
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy:'replies', cascade: ['remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?self $replyTo = null;
 
-    #[ORM\OneToMany(mappedBy: 'replyTo', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'replyTo', targetEntity: self::class, orphanRemoval: true)]
     private Collection $replies;
 
     #[ORM\Column(type: Types::TEXT)]
+
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Le commentaire doit contenir au moins 5 caractères.',
+    )]
     private ?string $content = null;
 
     #[ORM\Column]

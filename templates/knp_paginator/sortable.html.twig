@@ -1,0 +1,20 @@
+<a
+    {% for attr, value in options %} 
+        {% if attr != 'class' %}
+            {{ attr }}="{{ value }}"
+        {% endif %}
+    {% endfor %}
+
+    {% if sorted %}
+        {% if direction == 'desc' %}
+            class="item after:content-down active"
+        {% else %}
+            class="item after:content-top active"
+        {% endif %}
+    {% else %}
+        class="item"
+    {% endif %}
+>
+    {{ title }}
+</a>
+

@@ -121,7 +121,7 @@ p, .p{
 
 /* FILTRE */
 .filter{
-    @apply bg-white w-fit text-xl border rounded flex items-center h-16;
+    @apply bg-white w-fit text-xl border rounded flex items-center h-12;
 }
 .filter-icon{
     @apply w-8 h-8 m-4;
@@ -129,9 +129,12 @@ p, .p{
 .filter-items{
     @apply flex h-full cursor-pointer;
 }
+.filter-items {
+    @apply w-max h-full;
+}
 
 .filter .item{
-    @apply justify-center items-center flex w-24 px-2;
+    @apply justify-center items-center flex max-w-fit min-w-max w-fit px-5;
 }
 .filter .item:hover{
     @apply bg-transparent-purple;
@@ -140,13 +143,23 @@ p, .p{
     @apply border-2 border-x-0 border-t-0 border-purple;
 }
 
+.filter .search{
+    @apply justify-center items-center my-0 flex max-w-fit min-w-max w-fit relative;
+}
+.filter .search input{
+    @apply m-0 h-full w-full rounded-l-none border-y-0 text-gray-500;
+}
+.filter .search button{
+    @apply absolute right-0 p-3 m-0 h-full w-12 bg-purple-light;
+}
+
 /* BUTTON */
 
 .btn{
     @apply p-3 mx-auto cursor-pointer rounded shadow-md inline-block w-fit text-center transition ease-in-out;
 }
 .btn:hover{
-    @apply delay-150 shadow-lg
+    @apply delay-150 shadow-lg;
 }
 
 .btn.btn-primary{
@@ -154,7 +167,7 @@ p, .p{
 }
 
 .btn.btn-secondary{
-    @apply bg-gray-100 border-gray-200 border text-gray-500;
+    @apply bg-gray-100 border-gray-200 border text-gray-500 shadow-sm;
 }
 
 .btn.btn-danger{
@@ -193,6 +206,12 @@ p, .p{
 }
 .btn.center{
 
+}
+.btn-mini{
+    @apply font-bold px-1 cursor-pointer rounded mx-2 my-1 bg-transparent-purple;
+}
+.btn-mini:hover{
+    @apply shadow-md;
 }
 
 
@@ -314,12 +333,30 @@ p, .p{
 
 /* PAGINATION */
 .pagination{
-    @apply flex text-gray-500 text-lg my-5;
+    @apply flex text-gray-500 text-2xl my-5;
+}
+.pagination .next, .pagination .prev, .pagination .first, .pagination .last{
+    @apply flex items-center justify-center mx-3;
+}
+.pagination .next a:after, .pagination .prev a:after, .pagination .first a:after, .pagination .last a:after{
+    @apply flex items-center justify-center;
+}
+.pagination .next a:after{
+    @apply content-next;
+}
+.pagination .prev a:after{
+    @apply content-prev;
+}
+.pagination .first a:after{
+    @apply content-first;
+}
+.pagination .last a:after{
+    @apply content-last;
 }
 .pagination .page a, .pagination .page span{
     @apply mx-1 px-2 py-1 border border-transparent;
 }
-.pagination .page a {
+.pagination .page a{
     @apply bg-gray-200;
 }
 .pagination .page a:hover{
@@ -367,7 +404,7 @@ p, .p{
 
 /* PROJET CARD */
 .project-card{
-    @apply flex flex-col bg-gray-100 p-4 max-w-xs rounded shadow-md m-4 border;
+    @apply flex flex-col relative bg-gray-100 p-4 max-w-xs rounded shadow-md m-4 border pb-16;
 }
 .project-card:hover{
     @apply border-purple;
@@ -384,13 +421,16 @@ p, .p{
 .project-card .visit{
     @apply text-gray-500 block text-right text-sm;
 }
+.project-card .footer{
+    @apply flex items-center justify-between absolute bottom-0 my-2 w-11/12;
+}
 
 /* RESSOURCE CARD */
 .ressource-card{
     @apply max-w-xs shadow-md min-h-max rounded m-4 shadow-transparent-purple backdrop-blur-md cursor-pointer text-gray-100;
 }
 .ressource-content{
-    @apply bg-transparent-black rounded flex flex-col items-start justify-start p-3 transition-all duration-150 border border-transparent;
+    @apply bg-transparent-black backdrop-blur-sm h-full rounded flex flex-col items-start justify-start p-3 pb-4 transition-all duration-150 border border-transparent;
 }
 .ressource-content:hover{
     @apply bg-transparent-black-dark transition-all duration-150 border border-purple;
@@ -398,28 +438,31 @@ p, .p{
 .ressource-title{
     @apply h2 text-white mb-2;
 }
-.ressource-click{
-    @apply text-sm mt-2 flex w-full justify-end;
+.ressource-clicks{
+    @apply text-sm mt-2 flex w-full justify-end absolute bottom-0 right-0 m-2;
 }
 
 /* TUTORIEL CARD */
 .tuto-card{
-    @apply bg-gray-100 m-4 rounded shadow-md cursor-pointer border hover:border-purple max-w-sm;
+    @apply bg-gray-100 relative m-4 pb-5 rounded shadow-md cursor-pointer border hover:border-purple max-w-sm;
 }
 .tuto-card-header{
     @apply flex justify-between items-center p-4 pb-0 text-gray-500 text-sm rounded;
 }
 .tuto-card-footer{
-    @apply p-4 flex justify-between text-xs text-gray-500;
+    @apply p-4 flex justify-between text-xs text-gray-500 bottom-0 absolute w-full;
+}
+.tuto-card-body{
+    @apply p-4 flex flex-col justify-between pb-10;
 }
 .tuto-card-description{
     @apply text-gray-500 border pl-2 border-l-purple-light border-y-0 border-r-0;
 }
 .tuto-card-title{
-    @apply mb-2;
+    @apply my-5;
 }
 .tuto-card-title:hover{
-    @apply text-purple-dark mb-2;
+    @apply text-purple-dark;
 }
 
 
@@ -693,10 +736,10 @@ p, .p{
     @apply p-6;
 }
 .comment-list{
-    @apply p-6;
+    @apply p-0;
 }
 .comment{
-    @apply p-2;
+    @apply px-6 py-2;
 }
 .comment-info{
     @apply flex justify-start my-1;
@@ -714,9 +757,8 @@ p, .p{
     @apply text-link;
 }
 .comment-content{
-    @apply  bg-transparent-gray backdrop-blur p-3 rounded max-w-xl; 
+    @apply  bg-transparent-gray backdrop-blur p-3 rounded max-w-xl w-fit; 
 }
-
 
 
 

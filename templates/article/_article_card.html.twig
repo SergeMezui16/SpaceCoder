@@ -1,0 +1,17 @@
+<div class="tuto-card">
+    <div class="tuto-card-header">
+        <img src="{{article.image}}" alt="{{article.subject}}" class="w-8 h-8" />
+        <span class="text-sm">{{article.subject}}</span>
+        <span class="text-sm">{{article.views}} vues</span>
+    </div>
+    <div class="tuto-card-body">
+        <h3 class="tuto-card-title"><a href="{{ path('article_detail', {slug: article.slug}) }}">{{ article.title }}</a></h3>
+        <p class="tuto-card-description">{{ article.description | u.truncate(150) }}../</p>
+    </div>
+    <div class="tuto-card-footer">
+        <span>
+            {{article.comments | length}} commentaires
+        </span>
+        <span>il y'a {{article.publishedAt | since}} secondes</span>
+    </div>
+</div>

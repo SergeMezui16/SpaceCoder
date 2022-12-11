@@ -1,6 +1,8 @@
 <?php
 namespace App\Service;
 
+use Symfony\Bundle\MakerBundle\Str;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ConfigureTypeService 
@@ -45,6 +47,29 @@ class ConfigureTypeService
                 'placeholder' => $placeholder,
                 'class' => $this->class['FORM_INPUT'],
             ]
+        ];
+    }
+
+    public function userPassword(
+        string $label,
+        string $placeholder = '',
+        bool $required = false,
+        string $help = '',
+        array $options = []
+    ): array {
+        return [
+            'label' => $label,
+            'help' => $help,
+            'required' => $required,
+            'attr' => [
+                ...$options,
+                ...($required ? ['required' => 'required'] : []),
+                'placeholder' => $placeholder,
+                'class' => $this->class['FORM_INPUT'],
+            ],
+            'constraints' => [
+                new UserPassword(),
+            ],
         ];
     }
 
@@ -107,6 +132,44 @@ class ConfigureTypeService
             'help' => $help,
             'placeholder' => $placeholder,
             'required' => $required,
+            'attr' => [
+                ...$options,
+                'class' => $this->class['FORM_INPUT'],
+            ]
+        ];
+    }
+
+    public function comment(
+        string $label,
+        array $options = []
+    ): array {
+        return [
+            'label' => $label,
+            'required' => true, 
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Veuillez remplir ce champ.',
+                ]),
+            ],
+            'attr' => [
+                ...$options,
+                'class' => $this->class['FORM_INPUT'],
+            ]
+        ];
+    }
+
+    public function entity(
+        string $label,
+        string $class,
+        string $choice,
+        array $options = []
+    ): array {
+        return [
+            'label' => $label,
+            'class' => $class,
+            'required' => false, 
+            'placeholder' => '',
+            'choice_label' => $choice,
             'attr' => [
                 ...$options,
                 'class' => $this->class['FORM_INPUT'],

@@ -1,0 +1,68 @@
+<article class="tuto">
+    <div class="tuto-header">
+        <nav class="breadcrumb container">
+            <ul class="breadcrumb-list">
+                <li class="item"><a href="{{path('home')}}">Acceuil</a></li>
+                <li class="item">
+                    <a href="{{path('article')}}">Articles</a>
+                </li>
+                <li class="item active">
+                    {# <a href=""> #}
+                        {{article.title}}
+                    {# </a> #}
+                </li>
+            </ul>
+        </nav>
+        <h1 class="tuto-title">
+            {{article.title}}
+        </h1>
+        <div class="meta">
+            <span class="date">Mis à jour le {{article.updateAt | date('d/m/Y')}}</span>
+            <span class="views">{{article.views}} vues</span>
+        </div>
+    </div>
+    <div class="tuto-body">
+        <div class="tuto-content">
+            {{article.content}}
+            <div class="thanks">Merci.../</div>
+        </div>
+        <aside class="credits">
+            <h3>
+                {{article.title}}
+            </h3>
+            <p>
+                {{article.description}}
+            </p>
+            <a 
+                is="tuto-share" 
+                href=""
+                data-title="{{article.title}}"
+                data-text="{{article.description}}"
+                data-url="{{ path('article', {slug: article.slug}) }}"
+
+                class="no-underline my-3 mx-auto"
+            >
+                PARTAGER
+            </a>
+            <hr class="border-gray-500 my-2" />
+            <p>
+                Article écrit par 
+                {% if article.author != null %}
+                    <a href="{{path('profile', {slug: article.author.slug})}}">{{article.author}}</a>
+                {% else %}
+                    <em>Compte supprimé</em>
+                {% endif %}
+                pour Spacecoder.
+            </p>
+            <p>Crée le {{article.updateAt | date('d M. Y')}}</p>
+            <p>
+                Proposé par
+                {% if article.suggestedBy != null %}
+                    <a href="{{path('profile', {slug: article.suggestedBy.slug})}}">{{article.suggestedBy}}</a>
+                {% else %}
+                    <em>Compte supprimé</em>
+                {% endif %}
+            </p>
+        </aside>
+    </div>
+</article>

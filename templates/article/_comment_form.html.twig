@@ -1,0 +1,55 @@
+{% if not app.user %}
+
+    <div class="m-10">
+        <h3>
+            Envoyez un commentaire
+        </h3>
+
+        <div class="alert-line alert-info">
+            <div>
+                Vous devez vous <a class="text-link" href="{{path('login')}}">connecter</a> pour pouvoir ajouter un commentaire. Vous n'avez pas de compte ?
+                <a class="text-link" href="{{path('registration')}}">Cliquez ici !</a>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    <form action="" method="POST" class="comment-form" is="comment-form" data-comments=".comment.main" id="commentForm">
+        {{ form_start(form) }}
+        {{ form_row(form._token) }}
+
+            <h3>
+                Envoyez un commentaire
+            </h3>   
+
+            <div class="form-control">
+                <label class="required">Pseudo</label>
+                <div class="form-input" readonly>{{app.user.user}}</div>
+            </div>
+
+            <div style="display: none;" class="form-control js-input-out {% if form_errors(form.replyTo) %}invalid{% endif %}">
+                {{ form_label(form.replyTo) }}
+                <div class="form-input truncate" readonly></div>
+                {{ form_errors(form.replyTo) }}
+                {{ form_help(form.replyTo) }}
+            </div>
+
+            <div style="display: none;" class="js-reply-field form-control">
+                {{ form_widget(form.replyTo) }}
+            </div>
+
+            <div class="form-control {% if form_errors(form.content) %} invalid {% endif %}">
+                {{ form_label(form.content) }}
+                {{ form_widget(form.content) }}
+                {{ form_errors(form.content) }}
+                {{ form_help(form.content) }}
+            </div>
+
+            <div class="mt-6">
+                <input type="reset" name="reset" id="res" value="ANNULER" class="btn btn-secondary"/>
+                <input type="submit" name="submit" id="sub" value="ENVOYER" class="btn btn-primary"/>
+            </div>
+        {{ form_end(form) }}
+    </form>
+{% endif %}
+

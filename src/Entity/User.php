@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Entity\Article;
-use App\Traits\PreUpdateTrait;
-use App\Traits\PrePersistTrait;
-use App\Traits\GenerateSlugTrait;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Authentication\Entity\UserAuthentication;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Article;
+use App\Repository\UserRepository;
+use App\Traits\GenerateSlugTrait;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -72,13 +72,13 @@ class User
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'suggestedBy', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'suggestedBy', targetEntity: Article::class, orphanRemoval: false)]
     private Collection $suggestions;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class, orphanRemoval: false)]
     private Collection $articles;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: false)]
     private Collection $comments;
 
     public function __construct()
