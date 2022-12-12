@@ -3,8 +3,14 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-
 <h1>Bonjour - Home</h1>
+<h2>
+	<form action="{{path('search')}}">
+		<input type="search" name="q" required>
+	</form>
+</h2>
+
+
 {% if app.user %}
 <br>
 <a href="{{path('profile', {slug: app.user.user.slug})}}">

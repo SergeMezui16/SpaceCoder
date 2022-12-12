@@ -6,5 +6,5 @@
     <AdultContent>false</AdultContent>
     <Language>fr</Language>
     <InputEncoding>UTF-8</InputEncoding>
-    <!-- <Url type="text/html" template="/recherche?q={searchTerms}"/> Editt -->
+    <Url type="text/html" template="/search?q={searchTerms}"/>
 </OpenSearchDescription>

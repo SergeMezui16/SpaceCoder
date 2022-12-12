@@ -2,20 +2,22 @@
 
 namespace App\Authentication\Controller;
 
-use Symfony\Component\Mime\Address;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Authentication\Form\ChangeEmailType;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Authentication\Entity\UserAuthentication;
+use App\Authentication\Form\ChangeEmailType;
 use App\Authentication\Repository\UserAuthenticationRepository;
-use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class ChangeEmailController extends AbstractController
 {
     public function __construct(
@@ -37,8 +39,6 @@ class ChangeEmailController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // dd($auth);
 
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
                 'change_confirmation',

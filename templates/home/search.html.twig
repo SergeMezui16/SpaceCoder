@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+Resultats : {{ search.totalItem }}
+<br>
+Page : {{ search.currentPage }}
+
+
+<div class="container m-auto">
+    <form action="">
+        <input type="search" name="q" placeholder="Rechercher" value="{{ search.q }}" class="form-input">
+    </form>
+</div>
+
+
+
+
+{% if search.data %}
+    <div class="">
+        {% for item in search.data %}
+            {% set class = item[0] %}
+            {% set item = item[1] %}
+
+            {% if class == 'Article' %}
+                <div class="art my-5 bg-gray-200">
+                    <p>{{item.title}}</p>
+                    <p>{{item.description}}</p>
+                    <p>{{item.updateAt | date()}}</p>
+                </div>
+
+            {% elseif class == 'Ressource' %}
+                <div class="res my-5 bg-gray-200">
+                    <p>{{item.name}}</p>
+                    <p>{{item.description}}</p>
+                    <p>{{item.updateAt | date()}}</p>
+                </div>
+
+            {% elseif class == 'Project' %}
+                <div class="pro my-5 bg-gray-200">
+                    <p>{{item.name}}</p>
+                    <p>{{item.description}}</p>
+                    <p>{{item.updateAt | date()}}</p>
+                </div>
+            {% else %}
+                {{item}} 4 <br>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+{% else %}
+    <div>Aucun resultats pour : <strong><em>{{ search.q }}</em></strong></div>
+{% endif %}
+
+
+<div class="navigation flex justify-center">
+	{{ knp_pagination_render(search.pagination) }}
+</div>
+
+
+{% endblock %}

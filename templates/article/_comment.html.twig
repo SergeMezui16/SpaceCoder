@@ -18,9 +18,15 @@
 					</span>
 					<span class="date">
 						{{comment.updateAt | date('d/m/Y • H:i')}}
-						<span class="btn-mini js-btn-reply">
-							Répondre
-						</span>
+						{% if app.user %}
+							<span class="btn-mini js-btn-reply">
+								Répondre
+							</span>
+						{% else %}
+							<a href="{{ path('login') }}" class="btn-mini">
+								Répondre
+							</a>
+						{% endif %}
 					</span>
 				</div>
 			</div>
@@ -36,7 +42,7 @@
 
 				<div class="comment ml-10" data-id="{{reply.id}}">
 					<div class="comment-info">
-						<img src="{% if author != null %}{{author.avatar}}{% else %} '/favicon.svg' {% endif %}" alt="" class="avatar small"/>
+						<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
 						<div class="flex flex-col">
 							<span class="author">
 								{% if author != null %}

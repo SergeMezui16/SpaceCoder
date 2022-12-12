@@ -10,6 +10,7 @@ use App\Authentication\Form\Model\ChangePasswordModel;
 use App\Entity\User;
 use App\Service\AvatarUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,7 @@ class ProfileController extends AbstractController
     ){}
 
     #[Route('/edit', name: 'profile_edit')]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function edit(Request $request, AvatarUploaderService $uploader): Response
     {
         /** @var UserAuthentication */
@@ -60,6 +62,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/change-password', name: 'profile_changepassword')]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function changePassword(Request $request, UserPasswordHasherInterface $encoder): Response
     {
         /** @var UserAuthentication */
@@ -102,6 +105,7 @@ class ProfileController extends AbstractController
 
 
     #[Route('/delete', name: 'profile_delete')]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function delete(Request $request, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
     {
         $form = $this->createForm(DeleteUserAccountType::class);
@@ -143,6 +147,7 @@ class ProfileController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     public function index(User $user): Response
     {
         return $this->render('authentication/profile/index.html.twig', [

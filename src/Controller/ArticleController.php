@@ -41,7 +41,7 @@ class ArticleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $this->isGranted('IS_AUTHENTICATE_FULLY');
+            $this->isGranted('IS_AUTHENTICATED');
 
             /** @var UserAuthentication */
             $auth = $this->getUser();

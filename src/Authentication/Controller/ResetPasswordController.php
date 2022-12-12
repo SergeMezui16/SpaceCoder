@@ -7,6 +7,7 @@ use App\Authentication\Form\ChangePasswordFormType;
 use App\Authentication\Form\Model\ResetPasswordModel;
 use App\Authentication\Form\ResetPasswordRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,6 +23,7 @@ use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 #[Route('/reset-password')]
+#[IsGranted('PUBLIC_ACCESS')]
 class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
