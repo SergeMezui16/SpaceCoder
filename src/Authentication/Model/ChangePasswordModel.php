@@ -1,5 +1,5 @@
 <?php
-namespace App\Authentication\Form\Model;
+namespace App\Authentication\Model;
 
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;

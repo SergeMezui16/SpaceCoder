@@ -2,12 +2,12 @@
 
 namespace App\Authentication\Form;
 
-use App\Authentication\Form\Model\ResetPasswordModel;
+use App\Authentication\Model\ResetPasswordModel;
 use App\Service\ConfigureTypeService;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class ChangePasswordFormType extends AbstractType
 {
