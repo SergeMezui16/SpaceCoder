@@ -6,7 +6,7 @@ use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Form\ChangePasswordType;
 use App\Authentication\Form\DeleteUserAccountType;
 use App\Authentication\Form\EditProfileType;
-use App\Authentication\Form\Model\ChangePasswordModel;
+use App\Authentication\Model\ChangePasswordModel;
 use App\Entity\User;
 use App\Service\AvatarUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -85,7 +85,8 @@ class ProfileController extends AbstractController
             $email->htmlTemplate('mail/password_changed.html.twig');
             $email->context([
                 'pseudo' => $auth->getUser()->getPseudo(),
-                'emaila' => $auth->getEmail()
+                'subject' => 'Mot de passe changé avec succes',
+                'domain' => 'localhost:8000'
             ]);
 
             $this->mailer->send($email);
@@ -105,7 +106,7 @@ class ProfileController extends AbstractController
 
 
     #[Route('/delete', name: 'profile_delete')]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function delete(Request $request, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
     {
         $form = $this->createForm(DeleteUserAccountType::class);
@@ -133,7 +134,7 @@ class ProfileController extends AbstractController
             $entityManager->remove($auth);
 
             $entityManager->flush();
-            
+
             // Remove Session
             $request->getSession()->invalidate();
             $tokenStorage->setToken();

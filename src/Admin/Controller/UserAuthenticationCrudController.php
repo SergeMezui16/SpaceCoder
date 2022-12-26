@@ -4,20 +4,20 @@ namespace App\Admin\Controller;
 
 use App\Admin\Service\EntityListService;
 use App\Authentication\Entity\Role;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Repository\RoleRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class UserAuthenticationCrudController extends AbstractCrudController
 {
@@ -46,15 +46,12 @@ class UserAuthenticationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        
-
-
         yield IdField::new('id')->hideOnForm();
         yield ArrayField::new('ip', 'Adresses Ip')->onlyOnDetail();
         yield EmailField::new('email', 'Email')->hideOnForm();
 
         // yield CollectionField::new('uroles', 'Roles')->hideOnDetail()->setEntryIsComplex()->useEntryCrudForm(RoleCrudController::class);
-        yield ChoiceField::new('roles', 'Roles')->hideOnDetail()->allowMultipleChoices()->setChoices($this->list->getEntityList(Role::class));
+        // yield ChoiceField::new('roles', 'Roles')->hideOnDetail()->allowMultipleChoices()->setChoices($this->list->getEntityList(Role::class));
         yield ArrayField::new('uroles', 'Roles')->onlyOnDetail();
 
         // yield AssociationField::new('roles', 'Roles')->setCrudController(RoleCrudController::class);

@@ -7,6 +7,7 @@ export default class Search extends HTMLFormElement {
         this.searchBar = this.querySelector('#js-search')
         this.searchButton = this.querySelector('#js-search-btn')
         this.closeButton = this.querySelector('#js-close-search-btn')
+        this.input = this.searchBar.querySelector('input')
 
         this.open = this.open.bind(this)
         this.close = this.close.bind(this)
@@ -16,12 +17,14 @@ export default class Search extends HTMLFormElement {
     connectedCallback () {
         this.searchButton.addEventListener('click', () => this.open())
         this.closeButton.addEventListener('click', () => this.close())
+        this.input.addEventListener('blur', () => this.close())
     }
 
 
     disconnectedCallback () {
         this.searchButton.removeEventListener('click', () => this.open())
         this.closeButton.removeEventListener('click', () => this.close())
+        this.input.removeEventListener('blur', () => this.close())
     }
 
     toggle () {
@@ -31,14 +34,13 @@ export default class Search extends HTMLFormElement {
     open () {
         this.searchBar
                 .animate([
-                    {transform: 'translateY(-100vh)', opacity: 0},
-                    {transform: 'translateY(0)', opacity: 1}
-                ], {duration: 300})
+                    {opacity: 0},
+                    {opacity: 1}
+                ], {duration: 200})
                 .ready.then(() => {
                     this.toggle()
-                    this.searchBar.querySelector('input').focus()
+                    this.input.focus()
             })
-                
     }
 
     close () {

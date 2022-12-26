@@ -20,7 +20,7 @@ class RessourceController extends AbstractController
         $pagination = $paginator->paginate(
             $ressourceRepository->findAllQuery($request->query->get('q', '')),
             $request->query->getInt('page', 1),
-            4
+            32
         );
         return $this->render('ressource/index.html.twig', [
             'title' => 'Ressources',
@@ -31,7 +31,6 @@ class RessourceController extends AbstractController
     #[Route('/{slug}', name: 'ressource_visit')]
     public function visit(Ressource $ressource)
     {
-        
         return $this->redirect($ressource->getLink());
     }
 }

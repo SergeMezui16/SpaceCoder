@@ -13,7 +13,13 @@
             <h1 class="text-center text-4xl mb-8">Connexion</h1>
 
             {% if error %}
-            <div class="alert-line alert-danger">Email ou mot de passe incorect.</div>
+                <div class="alert-line alert-danger">
+                    {% if error.code == 403 %}
+                        {{error.message}}
+                    {% else %}
+                        Email ou mot de passe incorect.
+                    {% endif %}
+                </div>
             {% endif %}
 
             <div class="form-control">

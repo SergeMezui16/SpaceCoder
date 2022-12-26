@@ -7,9 +7,9 @@
                     <a href="{{path('article')}}">Articles</a>
                 </li>
                 <li class="item active">
-                    {# <a href=""> #}
+                    <a href="">
                         {{article.title}}
-                    {# </a> #}
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -23,7 +23,7 @@
     </div>
     <div class="tuto-body">
         <div class="tuto-content">
-            {{article.content}}
+            {{article.content | raw}}
             <div class="thanks">Merci.../</div>
         </div>
         <aside class="credits">
@@ -66,3 +66,4 @@
         </aside>
     </div>
 </article>
+

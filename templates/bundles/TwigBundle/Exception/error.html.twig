@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ereur.{% endblock %}
+
+{% block body %}
+    <div class="container m-auto bg-gray-100 text-gray-500 p-2 md:p-10 flex flex-col mt-10 shadow-md rounded">
+
+        <p class="text-4xl text-center m-10 font-black text-purple">Erreur.</p>
+
+        <h1 class="text-purple">Nooooope !!!</h1>
+
+        {# <img src="/image/boy.png" alt="boy"> #}
+        
+        <p class="hero-text">
+            Nous avons détecté une anomalie sur votre vaisseau, veuillez patienter la résolution du problème ou vous rendre sur la planète la plus proche !
+        </p>
+        <p><a href="{{path('home')}}" class="btn btn-primary">REVENIR A LA PAGE D'ACCEUIL</a></p>
+    </div>
+{% endblock %}

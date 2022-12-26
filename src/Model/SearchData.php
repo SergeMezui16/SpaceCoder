@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Model;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 

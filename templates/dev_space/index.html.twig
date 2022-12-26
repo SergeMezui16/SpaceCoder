@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+
+<div class="bg-vantablack p-4 w-full text-gray-100">
+    <div class="container m-auto">
+        <ul class="flex gap-4 items-center w-full">
+            <li>
+                <a href="https://github.com/SergeMezui16/SpaceCoder">
+                    GitHub
+                </a>
+            </li>
+            <li>
+                <a href="{{path('ui')}}">UI</a>
+            </li>
+            <ul class="flex items-center justify-end w-full">
+                <li class="version">SpaceCoder </li>
+            </ul>
+        </ul>
+    </div>
+</div>
+
+<div class="container m-auto bg-gray-100 text-gray-500 shadow-md rounded p-6 my-10">
+    <h1 class="hero text-vantablack brand">V3</h1>
+
+    <h2>Languages</h2>
+    
+    <h2>Frameworks</h2>
+    <h2>Base de données</h2>
+    <h2>Api</h2>
+    <h2>Authentification</h2>
+
+    {# <h1 class="hero text-vantablack brand">SpaceCoder 2</h1>
+    <h1 class="hero text-vantablack brand">SpaceCoder 1</h1> #}
+
+</div>
+
+{% endblock %}

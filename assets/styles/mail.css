@@ -1,0 +1,177 @@
+@import 'custom.css';
+
+
+
+.main{
+    background-color: #f6f6f6;
+    max-width: 700px;
+    @apply flex flex-col items-center justify-center m-auto p-3; 
+}
+
+
+.version:after{
+    @apply content-['3.1'];
+}
+
+
+
+
+/* BUTTON */
+.btn{
+    @apply p-3 mx-auto cursor-pointer rounded shadow-md inline-block w-fit text-center transition ease-in-out;
+}
+.btn:hover{
+    @apply delay-150 shadow-lg;
+}
+
+.btn.btn-primary{
+    @apply bg-purple text-white hover:bg-purple-light;
+}
+
+.btn.btn-secondary{
+    @apply bg-gray-100 border-gray-200 border text-gray-500 shadow-sm;
+}
+
+.btn.btn-danger{
+    @apply bg-red text-white;
+}
+.btn.btn-danger:hover{
+    @apply bg-red-light;
+}
+
+.btn.btn-disable{
+    @apply bg-gray-300 text-gray-500 shadow-none cursor-not-allowed;
+}
+.btn.btn-disable:hover, .btn.btn-loading:hover {
+    @apply shadow-none;
+}
+.btn.btn-loading{
+    @apply bg-gray-300 text-gray-500 shadow-none cursor-wait;
+}
+.btn.btn-primary-outlined{
+    @apply bg-white border border-purple;
+}
+.btn.btn-primary-outlined:hover{
+    @apply bg-purple text-white;
+}
+.btn.big{
+    @apply text-2xl;
+}
+.btn.small{
+    @apply text-sm p-2;
+}
+.btn.left{
+    @apply block;
+}
+.btn.right{
+    @apply text-right;
+}
+.btn.center{
+
+}
+.btn-mini{
+    @apply font-bold px-1 cursor-pointer rounded mx-2 my-1 bg-transparent-purple;
+}
+.btn-mini:hover{
+    @apply shadow-md;
+}
+
+
+/* LOADER */
+.loader{
+    @apply inline-block w-10 h-10 border-0 border-purple border-t-2 rounded-full animate-spin;
+}
+.loader.mini{
+    @apply w-4 h-4 mx-2; 
+}
+.loader.large{
+    @apply w-20 h-20; 
+}
+.loader.bigger{
+    @apply w-40 h-40; 
+}
+
+
+/* BACK TO TOP BTN */
+.back-to-top{
+    @apply fixed bottom-10 right-10 rounded hidden justify-center items-center w-10 h-10 z-20 bg-purple stroke-white cursor-pointer;
+}
+
+/* LINK */
+.link{
+    @apply flex max-w-md justify-between items-center rounded p-2 my-3 text-lg shadow-md shadow-transparent-purple border-b-purple border border-t-0 border-x-0;
+}
+.link:hover{
+    @apply bg-transparent-purple;
+}
+.link-brand{
+    @apply flex justify-start items-center;
+}
+.link-brand img{
+    @apply icon mx-2 w-10 h-10;
+}
+
+
+/* ICON */
+.icon{
+    @apply w-5 h-5 inline-block;
+}
+
+.icon.clickable{
+    @apply text-purple transition ease-in-out delay-75;
+}
+.icon.clickable:hover{
+    @apply text-purple-light;
+}
+
+
+/* TEXT */
+.text-link{
+    @apply underline text-purple transition ease-in-out delay-100;
+}
+.text-link:hover{
+    @apply text-purple-light delay-75;
+}
+.text-link.out:after, a[target="_blank"]:after{
+    @apply content-out inline-block w-4 h-4 ml-1;
+}
+.text-link.danger{
+    @apply text-red;
+}
+.text-link.danger:hover{
+    @apply text-red-light;
+}
+
+/* TITLE */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4{
+    @apply font-bold block my-2
+}
+
+h1, .h1{
+    @apply text-3xl;
+}
+h2, .h2{
+    @apply text-2xl;
+}
+h3, .h3{
+    @apply text-xl;
+}
+h4, .h4{
+    @apply text-lg;
+}
+p, .p{
+    @apply text-base my-1;
+}
+.hero{
+    @apply text-5xl font-bold my-4 capitalize block;
+}
+.hero-text{
+    @apply text-2xl block my-2;
+}
+
+.rho{
+    @apply font-mono font-thin slashed-zero text-green text-sm align-middle rounded p-0 m-0;
+}
+.rho:after{
+    @apply content-['ρ']; 
+}

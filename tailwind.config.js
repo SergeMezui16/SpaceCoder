@@ -10,6 +10,22 @@ module.exports = {
     'assets/app.jsx'
   ],
   theme: {
+    screens: {
+      'sm': {'min': '640px'},
+      // => @media (min-width: 640px) { ... }
+
+      'md': {'min': '768px'},
+      // => @media (min-width: 768px) { ... }
+
+      'lg': {'min': '1024px'},
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': {'min': '1280px'},
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': {'min': '1536px'},
+      // => @media (min-width: 1536px) { ... }
+    },
     extend: {
       backgroundImage: {
         'facebook': "url('/public/icons/social/facebook.svg')",
@@ -93,7 +109,8 @@ module.exports = {
         '300': '#C6D0D8',
         '400': '#99ABC9',
         '500': '#3E3D42',
-      }
+      },
+      'vantablack': '#000100'
     }
   },
   plugins: [
@@ -101,5 +118,7 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/aspect-ratio'),
+    require('tailwindcss'),
+    require('autoprefixer'),
   ],
 }

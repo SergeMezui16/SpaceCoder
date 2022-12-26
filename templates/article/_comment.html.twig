@@ -3,7 +3,7 @@
 
 		{% set author = comment.author %}
 
-		<div class="comment main" data-id="{{comment.id}}">
+		<div class="comment main" data-id="{{comment.id}}" id="comment-{{comment.id}}">
 			<div class="comment-info">
 				<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
 				<div class="flex flex-col">
@@ -35,12 +35,12 @@
 			</div>
 		</div>
 
-		{% for reply in comment.replies %}
+		{% for reply in comments %}
 
-			{% if reply.replyTo != null %}
+			{% if reply.replyTo == comment and reply != comment %}
 				{% set author = reply.author %}
 
-				<div class="comment ml-10" data-id="{{reply.id}}">
+				<div class="comment ml-10" data-id="{{reply.id}}" id="comment-{{reply.id}}">
 					<div class="comment-info">
 						<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
 						<div class="flex flex-col">
@@ -63,7 +63,6 @@
 					</div>
 				</div>
 			{% endif %}
-
 		{% endfor %}
 	{% endif %}
 

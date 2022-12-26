@@ -3,34 +3,54 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-{# <pre>
 
-{{ dump(pagination) }}
+{# FILTER #}
+<div class="container m-auto rounded shadow-md mb-5 bg-gray-100">
+	<nav class="breadcrumb w-full p-3">
+        <ul class="breadcrumb-list">
+			<li class="item"><a href="{{ path('home') }}">Acceuil</a></li>
+			<li class="item active">
+				<a href="">Articles</a>
+			</li>
+		</ul>
+    </nav>
 
-</pre> #}
-
-{# total items count #}
-<div class="count">
-	Nombre de resultat : {{ pagination.getTotalItemCount }}
+	<div class="w-full flex items-start justify-center lg:items-center md:justify-start gap-5 lg:gap-10 p-4 flex-col lg:flex-row">
+        <div class="flex-2">
+            <span class="hero">
+            {% if pagination.totalItemCount == 0 %}
+                Articles
+            {% else %}
+                {{ pagination.totalItemCount }} <span class="text-purple">Article{% if pagination.totalItemCount > 1 %}s{% endif %}</span>
+            {% endif %}
+            </span>
+            <span class="hero-text">{% if pagination.totalItemCount != 0 %}Page {{pagination.currentPageNumber}}{% endif %}</span>
+        </div>
+		{% include "article/_filtre.html.twig" %}
+    </div>
 </div>
 
-<div>
-
-	{% include "article/_filtre.html.twig" %}
-
-	<div class="grid grid-cols-4 gap-1">
-		<div class=""></div>
-		<div class=""></div>
-
+{# RESULTS #}
+<div class="container m-auto mb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-2"> 
+	{% if pagination.totalItemCount != 0 %}
 		{% for article in pagination %}
 			{% include "article/_article_card.html.twig" %}
 		{% endfor %}
-	</div>
+	{% else %}
+		<div class="flex flex-col items-center p-4 border bg-gray-100 rounded">
+			<span class="h4 text-purple">Noooppe!!!</span>
+			<span>Aucun article n'a été trouvé pour cette recherche :(</span>
+		</div>
+	{% endif %}
 </div>
 
-{# display navigation #}
-<div class="navigation flex justify-center">
-	{{ knp_pagination_render(pagination) }}
-</div>
+{# PAGINATION #}
+{% if knp_pagination_render(pagination) %}
+	<div class="navigation container m-auto my-10 flex justify-center items-center p-4 border bg-gray-100 rounded">
+		{{ knp_pagination_render(pagination) }}
+	</div>
+{% endif %}
+
+
 
 {% endblock %}

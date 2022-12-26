@@ -4,8 +4,8 @@ namespace App\Authentication\Controller;
 
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Form\ChangePasswordFormType;
-use App\Authentication\Form\Model\ResetPasswordModel;
 use App\Authentication\Form\ResetPasswordRequestFormType;
+use App\Authentication\Model\ResetPasswordModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -157,6 +157,7 @@ class ResetPasswordController extends AbstractController
             ->htmlTemplate('mail/reset_password.html.twig')
             ->context([
                 'resetToken' => $resetToken,
+                'subject' => 'Restauration de mot de passe'
             ])
         ;
 

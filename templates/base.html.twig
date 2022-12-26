@@ -2,6 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#7300C4">
+        <meta name="application-name" content="SpaceCoder">
+
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="/favicon.svg">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -13,7 +18,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="">
         {% for label, messages in app.flashes %}
 
             <span
@@ -24,8 +29,14 @@
             >
 
         {% endfor %}
+
+        {% include "_partials/_header.html.twig" %}
         
-        {% block body %}{% endblock %}
+        <div class="main">
+            {% block body %}{% endblock %}
+        </div>
+
+        {% include "_partials/_footer.html.twig" %}
 
         {# TOAST BOX #}
         <div class="toast-box" is="toast-box"></div>

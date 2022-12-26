@@ -1,4 +1,11 @@
 security:
+
+    role_hierarchy:
+        ROLE_USER: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+        ROLE_PROJET_1: [ROLE_PROJET_1, ROLE_ADMIN, ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_PROJET_1, ROLE_ALLOWED_TO_SWITCH]
+
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 
@@ -18,17 +25,19 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            user_checker: App\Authentication\Security\UserChecker
 
             form_login:
                 login_path: login
                 check_path: login
-                default_target_path: login_success
+                default_target_path: home
+                use_referer: false
                 enable_csrf: true
 
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 31536000
-            
+                lifetime: 31536000 #1 year in second
+
             logout: 
                 path: logout
                 target: login

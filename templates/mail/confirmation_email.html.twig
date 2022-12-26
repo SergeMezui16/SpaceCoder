@@ -1,23 +1,23 @@
-<pre>
-    {{ dump(signedUrl) }}
-</pre>
+{% extends 'mail/base.html.twig' %}
 
-<table>
-	<tr>
-		<td>Lien</td>
-		<td><a href="{{ signedUrl }}">Cliquez !!</a></td>
-	</tr>
-	<tr>
-		<td>Pseudo</td>
-		<td>{{ pseudo }}</td>
-	</tr>
-	<tr>
-		<td>Email</td>
-		<td>{{ emaila }}</td>
-	</tr>
-	<tr>
-		<td>Email</td>
-		<td>{{ expiration }}</td>
-	</tr>
-</table>
+{% block title %}{{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>	
+		<p>Hello, {{pseudo}}.</p>
+		<p>Merci d’avoir créé un compte <strong>SpaceCoder</strong>, mais ce n’est pas terminé !</p>
+		<p>Pour activer votre compte immédiatement, cliquez sur le bouton ci-dessous pour finaliser la création de votre compte.</p>
+		<p class="text-center my-10 flex flex-col gap-2"> 
+			<a class="btn btn-primary" href="{{signedUrl}}">LIEN D'ACTIVATION</a>
+			ou
+			<span class="underline text-purple hover:text-purple-light">{{signedUrl}}</span>
+		</p>
+		<p>Ce lien expire dans {{expiration}} heures à partir du moment où vous avez reçu ce mail.</p>
+		<p>En activant votre compte, vous débuterez avec <span class="rho">10</span> (Rhô), en plus, pour en gagner d’autre, consultez notre site.</p>
+
+		<br>
+		<p>Cordialement, l'equipe SpaceCoder.</p>
+    </main>
+{% endblock %}
 

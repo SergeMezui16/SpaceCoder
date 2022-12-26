@@ -107,7 +107,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
      */
     public function load(Request $request): self
     {
-        $this->addIp($request->server->get('REMOTE_ADDR'));
+        $this->addIp($request->getClientIp());
         $this->lastConnexion = new \DateTimeImmutable();
         if($this->firstConnexion === null) $this->firstConnexion = new \DateTimeImmutable();
 
@@ -143,7 +143,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
 
     /**
      * @see UserInterface
-     * @return Collection<int, Role>
+     * @return array|Collection<int, Role>
      */
     public function getRoles(): array
     {

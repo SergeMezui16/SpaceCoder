@@ -1,10 +1,10 @@
 <?php
 namespace App\Service;
 
-use App\Data\SearchData;
 use App\Entity\Article;
 use App\Entity\Project;
 use App\Entity\Ressource;
+use App\Model\SearchData;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Knp\Component\Pager\PaginatorInterface;

@@ -116,7 +116,8 @@ class AppFixtures extends Fixture
                 ->setContent($fake->text(1000))
                 ->setViews($fake->numberBetween(0, 200))
                 ->setImage($fake->imageUrl(640, 350))
-                ->setSuggestedBy($fake->randomElement($users))
+                ->setAuthor($fake->randomElement([...$users, null]))
+                ->setSuggestedBy($fake->randomElement([...$users, null]))
                 ->setAuthor($fake->randomElement($users))
                 ->setLevel($fake->randomElement([1, 2, 3]))
                 ->setPublishedAt(new DateTimeImmutable())
@@ -127,14 +128,25 @@ class AppFixtures extends Fixture
 
         // COMMENT
         $comments = [];
+        $replies = [];
         for ($i=0; $i < 30; $i++) { 
             $comments[] = $comment = (new Comment())
                 ->setArticle($fake->randomElement($articles))
-                ->setAuthor($fake->randomElement($users))
-                ->setReplyTo($fake->randomElement([$fake->randomElement($comments), null]))
+                ->setAuthor($fake->randomElement([...$users, null]))
                 ->setContent($fake->sentence(10, true))
             ;
+            
+            for ($i=0; $i < mt_rand(0, 4); $i++) {
+                $replies[] = $reply = (new Comment())
+                    ->setArticle($comment->getArticle())
+                    ->setAuthor($fake->randomElement([...$users, null]))
+                    ->setContent($fake->sentence(10, true))
+                ;
+                $comment->setReplyTo($reply);
+            }
+            
             $manager->persist($comment);
+            $manager->persist($reply);
         }
 
         // PROJECT

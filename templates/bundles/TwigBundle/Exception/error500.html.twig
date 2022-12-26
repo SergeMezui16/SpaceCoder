@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ereur 500{% endblock %}
+
+{% block body %}
+    <div class="container m-auto bg-gray-100 text-gray-500 p-2 md:p-10 flex flex-col mt-10 shadow-md rounded">
+
+        <p class="text-4xl text-center m-10 font-black text-purple">500.</p>
+
+        <h1 class="text-purple">Nooooope !!!</h1>
+        <h2>Une erreur est survenu lors du chargement de votre page.</h2>
+
+        {# <img src="/image/boy.png" alt="boy"> #}
+        
+        <p class="hero-text">
+            Vous vous êtes perdu dans le cosmos, veuillez utiliser notre vaisseau de secours pour rejoindre la terre.
+        </p>
+        <p><a href="{{path('home')}}" class="btn btn-primary">REVENIR A LA PAGE D'ACCEUIL</a></p>
+    </div>
+{% endblock %}

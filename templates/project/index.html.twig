@@ -8,17 +8,36 @@
 {# <pre>
     {{ dump(projects) }}
 </pre> #}
+{# FILTER #}
+{% set count = projects | length %}
+<div class="container m-auto rounded shadow-md mb-5 bg-gray-100">
+	<nav class="breadcrumb w-full p-3">
+        <ul class="breadcrumb-list">
+			<li class="item"><a href="{{ path('home') }}">Acceuil</a></li>
+			<li class="item active">
+				<a href="">Projets</a>
+			</li>
+		</ul>
+    </nav>
 
+	<div class="w-full flex items-start justify-center lg:items-center md:justify-start gap-5 lg:gap-10 p-4 flex-col lg:flex-row">
+        <div class="flex-2">
+            <span class="hero">
+            {% if count == 0 %}
+                Projet
+            {% else %}
+                {{ count }} <span class="text-purple">Projet{% if count > 1 %}s{% endif %}</span>
+            {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
 
-<div>
-	<div class="grid grid-cols-4 gap-1">
-		<div class=""></div>
-		<div class=""></div>
-
-		{% for project in projects %}
-			{% include "project/_project_card.html.twig" %}
-		{% endfor %}
-	</div>
+{# RESULTS #}
+<div class="container m-auto mb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-2"> 
+	{% for project in projects %}
+		{% include "project/_project_card.html.twig" %}
+	{% endfor %}
 </div>
 
 

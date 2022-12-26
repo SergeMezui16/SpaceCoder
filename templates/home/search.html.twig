@@ -3,60 +3,95 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-Resultats : {{ search.totalItem }}
-<br>
-Page : {{ search.currentPage }}
 
+<div class="container m-auto rounded shadow-md mb-5 bg-gray-100">
+    <nav class="breadcrumb w-full p-3">
+        <ul class="breadcrumb-list">
+			<li class="item"><a href="{{ path('home') }}">Acceuil</a></li>
+			<li class="item active">
+				<a href="">Recherche</a>
+			</li>
+		</ul>
+    </nav>
 
-<div class="container m-auto">
-    <form action="">
-        <input type="search" name="q" placeholder="Rechercher" value="{{ search.q }}" class="form-input">
-    </form>
+    <div class="w-full flex md:items-center gap-5 p-4 md:flex-row flex-col">
+        <div class="flex-2">
+            <span class="hero">
+            {% if search.totalItem == 0 %}
+                Recherchez
+            {% else %}
+                {{ search.totalItem }} <span class="text-purple">Résultat{% if search.totalItem > 1 %}s{% endif %}</span>
+            {% endif %}
+            </span>
+            <span class="hero-text">{% if search.totalItem != 0 %}Page {{search.currentPage}}{% endif %}</span>
+        </div>
+        <form action="" class="search flex-1">
+            <input type="search" name="q" placeholder="Rechercher" value="{{ search.q }}" class="form-input">
+            <button class="">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                </svg>
+            </button>
+        </form>
+    </div>
 </div>
 
-
-
-
-{% if search.data %}
-    <div class="">
+{# RESULTS #}
+<div class="container m-auto rounded mb-5 flex flex-col gap-4 text-gray-500">
+    {% if search.data %}
         {% for item in search.data %}
             {% set class = item[0] %}
             {% set item = item[1] %}
 
             {% if class == 'Article' %}
-                <div class="art my-5 bg-gray-200">
-                    <p>{{item.title}}</p>
-                    <p>{{item.description}}</p>
-                    <p>{{item.updateAt | date()}}</p>
-                </div>
+                <a 
+                    class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
+                    href="{{ path('article_detail', {slug: item.slug}) }}"
+                >
+                    <span class="h4">{{item.title}}</span>
+                    <span class="">Article | {{item.updateAt | date('d/m/Y')}}</span>
+                    <span class="">{{item.description}}</span>
+                </a>
 
             {% elseif class == 'Ressource' %}
-                <div class="res my-5 bg-gray-200">
-                    <p>{{item.name}}</p>
-                    <p>{{item.description}}</p>
-                    <p>{{item.updateAt | date()}}</p>
-                </div>
+                <a 
+                    class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
+                    href="{{ path('ressource_visit', {slug: item.slug}) }}"
+                >
+                    <span class="h4">{{item.name}}</span>
+                    <span class="">Ressource | {{item.updateAt | date('d/m/Y')}}</span>
+                    <span class="">{{item.description}}</span>
+                </a>
 
             {% elseif class == 'Project' %}
-                <div class="pro my-5 bg-gray-200">
-                    <p>{{item.name}}</p>
-                    <p>{{item.description}}</p>
-                    <p>{{item.updateAt | date()}}</p>
-                </div>
-            {% else %}
-                {{item}} 4 <br>
+                <a 
+                    class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
+                    href="{{ path('project_view', {slug: item.slug}) }}"
+                >
+                    <span class="h4">{{item.name}}</span>
+                    <span class="">Projet | {{item.updateAt | date('d/m/Y')}}</span>
+                    <span class="">{{item.description}}</span>
+                </a>
             {% endif %}
 
+
         {% endfor %}
+    {% else %}
+    <div class="flex flex-col items-center p-4 border bg-gray-100 rounded">
+        <img src="/image/boy.png" alt="Not found">
+        <span class="h4 text-purple">Noooppe!!!</span>
+        <span>Aucun résultat n'a été trouvé pour cette recherche :(</span>
     </div>
-{% else %}
-    <div>Aucun resultats pour : <strong><em>{{ search.q }}</em></strong></div>
-{% endif %}
+    {% endif %}
+</div>
 
-
-<div class="navigation flex justify-center">
+{# PAGINATION #}
+{% if knp_pagination_render(search.pagination) %}
+<div class="navigation container m-auto my-10 flex justify-center items-center p-4 border bg-gray-100 rounded">
 	{{ knp_pagination_render(search.pagination) }}
 </div>
+{% endif %}
+
 
 
 {% endblock %}
