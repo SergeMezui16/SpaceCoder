@@ -49,4 +49,15 @@ class MailController extends AbstractController
             'domain' => 'http://localhost:8000'
         ]);
     }
+
+
+    #[Route('/check-your-mail', name: 'mail_check')]
+    public function checkYourMail(): Response
+    {
+        return $this->render('authentication/registration/check_email.html.twig', [
+            'pseudo' => 'Serge',
+            'subject' => 'Mot de passe changé avec succes',
+            'domain' => 'http://localhost:8000'
+        ]);
+    }
 }

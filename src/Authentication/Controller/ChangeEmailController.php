@@ -5,14 +5,12 @@ namespace App\Authentication\Controller;
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Form\ChangeEmailType;
 use App\Authentication\Repository\UserAuthenticationRepository;
+use App\Service\MailMakerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
@@ -24,7 +22,7 @@ class ChangeEmailController extends AbstractController
         private VerifyEmailHelperInterface $verifyEmailHelper, 
         private UserAuthenticationRepository $userRepository,
         private EntityManagerInterface $manager,
-        private MailerInterface $mailer
+        private MailMakerService $mailer
     )
     {}
 
@@ -45,27 +43,21 @@ class ChangeEmailController extends AbstractController
                 $auth->getUser()->getId(),
                 $auth->getEmail()
             );
-            
-            $email = new TemplatedEmail();
-            $email->from(new Address('send@example.com'));
-            $email->to(new Address($auth->getEmail()));
-            $email->subject('Confirmation d\'adresse');
-            $email->htmlTemplate('mail/confirmation_email.html.twig');
-            $email->context([
-                'signedUrl' => $signatureComponents->getSignedUrl(),
-                'pseudo' => $auth->getUser()->getPseudo(),
-                'emaila' => $auth->getEmail(),
-                'expiration' => 1
-            ]);
 
             $auth->setBlocked(true);
 
             $this->manager->persist($auth);
             $this->manager->flush();
-            
-            $this->mailer->send($email);
 
-            return $this->render('authentication/check_email.html.twig');
+            $this->mailer->make($auth->getEmail(), 'Confirmation d\'adresse', 'mail/confirmation_email.html.twig', [
+                'signedUrl' => $signatureComponents->getSignedUrl(),
+                'pseudo' => $auth->getUser()->getPseudo(),
+                'expiration' => 1
+            ])->send();
+
+            return $this->render('authentication/change_email/check_email.html.twig', [
+                'pseudo' => $auth->getUser()->getPseudo()
+            ]);
         }
 
         return $this->render('authentication/change_email/index.html.twig', [

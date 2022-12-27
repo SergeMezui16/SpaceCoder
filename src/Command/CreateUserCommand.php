@@ -116,7 +116,7 @@ class CreateUserCommand extends Command
         $event = $stopwatch->stop('create-user-command');
 
         if ($output->isVerbose()) {
-            $this->io->comment(sprintf('New user database id: %d / Elapsed time: %.2f ms / Consumed memory: %.2f MB', 10, $event->getDuration(), $event->getMemory() / (1024 ** 2)));
+            $this->io->comment(sprintf('New user database id: %d / Elapsed time: %.2f ms / Consumed memory: %.2f MB', $auth->getId(), $event->getDuration(), $event->getMemory() / (1024 ** 2)));
         }
 
         return Command::SUCCESS;

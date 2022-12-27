@@ -19,7 +19,7 @@ export default class ToastBox extends HTMLDivElement {
     getToasts () {
         return Array.from(document.querySelectorAll('.js-toast'))
             .map( (e) => {
-                return {title: e.dataset.title, content: e.dataset.content, feed: e.dataset.feed}
+                return {title: document.title, content: e.dataset.content, feed: e.dataset.feed}
         })
 
     } 

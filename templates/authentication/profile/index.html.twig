@@ -5,7 +5,7 @@
 {% block body %}
 
 {# CONTAINER #}
-<div class="container m-auto bg-gray-100 text-gray-500 p-5 mb-5">
+<div class="container m-auto bg-gray-100 text-gray-500 p-5 my-5 rounded shadow-md">
 
 	<nav class="breadcrumb">
 		<ul class="breadcrumb-list">
@@ -41,7 +41,7 @@
 				<img src="" loading="lazy" class="block rounded absolute bottom-3 right-3" title="{{user.country}}" width="35px" is="country-flag" data-country="{{user.country}}" data-type="png"/>
 			</div>
 			<p>{{user}} • <span class="rho">{{user.coins}}</span></p>
-			<p class="text-center px-2 italic">Lorem ipsum dolor sit amet consectet laudantium fugit maxime, nesciunt debitis rem nihil repellat consectetur voluptatum.</p>
+			<p class="text-center px-2 italic">{% if user.bio %}{{user.bio}}{% endif %}</p>
 		</div>
 		{# DATA #}
 		{% if user == app.user.user %}
@@ -73,7 +73,7 @@
 			{% for comment in user.comments %}
 				{% set author = user %}
 
-				<div class="comment main" data-id="{{comment.id}}">
+				<div class="comment" data-id="{{comment.id}}">
 					<div class="comment-info">
 						<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
 						<div class="flex flex-col">

@@ -2,3 +2,7 @@ framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
         message_bus: false
+        envelope:
+            sender: 'noreply@spacecoder.fun'
+        headers:
+            From: 'Team SpaceCoder <noreply@spacecoder.fun>'

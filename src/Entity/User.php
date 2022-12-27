@@ -81,6 +81,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: false)]
     private Collection $comments;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bio = null;
+
     public function __construct()
     {
         $this->suggestions = new ArrayCollection();
@@ -359,6 +362,18 @@ class User
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
 
         return $this;
     }

@@ -6,15 +6,14 @@ use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Form\ChangePasswordFormType;
 use App\Authentication\Form\ResetPasswordRequestFormType;
 use App\Authentication\Model\ResetPasswordModel;
+use App\Service\MailMakerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -30,7 +29,8 @@ class ResetPasswordController extends AbstractController
 
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private MailMakerService $mailer
     ) {}
 
     /**
@@ -68,7 +68,7 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('authentication/reset_password/check_email.html.twig', [
-            'resetToken' => $resetToken,
+            'resetToken' => $resetToken
         ]);
     }
 
@@ -79,10 +79,7 @@ class ResetPasswordController extends AbstractController
     public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
     {
         if ($token) {
-            // We store the token in session and remove it from the URL, to avoid the URL being
-            // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
             $this->storeTokenInSession($token);
-
             return $this->redirectToRoute('reset_password_reset');
         }
 
@@ -108,10 +105,8 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
-            // Encode(hash) the plain password, and set it.
             $encodedPassword = $passwordHasher->hashPassword(
                 $user,
                 $form->get('newPassword')->getData()
@@ -120,7 +115,10 @@ class ResetPasswordController extends AbstractController
             $user->setPassword($encodedPassword);
             $this->entityManager->flush();
 
-            // Envoyer un mail de confirmation de mot de passe changé
+            $this->mailer->make($user->getEmail(), 'Mot de passe changé avec succes', 'mail/password_changed.html.twig', [
+                'pseudo' => $user->getUser()->getPseudo(),
+                'subject' => 'Mot de passe changé avec succes'
+            ])->send();
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
@@ -133,7 +131,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
+    private function processSendingPasswordResetEmail(string $emailFormData): RedirectResponse
     {
         $user = $this->entityManager->getRepository(UserAuthentication::class)->findOneBy([
             'email' => $emailFormData,
@@ -150,18 +148,10 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('reset_check_email');
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('noreply@spacecoder.fun', 'Team SpaceCoder'))
-            ->to($user->getEmail())
-            ->subject('Votre demande de restauration de mot de passe')
-            ->htmlTemplate('mail/reset_password.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-                'subject' => 'Restauration de mot de passe'
-            ])
-        ;
-
-        $mailer->send($email);
+        $this->mailer->make($user->getEmail(), 'Votre demande de restauration de mot de passe', 'mail/reset_password.html.twig', [
+            'resetToken' => $resetToken,
+            'subject' => 'Restauration de mot de passe'
+        ])->send();
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

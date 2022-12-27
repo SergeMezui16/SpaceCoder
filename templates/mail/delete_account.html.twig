@@ -1,0 +1,22 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}{{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>
+		<p>Hello, {{pseudo}}.</p>
+		<p>Nous vous informons qu'une procédure de suppression de votre a été lancée.</p>
+		<p>Nous vous rappelons que vous pouvez l'annuler à tout moment en vous connectant au site.</p>
+		<p class="text-center">
+			<a href="{{ absolute_url(path('login')) }}" class="btn btn-primary mt-3">SE CONNECTER</a>
+		</p>
+		<p>Vous disposez donc de 30 jours pour le faire.</p>
+		<p>Passé ce délai votre compte sera définitivement supprimé de notre site.</p>
+
+		<br>
+		<p>Cordialement, l'equipe SpaceCoder.</p>
+    </main>
+
+{% endblock %}
+

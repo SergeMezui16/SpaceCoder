@@ -5,14 +5,12 @@ namespace App\Authentication\Controller;
 use App\Authentication\Form\RegistrationType;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\MailMakerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -23,14 +21,13 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper, 
-        private MailerInterface $mailer, 
+        private VerifyEmailHelperInterface $verifyEmailHelper,
         private UserRepository $userRepository
     ){}
 
     
     #[Route('/register', name: 'registration')]
-    public function register(Request $request, UserPasswordHasherInterface $encoder): Response
+    public function register(Request $request, UserPasswordHasherInterface $encoder, MailMakerService $mailer): Response
     {
 
         $user = new User();
@@ -56,22 +53,16 @@ class RegistrationController extends AbstractController
                 $auth->getEmail(),
                 ['id' => $user->getId()]
             );
-            
-            $email = new TemplatedEmail();
-            $email->from(new Address('send@example.com'));
-            $email->to(new Address($auth->getEmail()));
-            $email->subject('Confirmation d\'adresse');
-            $email->htmlTemplate('mail/confirmation_email.html.twig');
-            $email->context([
+
+            $mailer->make($auth->getEmail(), 'Confirmation d\'adresse', 'mail/confirmation_email.html.twig', [
                 'signedUrl' => $signatureComponents->getSignedUrl(),
                 'pseudo' => $user->getPseudo(),
-                'emaila' => $auth->getEmail(),
                 'expiration' => 1
-            ]);
-            
-            $this->mailer->send($email);
+            ])->send();
 
-            return $this->render('authentication/registration/check_email.html.twig');
+            return $this->render('authentication/registration/check_email.html.twig', [
+                'pseudo' => $user->getPseudo()
+            ]);
         }
 
         return $this->render('authentication/registration/index.html.twig', [

@@ -1,4 +1,9 @@
-@import 'custom.css';
+/* TAILWIND */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
 @import 'https://fonts.googleapis.com/css2?family=Noto+Sans&wght@500&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap';
 /* ****************************************************** */

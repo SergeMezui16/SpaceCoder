@@ -5,12 +5,12 @@ namespace App\Authentication\Form;
 use App\Entity\User;
 use App\Service\ConfigureTypeService;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class EditProfileType extends AbstractType
 {
@@ -33,6 +33,11 @@ class EditProfileType extends AbstractType
                 'bornAt', 
                 DateType::class, 
                 $this->typer->setDateConfiguration('Date de naissance', required: false)
+            )
+            ->add(
+                'bio',
+                TextareaType::class,
+                $this->typer->setConfiguration('Bio', options:['maxlength' => 255])
             )
         ;
     }

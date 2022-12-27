@@ -1,4 +1,8 @@
-@import 'custom.css';
+/* TAILWIND */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
 
 
 

@@ -3,10 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Spacecoder | Mail{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('mail') }}
-        {% endblock %}
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#7300C4">
+        <meta name="application-name" content="SpaceCoder">
+
+        <link rel="stylesheet" href="{{ absolute_url(asset('build/mail.css')) }}">
+
     </head>
     <body class="main">
         {% include "mail/_partials/_header.html.twig" %}

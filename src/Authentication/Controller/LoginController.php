@@ -20,7 +20,7 @@ class LoginController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
         $this->saveTargetPath($request->getSession(), 'main', $request->server->get('HTTP_REFERER', $this->generateUrl('home')));
-        
+
         return $this->render('authentication/login.html.twig', [
             'last_email' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),

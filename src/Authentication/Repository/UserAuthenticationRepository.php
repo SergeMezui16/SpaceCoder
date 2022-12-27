@@ -56,6 +56,16 @@ class UserAuthenticationRepository extends ServiceEntityRepository implements Pa
         $this->add($user, true);
     }
 
+    public function findAllDeleted(): array
+    {
+        return $this->createQueryBuilder('u')
+           ->andWhere('u.deletedAt <= :val')
+           ->setParameter('val', new \DateTimeImmutable())
+           ->getQuery()
+           ->getResult()
+       ;
+    }
+
 //    /**
 //     * @return UserAuthentication[] Returns an array of UserAuthentication objects
 //     */

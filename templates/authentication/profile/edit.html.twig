@@ -3,7 +3,7 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
-<div class="container m-auto rounded bg-gray-100">
+<div class="container m-auto rounded bg-gray-100 shadow-md my-5">
     <nav class="breadcrumb w-full p-5">
         <ul class="breadcrumb-list">
 			<li class="item"><a href="{{ path('home') }}">Acceuil</a></li>
@@ -15,7 +15,7 @@
     </nav>
 </div>
 
-<div class="container m-auto rounded p-4 bg-gray-100 flex flex-col items-center justify-center h-full"> 
+<div class="container m-auto rounded shadow-md p-4 bg-gray-100 flex flex-col items-center justify-center h-full"> 
     <form action="" method="post" enctype="multipart/form-data" class="flex flex-col gap-4 md:flex-row">
         {{ form_start(form) }}
         {{ form_row(form._token) }}
@@ -26,7 +26,12 @@
                 <img src="{% if user.avatar %}{{user.avatar}}{% else %}/favicon.svg{% endif %}" alt="avatar edit big" title="avatar edit big" class="avatar big"/>
             </div>
             <div style="display:none;">
-                {{ form_widget(form.avatar) }}
+                {% if user.avatar %}
+                    {{ form_widget(form.avatar, {'attr': {'value': user.avatar }}) }}
+                {% else %}
+                    {{ form_widget(form.avatar) }}
+                {% endif %}
+
             </div>
             {{ form_errors(form.avatar) }}
             {{ form_help(form.avatar) }}
@@ -43,6 +48,12 @@
                 {{ form_label(form.country) }}
                 {{ form_widget(form.country) }}
                 {{ form_errors(form.country) }}
+            </div>
+
+            <div class="form-control {% if form_errors(form.bio) %} invalid {% endif %}">
+                {{ form_label(form.bio) }}
+                {{ form_widget(form.bio) }}
+                {{ form_errors(form.bio) }}
             </div>
 
 

@@ -79,6 +79,10 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     )]
     public ?string $confirmPassword;
 
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deletedAt = null;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
@@ -327,6 +331,18 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }

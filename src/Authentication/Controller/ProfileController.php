@@ -9,14 +9,13 @@ use App\Authentication\Form\EditProfileType;
 use App\Authentication\Model\ChangePasswordModel;
 use App\Entity\User;
 use App\Service\AvatarUploaderService;
+use App\Service\MailMakerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -26,31 +25,37 @@ class ProfileController extends AbstractController
 
     public function __construct(
         private EntityManagerInterface $manager,
-        private MailerInterface $mailer
+        private MailMakerService $mailer,
+        private TokenStorageInterface $tokenStorage
     ){}
 
     #[Route('/edit', name: 'profile_edit')]
     #[IsGranted('IS_AUTHENTICATED')]
     public function edit(Request $request, AvatarUploaderService $uploader): Response
     {
-        /** @var UserAuthentication */
+        /** @var UserAuthentication $auth */
         $auth = $this->getUser();
         $user = $auth->getUser();
-        
+        $oldAvatar = $user->getAvatar();
+
         $form = $this->createForm(EditProfileType::class, $user);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
-            /** @var UploadedFile $brochureFile */
+            /** @var UploadedFile $avatar */
             $avatar = $form->get('avatar')->getData();
 
-            if($avatar){
+            if($avatar === null){
+                $user->setAvatar($oldAvatar);
+            } else{
                 $user->setAvatar($uploader->upload($avatar, $user->getPseudo()));
             }
 
             $this->manager->persist($user);
             $this->manager->flush();
+
+            $this->addFlash('success', 'Vos informations ont bien été mis à jour !');
 
         }
 
@@ -78,68 +83,50 @@ class ProfileController extends AbstractController
             $this->manager->persist($auth);
             $this->manager->flush();
 
-            $email = new TemplatedEmail();
-            $email->from(new Address('send@example.com'));
-            $email->to(new Address($auth->getEmail()));
-            $email->subject('Mot de passe changé avec succes');
-            $email->htmlTemplate('mail/password_changed.html.twig');
-            $email->context([
+            $this->mailer->make($auth->getEmail(), 'Mot de passe changé avec succes', 'mail/password_changed.html.twig', [
                 'pseudo' => $auth->getUser()->getPseudo(),
-                'subject' => 'Mot de passe changé avec succes',
-                'domain' => 'localhost:8000'
-            ]);
+                'subject' => 'Mot de passe changé avec succes'
+            ])->send();
 
-            $this->mailer->send($email);
+            // Remove Session
+            $request->getSession()->invalidate();
+            $this->tokenStorage->setToken();
 
-            $this->addFlash('info', 'Mot de passe changé avec succes.');
+            $this->addFlash('success', 'Mot de passe changé avec succes. Veuillez vous connecter avec vos nouveaux identifiants.');
 
-            return $this->redirectToRoute('profile', ['slug' => $auth->getUser()->getSlug()]);
+            return $this->redirectToRoute('logout');
 
         }
 
         return $this->render('authentication/profile/change_password.html.twig', [
             'title' => 'Changer de mot de passe',
-            'form' => $form->createView(),
-            'myPass' => 'rcb5mP7q8yxgtaY?'
+            'form' => $form->createView()
         ]);
     }
 
 
     #[Route('/delete', name: 'profile_delete')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function delete(Request $request, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function delete(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DeleteUserAccountType::class);
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-            /** @var UserAuthentication */
+            /** @var UserAuthentication $auth */
             $auth = $this->getUser();
             
-            foreach ($auth->getUser()->getComments() as $comment) {
-                $comment->setAuthor(null);
-            }
+            $auth->setDeletedAt(new \DateTimeImmutable('+30 days'));
 
-            foreach ($auth->getUser()->getSuggestions() as $article) {
-                $article->setSuggestedBy(null);
-            }
-
-            foreach ($auth->getUser()->getArticles() as $article) {
-                $article->setAuthor(null);
-            }
-
+            $entityManager->persist($auth);
             $entityManager->flush();
 
-            $entityManager->remove($auth->getUser());
-            $entityManager->remove($auth);
-
-            $entityManager->flush();
-
-            // Remove Session
-            $request->getSession()->invalidate();
-            $tokenStorage->setToken();
+            $this->mailer->make($auth->getEmail(), 'Processus de suppression de compte lancée', 'mail/delete_account.html.twig', [
+                'pseudo' => $auth->getUser()->getPseudo(),
+                'subject' => 'Processus de suppression de compte lancée'
+            ])->send();
             
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('logout');
         }
         
         return $this->render('authentication/profile/delete.html.twig', [

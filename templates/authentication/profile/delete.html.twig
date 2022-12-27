@@ -3,7 +3,7 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-<div class="container m-auto rounded bg-gray-100">
+<div class="container m-auto rounded shadow-md bg-gray-100">
     <nav class="breadcrumb w-full p-5">
         <ul class="breadcrumb-list">
 			<li class="item"><a href="{{ path('home') }}">Acceuil</a></li>
@@ -15,13 +15,13 @@
     </nav>
 </div>
 
-<div class="container m-auto rounded flex flex-col md:flex-row gap-4 p-4 bg-gray-100">
+<div class="container m-auto rounded shadow-md flex flex-col md:flex-row gap-4 p-4 bg-gray-100">
     <div class="flex-1 flex flex-col items-start justify-start p-3 text-gray-500">
         <h3>Supprimer mon compte.</h3>
         <hr class="w-full mb-4">
         <p>Vous pouvez supprimer votre compte à tous moment.</p>
         <p>Pour le faire il suffit de renseigner votre mot de passe et de soumetre le formulaire.</p>
-		<p>Une fois votre compte supprimé vous ne pourrez plus le restaurer.</p>
+		<p>Une fois votre compte supprimé vous disposez de 30 jours pour le restaurer. Une connexion au site suffit pour le faire.</p>
 		<p>Toutes vos données seront supprimés de notre application. Neammoins vos commentaires ainsi que leurs metadonnées seront conservé sans votre nom.</p>
     </div>
     <form action="" method="post" class="flex justify-center items-center flex-1 py-7">
