@@ -1,0 +1,40 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}{{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>
+		<p>Hello, Admin.</p>
+
+        <p class="flex flex-col my-4">
+            <span class="font-bold">Nom :</span>
+            <span class="italic">{{contact.name}}</span>
+        </p>
+        <p class="flex flex-col my-4">
+            <span class="font-bold">Email :</span>
+            <span class="italic">{{contact.email}}</span>
+        </p>
+        <p class="flex flex-col my-4">
+            <span class="font-bold">Objet :</span>
+            <span class="italic">{{contact.object}}</span>
+        </p>
+        <p class="flex flex-col my-4">
+            <span class="font-bold">Message :</span>
+            <span class="italic">{{contact.message}}</span>
+        </p>
+        <p class="flex flex-col my-4">
+            <span class="font-bold">Envoyé à :</span>
+            <span class="italic">{{contact.createAt | date('d/m/Y - h:i:s')}}</span>
+        </p>
+
+		<p class="text-center">
+			<a href="{{ absolute_url(path('admin')) }}" class="btn btn-primary mt-3">SE CONNECTER</a>
+		</p>
+
+		<br>
+		<p>Cordialement, l'equipe SpaceCoder.</p>
+    </main>
+
+{% endblock %}
+

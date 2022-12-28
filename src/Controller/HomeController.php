@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Form\ContactType;
 use App\Service\ConfigurationService;
 use App\Service\MailMakerService;
 use App\Service\SearchService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +32,41 @@ class HomeController extends AbstractController
             'search' => $searchService->search($request->query->get('q', ''), $request->query->getInt('page', 1), 50, 10)
         ]);
     }
-    
+
+    #[Route('/contact', name: 'contact')]
+    public function contact(Request$request, MailMakerService $mailer, EntityManagerInterface $em): Response
+    {
+        $contact = new Contact();
+
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $contact
+                ->setCreateAt(new \DateTimeImmutable())
+                ->setUpdateAt(new \DateTimeImmutable())
+            ;
+            
+            $em->persist($contact);
+            $em->flush();
+
+            $mailer->make('contact@spacecoder.fun', 'Contact - SpaceCoder', 'mail/contact.html.twig', [
+                'contact' => $contact,
+                'Subject' => 'Contact',
+            ])->send();
+
+            $this->addFlash('success', 'Votre message a été envoyé avec success.');
+
+            $contact = new Contact();
+            $form = $this->createForm(ContactType::class, $contact);
+        }
+
+        return $this->render('home/contact.html.twig', [
+            'title' => 'Contact',
+            'form' => $form->createView()
+        ]);
+    }
+
 
     #[Route('/terms-and-conditions', name: 'terms')]
     public function terms(): Response

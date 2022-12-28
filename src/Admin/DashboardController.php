@@ -7,6 +7,7 @@ use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Configuration;
+use App\Entity\Contact;
 use App\Entity\Project;
 use App\Entity\Ressource;
 use App\Entity\User;
@@ -87,6 +88,9 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Projet', 'fa fa-building', Project::class)->setPermission('ROLE_ADMIN');
             yield MenuItem::linkToCrud('Ressource', 'fas fa-database', Ressource::class)->setPermission('ROLE_ADMIN');
 
+        yield MenuItem::section('Autres');
+            yield MenuItem::linkToCrud('Contact', 'fa fa-address-book', Contact::class)->setPermission('ROLE_ADMIN');
+            
         yield MenuItem::section('Paramétrages');
             yield MenuItem::linkToCrud('Configuration', 'fa fa-toolbox', Configuration::class)->setPermission('ROLE_ADMIN');
             yield MenuItem::linkToUrl('Retourner au site', 'fa-solid fa-rotate-left', '/');
