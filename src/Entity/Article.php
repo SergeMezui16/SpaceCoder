@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use App\Model\SearchItemModel;
 use App\Repository\ArticleRepository;
 use App\Traits\GenerateSlugTrait;
 use App\Traits\PrePersistTrait;
@@ -78,6 +79,19 @@ class Article
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getSearchItem(int $id): SearchItemModel
+    {
+        return
+            (new SearchItemModel())
+                ->setId($id)
+                ->setTitle($this->title)
+                ->setNature('Article')
+                ->setPublishedAt($this->publishedAt)
+                ->setDescription($this->description)
+                ->setUrl($this->slug)
+        ;
     }
 
     /**

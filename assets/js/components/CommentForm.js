@@ -50,6 +50,7 @@ export default class CommentForm extends HTMLFormElement
                 this.selectInput.selectedIndex = option.index
                 this.reply.removeAttribute('style')
                 this.loadInput()
+                this.querySelector('textarea').focus()
             }
         })
 

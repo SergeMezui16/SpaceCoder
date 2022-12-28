@@ -5,12 +5,10 @@ namespace App\Controller;
 use App\Service\ConfigurationService;
 use App\Service\MailMakerService;
 use App\Service\SearchService;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -18,11 +16,6 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(ConfigurationService $config, MailMakerService $mailer, MailerInterface $mailerInterface): Response
     {
-        // $mailer->make('serge@mezui.com', 'Sujet', 'mail/delete_account.html.twig', [
-        //     'subject' => 'serge'
-        // ])->send();
-        
-        
         return $this->render('home/index.html.twig', [
 
         ]);

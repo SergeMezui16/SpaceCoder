@@ -7,6 +7,7 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
+use App\Service\EntityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,13 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
+    public function __construct(private EntityService $entityService) {}
+    
     #[Route('/', name: 'article')]
     public function list(PaginatorInterface $paginator, Request $request, ArticleRepository $articleRepository): Response
     {
         $pagination = $paginator->paginate(
             $articleRepository->findAllPublishedQuery($request->query->get('q', '')),
             $request->query->getInt('page', 1),
-            10
+            12
         );
         
         return $this->render('article/index.html.twig', [
@@ -33,11 +36,17 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{slug}', 'article_detail')]
-    public function detail(Article $article, Request $request, EntityManagerInterface $entityManager): Response
+    public function detail(
+        Article $article, 
+        Request $request, 
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
+        
+        $this->entityService->incrementArticleViews($article);
 
         if($form->isSubmitted() && $form->isValid()){
 
@@ -59,7 +68,6 @@ class ArticleController extends AbstractController
         }
 
         return $this->render('article/detail.html.twig', [
-            'title' => $article->getSlug(),
             'article' => $article,
             'comments' => $article->getComments(),
             'form' => $form->createView()

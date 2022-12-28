@@ -9,6 +9,26 @@
 
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="/favicon.svg">
+
+        {% block meta %}
+        <meta name="title" content="SpaceCoder">
+        <meta name="description" content="Rejoignez le voyage à travers le web et partagez librement vos idées, ici on vous écoute !">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{absolute_url(app.request.pathInfo)}}">
+        <meta property="og:title" content="SpaceCoder">
+        <meta property="og:description" content="Rejoignez le voyage à travers le web et partagez librement vos idées, ici on vous écoute !">
+        <meta property="og:image" content="{{absolute_url(asset('favicon.svg'))}}">
+
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{absolute_url(app.request.pathInfo)}}">
+        <meta property="twitter:title" content="SpaceCoder">
+        <meta property="twitter:description" content="Rejoignez le voyage à travers le web et partagez librement vos idées, ici on vous écoute !">
+        <meta property="twitter:image" content="{{absolute_url(asset('favicon.svg'))}}">
+        {% endblock %}
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}

@@ -61,7 +61,7 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('description', "%$q%")
                 ->orderBy('a.title', 'ASC');
         } else{
-            $queryBuilder->orderBy('a.updateAt', 'DESC');
+            $queryBuilder->orderBy('a.publishedAt', 'DESC');
         }
 
         return $queryBuilder->getQuery();

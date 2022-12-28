@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\SearchItemModel;
 use App\Repository\RessourceRepository;
 use App\Traits\GenerateSlugTrait;
 use App\Traits\PrePersistTrait;
@@ -51,6 +52,17 @@ class Ressource
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getSearchItem(int $id): SearchItemModel
+    {
+        return (new SearchItemModel())
+            ->setId($id)
+            ->setTitle($this->name)
+            ->setNature('Ressource')
+            ->setPublishedAt($this->createAt)
+            ->setDescription($this->description)
+            ->setUrl($this->slug);
     }
 
     public function getId(): ?int

@@ -2,6 +2,7 @@
 
 namespace App\Twig\Runtime;
 
+use App\Utils\DateFormatUtil;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class SinceFormatRuntime implements RuntimeExtensionInterface
@@ -13,6 +14,6 @@ class SinceFormatRuntime implements RuntimeExtensionInterface
 
     public function sinceFormat(\DateTimeImmutable $date)
     {
-        return $date->getTimestamp();
+        return DateFormatUtil::since($date);
     }
 }

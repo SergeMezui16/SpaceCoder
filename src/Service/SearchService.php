@@ -1,31 +1,23 @@
 <?php
 namespace App\Service;
 
-use App\Entity\Article;
-use App\Entity\Project;
-use App\Entity\Ressource;
 use App\Model\SearchData;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query;
+use App\Model\SearchItemModel;
+use App\Repository\ArticleRepository;
+use App\Repository\ProjectRepository;
+use App\Repository\RessourceRepository;
+use function PHPUnit\Framework\returnSelf;
+
 use Knp\Component\Pager\PaginatorInterface;
 
 class SearchService
 {
 
-    /**
-     * Entity Class
-     *
-     * @var array
-     */
-    private array $dataClass = [
-        Article::class => 'Article',
-        Ressource::class => 'Ressource',
-        Project::class => 'Project',
-    ];
-
     public function __construct(
         private PaginatorInterface $paginator,
-        private EntityManagerInterface $em
+        private ArticleRepository $articles,
+        private RessourceRepository $ressources,
+        private ProjectRepository $projects
     )
     {}
 
@@ -40,10 +32,11 @@ class SearchService
      */
     public function search(string $q, int $page, int $limit = 50, int $itemPerPage = 10): SearchData
     {
+        $q = strtolower(trim($q));
         $data = $this->getDatas($q, $limit);
         $pagination = $this->paginator->paginate($data, $page, $itemPerPage);
 
-        return 
+        return
             (new SearchData($pagination->getItems()))
                 ->setPagination($pagination)
                 ->setQ($q)
@@ -58,33 +51,18 @@ class SearchService
      * Search query
      *
      * @param string $q
-     * @return Query
+     * @return array
      */
-    private function makeQuery(string $q): Query
+    private function makeQuery(string $q): array
     {
-        $query = $this->em->createQuery('
-            SELECT DISTINCT a, p, r 
-            FROM App\Entity\Article a, App\Entity\Ressource r, App\Entity\Project p 
-            WHERE a.title LIKE :all AND r.name LIKE :all AND p.name LIKE :all
-            ORDER BY 
-                CASE
-                    WHEN a.title LIKE :full AND r.name LIKE :full AND p.name LIKE :full THEN 1
-                    WHEN a.title LIKE :start AND r.name LIKE :start AND p.name LIKE :start THEN 2
-                    WHEN a.title LIKE :end AND r.name LIKE :end AND p.name LIKE :end THEN 3
-                    WHEN a.title LIKE :all AND r.name LIKE :all AND p.name LIKE :all THEN 4
-                    ELSE 5
-                END
-        ');
+        if($q == '') return []; 
+        $data = [
+            ...$this->articles->findAllPublishedQuery($q)->getResult(),
+            ...$this->ressources->findAllQuery($q)->getResult(),
+            ...$this->projects->findAllQuery($q)->getResult()
+        ];
 
-        $query->setParameters([
-            'all' => "%$q%",
-            'start' => "%$q",
-            'end' => "$q%",
-            'full' => "$q"
-        ]);
-
-
-        return $query;
+        return $data;
     }
 
     /**
@@ -92,26 +70,51 @@ class SearchService
      *
      * @param string $q
      * @param integer $limit
-     * @return [][string, object]
+     * @return SearchItemModel[]
      */
     private function getDatas(string $q, int $limit): array
     {
         $results = [];
-        $datas = $this->makeQuery($q)->getResult();
+        $filtered = [];
+        $datas = $this->makeQuery($q);
 
         if(!$datas) return $datas;
 
-        for ($i=0; $i < count($datas); $i++) { 
+        // Get pertinance
+        for ($i = 0; $i < count($datas); $i++) {
 
-            $results[] = [
-                $this->dataClass[$datas[$i]::class], 
-                $datas[$i]
-            ];
+            $result = $datas[$i]->getSearchItem($i);
+            if (preg_match('/([a-zA-Z0-9]?)+(' . $q . ')([a-zA-Z0-9]?)+/i', $result->getTitle())) {
+                $results[] = [
+                    preg_match_all('/([a-zA-Z0-9]?)+(' . $q . ')([a-zA-Z0-9]?)+/i', $result->getTitle()),
+                    $result
+                ];
+            }
 
-            if($i === $limit) break;
+            $result->setDescription(str_replace($q, '<span class="bling">'.$q.'</span>', strtolower($result->getDescription())))->setTitle(str_replace($q, '<span class="bling">'.$q.'</span>', strtolower($result->getTitle())));
+
+            if ($i === $limit) break;
         }
 
-        return $results;
+        // Oredered by pertinance
+        for ($i=0; $i < count($results); $i++) { 
+            
+            for ($j=0; $j < count($results); $j++) { 
+                $p = 0;
+                if($results[$i][0] > $results[$j][0])
+                {
+                    $p = $results[$j];
+                    $results[$j] = $results[$i];
+                    $results[$i] = $p;
+                }
+            }
+        }
+        // Render
+        foreach ($results as $el) {
+            $filtered[] = $el[1];
+        }
+
+        return $filtered;
     }
 
     

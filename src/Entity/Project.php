@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Authentication\Entity\Role;
+use App\Model\SearchItemModel;
 use App\Repository\ProjectRepository;
 use App\Traits\GenerateSlugTrait;
 use App\Traits\PrePersistTrait;
@@ -49,10 +50,24 @@ class Project
     #[ORM\ManyToOne(inversedBy: 'projects')]
     private ?Role $role = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $url = null;
+
 
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getSearchItem(int $id): SearchItemModel
+    {
+        return (new SearchItemModel())
+            ->setId($id)
+            ->setTitle($this->name)
+            ->setNature('Project')
+            ->setPublishedAt($this->createAt)
+            ->setDescription($this->description)
+            ->setUrl($this->slug);
     }
 
     public function getId(): ?int
@@ -164,6 +179,18 @@ class Project
     public function setRole(?Role $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

@@ -38,7 +38,7 @@
 		<div class="flex-1 flex flex-col gap-4 items-center justify-center p-2">
 			<div class="relative">
             	<img src="{% if user.avatar %} {{user.avatar}} {% else %} /favicon.svg {% endif %}" alt="{{user}}" title="{{user}}" class="avatar big" />
-				<img src="" loading="lazy" class="block rounded absolute bottom-3 right-3" title="{{user.country}}" width="35px" is="country-flag" data-country="{{user.country}}" data-type="png"/>
+				<img loading="lazy" class="block rounded absolute bottom-3 right-3" title="{{user.country}}" width="35px" is="country-flag" data-country="{{user.country}}" data-type="png"/>
 			</div>
 			<p>{{user}} • <span class="rho">{{user.coins}}</span></p>
 			<p class="text-center px-2 italic">{% if user.bio %}{{user.bio}}{% endif %}</p>
@@ -56,11 +56,11 @@
 				<h3>Statistiques Personnelles*</h3>
 				<div class="grid grid-cols-2 gap-4 items-center my-2">
 					<div class="text-sm">Durée</div>
-					<div class="italic">A voir...</div>
+					<div class="italic">il y'a {{user.createAt | since}}</div>
 					<div class="text-sm">Commentaires</div>
 					<div class="italic">{{user.comments | length}}</div>
-					<div class="text-sm">Suggestions</div>
-					<div class="italic">{{user.suggestions | length}}</div>
+					{# <div class="text-sm">Suggestions</div>
+					<div class="italic">{{user.suggestions | length}}</div> #}
 				</div>
 			</div>
 		{% endif %}

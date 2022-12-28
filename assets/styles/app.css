@@ -151,6 +151,9 @@ html{
     @apply text-purple-light;
 }
 
+.bling{
+    @apply bg-yellow text-gray-100;
+}
 
 /* TEXT */
 .text-link{
@@ -1033,7 +1036,10 @@ p, .p{
     .filter .item.active{
         @apply border-b-4 border-x-0 border-t-0;
     }
-    .filter .search input, .search input{
+    .search input{
+        @apply border-y;
+    }
+    .filter .search input{
         @apply border-y-0 border-l;
     }
 

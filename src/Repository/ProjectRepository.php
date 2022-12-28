@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,19 @@ class ProjectRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllQuery(string $q = ''): Query
+    {
+        return
+            $this
+            ->createQueryBuilder('p')
+            ->andWhere('p.name LIKE :name')
+            ->orWhere('p.description LIKE :description')
+            ->setParameter('name', "%$q%")
+            ->setParameter('description', "%$q%")
+            ->orderBy('p.updateAt', 'DESC')
+            ->getQuery();
     }
 
 //    /**

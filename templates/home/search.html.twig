@@ -40,37 +40,35 @@
 <div class="container m-auto rounded mb-5 flex flex-col gap-4 text-gray-500">
     {% if search.data %}
         {% for item in search.data %}
-            {% set class = item[0] %}
-            {% set item = item[1] %}
 
-            {% if class == 'Article' %}
+            {% if item.nature == 'Article' %}
                 <a 
                     class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
-                    href="{{ path('article_detail', {slug: item.slug}) }}"
+                    href="{{ path('article_detail', {slug: item.url}) }}"
                 >
-                    <span class="h4">{{item.title}}</span>
-                    <span class="">Article | {{item.updateAt | date('d/m/Y')}}</span>
-                    <span class="">{{item.description}}</span>
+                    <span class="h4">{{item.title | raw }}</span>
+                    <span class="">Article | {{item.publishedAt | date('d/m/Y')}}</span>
+                    <span class="">{{item.description | raw}}</span>
                 </a>
 
-            {% elseif class == 'Ressource' %}
+            {% elseif item.nature == 'Ressource' %}
                 <a 
                     class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
-                    href="{{ path('ressource_visit', {slug: item.slug}) }}"
+                    href="{{ path('ressource_visit', {slug: item.url}) }}"
                 >
-                    <span class="h4">{{item.name}}</span>
-                    <span class="">Ressource | {{item.updateAt | date('d/m/Y')}}</span>
-                    <span class="">{{item.description}}</span>
+                    <span class="h4">{{item.title | raw}}</span>
+                    <span class="">Ressource | {{item.publishedAt | date('d/m/Y')}}</span>
+                    <span class="">{{item.description | raw}}</span>
                 </a>
 
-            {% elseif class == 'Project' %}
+            {% elseif item.nature == 'Project' %}
                 <a 
                     class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
-                    href="{{ path('project_view', {slug: item.slug}) }}"
+                    href="{{ path('project_view', {slug: item.url}) }}"
                 >
-                    <span class="h4">{{item.name}}</span>
-                    <span class="">Projet | {{item.updateAt | date('d/m/Y')}}</span>
-                    <span class="">{{item.description}}</span>
+                    <span class="h4">{{item.title | raw}}</span>
+                    <span class="">Projet | {{item.publishedAt | date('d/m/Y')}}</span>
+                    <span class="">{{item.description | raw}}</span>
                 </a>
             {% endif %}
 
@@ -79,7 +77,7 @@
     {% else %}
     <div class="flex flex-col items-center p-4 border bg-gray-100 rounded">
         <img src="/image/boy.png" alt="Not found">
-        <span class="h4 text-purple">Noooppe!!!</span>
+        <span class="h1 text-purple">Noooppe!!!</span>
         <span>Aucun résultat n'a été trouvé pour cette recherche :(</span>
     </div>
     {% endif %}
@@ -91,7 +89,6 @@
 	{{ knp_pagination_render(search.pagination) }}
 </div>
 {% endif %}
-
 
 
 {% endblock %}

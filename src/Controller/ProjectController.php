@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
-use App\Service\Entity\ProjectService;
+use App\Service\EntityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +22,9 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'project_view')]
-    public function view(Project $project, ProjectService $projectService): Response
+    public function view(Project $project, EntityService $entityService): Response
     {
-        $projectService->incrementVisit($project);
-        return $this->redirectToRoute('project'); // Redirect to its url
+        $entityService->incrementProjectVisits($project);
+        return $this->redirect($project->getUrl());
     }
 }

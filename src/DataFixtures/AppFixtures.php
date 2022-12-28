@@ -158,6 +158,7 @@ class AppFixtures extends Fixture
                 ->setVisit($fake->numberBetween(0, 100))
                 ->setImage($fake->imageUrl(640, 350))
                 ->setAuthors($fake->sentence(2))
+                ->setUrl($fake->url())
                 ->setRole($projectRole)
             ;
             $manager->persist($project);

@@ -3,7 +3,7 @@
 
 		{% set author = comment.author %}
 
-		<div class="comment main" data-id="{{comment.id}}" id="comment-{{comment.id}}">
+		<div class="comment main-comment" data-id="{{comment.id}}" id="comment-{{comment.id}}">
 			<div class="comment-info">
 				<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
 				<div class="flex flex-col">
