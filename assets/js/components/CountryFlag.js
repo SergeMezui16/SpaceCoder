@@ -1,16 +1,16 @@
 export default class CountryFlag extends HTMLImageElement {
 
-    #api = "https://countryflagsapi.com"
+    #api = "/bundles/easyadmin/images/flags"
 
     constructor() {
         super()
 
-        this.country = this.dataset.country.toLocaleLowerCase()
+        this.country = this.dataset.country
         this.type = this.dataset.type.toLocaleLowerCase()
     }
 
     connectedCallback() {
-        this.setAttribute('src', `${this.#api}/${this.type}/${this.country}`)
+        this.setAttribute('src', `${this.#api}/${this.country}.svg`)
     }
 
     disconnectedCallback() {}
