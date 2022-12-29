@@ -43,6 +43,8 @@ class HomeController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $contact
+                ->setUser($this->getUser())
+                ->setDone(false)
                 ->setCreateAt(new \DateTimeImmutable())
                 ->setUpdateAt(new \DateTimeImmutable())
             ;

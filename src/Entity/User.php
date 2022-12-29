@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Repository\UserRepository;
 use App\Traits\GenerateSlugTrait;
 use App\Traits\PrePersistTrait;
@@ -25,11 +26,10 @@ class User
     use PreUpdateTrait;
     use PrePersistTrait;
     use GenerateSlugTrait;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]

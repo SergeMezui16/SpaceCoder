@@ -2,11 +2,14 @@
 
 namespace App\Admin\Controller;
 
+use App\Admin\Controller\UserAuthenticationCrudController;
 use App\Entity\Contact;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -37,8 +40,10 @@ class ContactCrudController extends AbstractCrudController
         yield TextField::new('object', 'Objet');
         yield EmailField::new('email', 'Email');
         yield TextareaField::new('message', 'Message');
+        yield BooleanField::new('done', 'Traité');
+        yield AssociationField::new('user', 'Utilisateur')->hideOnForm()->setCrudController(UserAuthenticationCrudController::class);
 
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm();
+        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm()->hideOnIndex();
         yield DateTimeField::new('createAt', 'Créé(e) le')->hideOnForm();
     }
 

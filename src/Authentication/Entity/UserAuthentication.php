@@ -3,7 +3,9 @@
 namespace App\Authentication\Entity;
 
 
+use App\Authentication\Entity\Role;
 use App\Authentication\Repository\UserAuthenticationRepository;
+use App\Entity\Contact;
 use App\Entity\User;
 use App\Traits\PrePersistTrait;
 use App\Traits\PreUpdateTrait;
@@ -79,6 +81,9 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     )]
     public ?string $confirmPassword;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Contact::class)]
+    private Collection $contacts;
+
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
@@ -86,6 +91,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function __toString()
@@ -343,6 +349,36 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getUser() === $this) {
+                $contact->setUser(null);
+            }
+        }
 
         return $this;
     }

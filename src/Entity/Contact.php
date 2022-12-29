@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Authentication\Entity\UserAuthentication;
 use App\Repository\ContactRepository;
 use App\Traits\PrePersistTrait;
 use App\Traits\PreUpdateTrait;
@@ -38,6 +39,12 @@ class Contact
     private ?\DateTimeImmutable $updateAt = null;
 
     public $recaptcha;
+
+    #[ORM\Column(options:['default' => false])]
+    private ?bool $done = null;
+
+    #[ORM\ManyToOne(inversedBy: 'contacts')]
+    private ?UserAuthentication $user = null;
 
 
     public function __toString()
@@ -118,6 +125,30 @@ class Contact
     public function setUpdateAt(\DateTimeImmutable $updateAt): self
     {
         $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    public function isDone(): ?bool
+    {
+        return $this->done;
+    }
+
+    public function setDone(bool $done): self
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    public function getUser(): ?UserAuthentication
+    {
+        return $this->user;
+    }
+
+    public function setUser(?UserAuthentication $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
