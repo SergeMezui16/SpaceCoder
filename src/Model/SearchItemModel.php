@@ -12,9 +12,11 @@ class SearchItemModel
 
     private \DateTimeImmutable $publishedAt;
 
-    private string $description;
+    private ?string $description;
 
     private string $url;
+
+    private mixed $other = null;
 
 
     /**
@@ -133,6 +135,26 @@ class SearchItemModel
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of other
+     */ 
+    public function getOther()
+    {
+        return $this->other;
+    }
+
+    /**
+     * Set the value of other
+     *
+     * @return  self
+     */ 
+    public function setOther($other)
+    {
+        $this->other = $other;
 
         return $this;
     }

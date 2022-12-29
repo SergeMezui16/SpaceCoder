@@ -121,7 +121,7 @@ html{
 
 /* BACK TO TOP BTN */
 .back-to-top{
-    @apply fixed bottom-10 right-10 rounded hidden justify-center items-center w-10 h-10 z-20 bg-purple stroke-white cursor-pointer;
+    @apply fixed bottom-10 shadow-lg shadow-purple-dark right-10 rounded hidden justify-center items-center w-10 h-10 z-20 bg-purple stroke-white cursor-pointer;
 }
 
 /* LINK */
@@ -227,20 +227,33 @@ p, .p{
     @apply list-disc list-inside;
 }
 
-/* USER AVATAR */
+/* USER EDIT AVATAR */
 .avatar{
     @apply object-cover cursor-pointer rounded-full;
 }
-.edit{
+.avatar-edit{
     @apply rounded-full border-0 flex justify-end items-end cursor-pointer w-fit;
 }
-.edit .avatar{
+.avatar-edit .avatar{
     @apply z-10;
 }
-.edit:after {
+.avatar-edit:after {
     @apply content-edit-img absolute rounded-full bg-purple w-12 h-12 z-20 flex justify-center items-center;
 }
 
+/* USER COUNTRY AVATAR  */
+.avatar-country{
+    @apply relative block w-fit;
+}
+.avatar-country.big .country-flag{
+    @apply bottom-3 right-3;
+}
+.avatar-country.semi .country-flag{
+    @apply bottom-1 right-1;
+}
+.country-flag{
+    @apply block rounded absolute bottom-3 right-3;
+}
 
 /* FOR COMMENTS */
 .avatar.small{ 

@@ -38,7 +38,7 @@
 		<div class="flex-1 flex flex-col gap-4 items-center justify-center p-2">
 			<div class="relative">
             	<img src="{% if user.avatar %} {{user.avatar}} {% else %} /favicon.svg {% endif %}" alt="{{user}}" title="{{user}}" class="avatar big" />
-				<img loading="lazy" class="block rounded absolute bottom-3 right-3" title="{{user.country}}" width="35px" is="country-flag" data-country="{{user.country}}" data-type="png"/>
+				<img loading="lazy" class="country-flag" title="{{user.country}}" width="35px" is="country-flag" data-country="{{user.country}}" data-type="png"/>
 			</div>
 			<p>{{user}} • <span class="rho">{{user.coins}}</span></p>
 			<p class="text-center px-2 italic">{% if user.bio %}{{user.bio}}{% endif %}</p>

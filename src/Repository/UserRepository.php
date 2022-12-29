@@ -4,8 +4,9 @@ namespace App\Repository;
 
 
 use App\Entity\User;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -38,6 +39,16 @@ class UserRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    
+    public function findAllQuery(string $q = ''): Query
+    {
+        return
+            $this
+            ->createQueryBuilder('u')
+            ->andWhere('u.pseudo LIKE :pseudo')
+            ->setParameter('pseudo', "%$q%")
+            ->getQuery();
     }
 
 //    /**

@@ -587,12 +587,16 @@
             </div>
 
             <h1>Avatar</h1>
-            <div class="flex flex-col md:flex-row gap-10 items-center">
-                <div class="edit">
+            <div class="flex flex-col md:flex-row gap-2 items-center">
+                <div class="avatar-edit">
                     <img src="/favicon.svg" alt="avatar edit big" title="avatar edit big" class="avatar big" />
                 </div>
-                <img src="/favicon.svg" alt="avatar big" title="avatar big" class="avatar big" />
-                <img src="/favicon.svg" alt="avatar mini" title="avatar mini" class="avatar semi" />
+                <div class="avatar-country big">
+                    <img src="/favicon.svg" alt="Serge" title="Serge" class="avatar big" />
+                    <img src="/favicon.svg" loading="lazy" class="country-flag" title="GA" width="35px" is="country-flag" data-country="GA" data-type="svg"/>
+                </div>
+                {# <img src="/favicon.svg" alt="avatar big" title="avatar big" class="avatar big" /> #}
+                <img src="/favicon.svg" alt="avatar mini" title="avatar semi" class="avatar semi" />
                 <img src="/favicon.svg" alt="avatar blink" title="avatar blink" class="avatar blink border" />
                 <img src="/favicon.svg" alt="avatar small" title="avatar small" class="avatar small border" />
             </div>

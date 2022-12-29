@@ -1,23 +1,20 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Article;
+use App\Entity\Project;
+use App\Entity\Ressource;
+use App\Entity\User;
 use App\Model\SearchData;
 use App\Model\SearchItemModel;
-use App\Repository\ArticleRepository;
-use App\Repository\ProjectRepository;
-use App\Repository\RessourceRepository;
-use function PHPUnit\Framework\returnSelf;
-
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 class SearchService
 {
-
     public function __construct(
         private PaginatorInterface $paginator,
-        private ArticleRepository $articles,
-        private RessourceRepository $ressources,
-        private ProjectRepository $projects
+        private EntityManagerInterface $manager
     )
     {}
 
@@ -53,14 +50,39 @@ class SearchService
      * @param string $q
      * @return array
      */
-    private function makeQuery(string $q): array
+    private function fetch(string $q, int $limit): array
     {
         if($q == '') return []; 
-        $data = [
-            ...$this->articles->findAllPublishedQuery($q)->getResult(),
-            ...$this->ressources->findAllQuery($q)->getResult(),
-            ...$this->projects->findAllQuery($q)->getResult()
-        ];
+
+        $data = $this->manager
+            ->createQueryBuilder('u', 'a', 'r', 'p')
+            ->select('u', 'a', 'r', 'p')
+
+            ->from(Article::class, 'a')
+            ->from(Ressource::class, 'r')
+            ->from(Project::class, 'p')
+            ->from(User::class, 'u')
+
+            ->orWhere('u.pseudo LIKE :param')
+
+            ->orWhere('r.name LIKE :param')
+            ->orWhere('r.description LIKE :param')
+
+            ->orWhere('p.name LIKE :param')
+            ->orWhere('p.description LIKE :param')
+
+            ->orWhere('a.title LIKE :param')
+            ->orWhere('a.subject LIKE :param')
+            ->orWhere('a.description LIKE :param')
+            ->orWhere('a.content LIKE :param')
+
+            ->setMaxResults($limit)
+
+            ->setParameter('param', "%$q%")
+
+            ->getQuery()
+            ->getResult()
+        ;
 
         return $data;
     }
@@ -74,11 +96,12 @@ class SearchService
      */
     private function getDatas(string $q, int $limit): array
     {
+        $datas = $this->fetch($q, $limit);
+
+        if(empty($datas)) return $datas;
+
         $results = [];
         $filtered = [];
-        $datas = $this->makeQuery($q);
-
-        if(!$datas) return $datas;
 
         // Get pertinance
         for ($i = 0; $i < count($datas); $i++) {
@@ -90,15 +113,12 @@ class SearchService
                     $result
                 ];
             }
-
             $result->setDescription(str_replace($q, '<span class="bling">'.$q.'</span>', strtolower($result->getDescription())))->setTitle(str_replace($q, '<span class="bling">'.$q.'</span>', strtolower($result->getTitle())));
-
-            if ($i === $limit) break;
         }
 
         // Oredered by pertinance
         for ($i=0; $i < count($results); $i++) { 
-            
+
             for ($j=0; $j < count($results); $j++) { 
                 $p = 0;
                 if($results[$i][0] > $results[$j][0])
@@ -116,6 +136,4 @@ class SearchService
 
         return $filtered;
     }
-
-    
 }

@@ -46,8 +46,8 @@
                     class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
                     href="{{ path('article_detail', {slug: item.url}) }}"
                 >
-                    <span class="h4">{{item.title | raw }}</span>
-                    <span class="">Article | {{item.publishedAt | date('d/m/Y')}}</span>
+                    <span class="h4 text-purple">{{item.title | raw }}</span>
+                    <span class="text-xs font-mono">Article | {{item.publishedAt | date('d/m/Y')}}</span>
                     <span class="">{{item.description | raw}}</span>
                 </a>
 
@@ -56,8 +56,8 @@
                     class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
                     href="{{ path('ressource_visit', {slug: item.url}) }}"
                 >
-                    <span class="h4">{{item.title | raw}}</span>
-                    <span class="">Ressource | {{item.publishedAt | date('d/m/Y')}}</span>
+                    <span class="h4 text-purple">{{item.title | raw}}</span>
+                    <span class="text-xs font-mono">Ressource | {{item.publishedAt | date('d/m/Y')}}</span>
                     <span class="">{{item.description | raw}}</span>
                 </a>
 
@@ -66,9 +66,29 @@
                     class="flex flex-col p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
                     href="{{ path('project_view', {slug: item.url}) }}"
                 >
-                    <span class="h4">{{item.title | raw}}</span>
-                    <span class="">Projet | {{item.publishedAt | date('d/m/Y')}}</span>
+                    <span class="h4 text-purple">{{item.title | raw}}</span>
+                    <span class="text-xs font-mono">Projet | {{item.publishedAt | date('d/m/Y')}}</span>
                     <span class="">{{item.description | raw}}</span>
+                </a>
+            
+            {% elseif item.nature == 'User' %}
+
+                <a 
+                    class="flex flex-col gap-4 md:flex-row items-center md:items-start p-4 border hover:border-purple rounded bg-gray-100 shadow-md" 
+                    href="{{ path('profile', {slug: item.url}) }}"
+                
+                >
+                    <span class="">
+                        <span class="avatar-country semi">
+                            <img src="{% if item.other.avatar %} {{item.other.avatar}} {% else %} /favicon.svg {% endif %}" alt="{{item.other}}" title="{{item.other}}" class="avatar semi" />
+                            <img loading="lazy" class="country-flag" title="{{item.other.country}}" width="25px" is="country-flag" data-country="{{item.other.country}}" data-type="svg"/>
+                        </span>
+                    </span>
+                    <span class="flex flex-col text-center md:text-start">
+                        <span class="h3 text-purple">{{item.title | raw}} • <span class="rho">{{item.other.coins}}</span> </span>
+                        <span class="italic">{{item.description | raw}}</span>
+                        <span class="text-xs mt-1 font-mono">Utilisateur</span>
+                    </span>
                 </a>
             {% endif %}
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Model\SearchItemModel;
 use App\Repository\UserRepository;
 use App\Traits\GenerateSlugTrait;
 use App\Traits\PrePersistTrait;
@@ -96,8 +97,19 @@ class User
         return $this->pseudo;
     }
 
+    public function getSearchItem(int $id): SearchItemModel
+    {
+        return (new SearchItemModel())
+            ->setId($id)
+            ->setTitle($this->pseudo)
+            ->setNature('User')
+            ->setPublishedAt($this->createAt)
+            ->setDescription($this->bio)
+            ->setUrl($this->slug)
+            ->setOther($this);
+    }
+
     /**
-     * Undocumented function
      *
      * @return Collection<int, Role>
      */
