@@ -3,18 +3,17 @@
 namespace App\Admin\Controller;
 
 use App\Entity\Ressource;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class RessourceCrudController extends AbstractCrudController
 {
@@ -41,7 +40,7 @@ class RessourceCrudController extends AbstractCrudController
         yield SlugField::new('slug', 'Slug')->setTargetFieldName('name')->hideOnIndex();
         yield TextField::new('description', 'Description')->hideOnIndex();
         yield NumberField::new('clicks', 'Visite')->hideWhenCreating();
-        yield ImageField::new('image', 'Image')->setBasePath('data/project/images/')->setUploadDir('public/data/project/images/')->setUploadedFileNamePattern('[slug].[extension]')->hideOnIndex();
+        yield UrlField::new('image', 'Image')->hideOnIndex();
         yield UrlField::new('link', 'Lien');
         yield ArrayField::new('categories', 'Catégories');
 
