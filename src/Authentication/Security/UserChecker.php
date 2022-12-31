@@ -16,7 +16,7 @@ class UserChecker implements UserCheckerInterface
         }
         
         if ($user->isBlocked()) {
-            throw new CustomUserMessageAccountStatusException('L\'acces à votre compte a été restreint.', code: 403);
+            throw new CustomUserMessageAccountStatusException('L\'acces à votre compte a été restreint. Votre compte a due être bloqué. Si votre compte vient d\'être crée alors vous ne l\'avez pas encore activé.', code: 403);
         }
     }
 

@@ -22,15 +22,15 @@ class DateFormatUtil
         $_y = $_d / 365;
 
         if($_y >= 1){
-            return floor($_y) . ($_y > 1 ? ' ans' : ' an');
+            return floor($_y) . ($_y >= 2 ? ' ans' : ' an');
         } elseif($_M >= 1) {
             return floor($_M) . ' mois';
         }elseif ($_d >= 1) {
-            return floor($_d) . ($_d > 1 ? ' jours' : ' jour');
+            return floor($_d) . ($_d >= 2 ? ' jours' : ' jour');
         } elseif($_h >= 1){
-            return floor($_h) . ($_h > 1 ? ' heures' : ' heure');
+            return floor($_h) . ($_h >= 2 ? ' heures' : ' heure');
         }elseif($_m) {
-            return floor($_m) . ($_m > 1 ? ' minutes' : ' minute');
+            return floor($_m) . ($_m >= 2 ? ' minutes' : ' minute');
         } else {
             return '';
         }

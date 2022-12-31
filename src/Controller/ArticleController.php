@@ -30,7 +30,7 @@ class ArticleController extends AbstractController
             $request->query->getInt('page', 1),
             12
         );
-        
+        // dd($pagination);
         return $this->render('article/index.html.twig', [
             'title' => 'Articles',
             'pagination' => $pagination

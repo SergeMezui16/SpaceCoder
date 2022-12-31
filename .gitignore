@@ -29,6 +29,11 @@ yarn-error.log
 
 ###> spacecoder/data/uploads ###
 /public/data/article/images/*
+/public/data/article/ressources/*
 /public/data/project/images/*
 /public/data/user/avatar/*
 ###< spacecoder/data/uploads ###
+
+###> spacecoder/model/article ###
+/templates/article/_model.html.twig
+###< spacecoder/model/article ###

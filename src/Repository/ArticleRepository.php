@@ -46,19 +46,17 @@ class ArticleRepository extends ServiceEntityRepository
 
         $queryBuilder
             ->select('a', 'c')
-            ->join('a.comments', 'c')
+            ->leftJoin('a.comments', 'c')
             ->andWhere('a.publishedAt <= :now')
             ->setParameter('now', new \DateTimeImmutable())
         ;
 
         if($q !== ''){
             $queryBuilder
-                ->andWhere('a.title LIKE :title')
-                ->orWhere('a.subject LIKE :subject')
-                ->orWhere('a.description LIKE :description')
-                ->setParameter('title', "%$q%")
-                ->setParameter('subject', "%$q%")
-                ->setParameter('description', "%$q%")
+                ->andWhere('a.title LIKE :q')
+                ->orWhere('a.subject LIKE :q')
+                ->orWhere('a.description LIKE :q')
+                ->setParameter('q', "%$q%")
                 ->orderBy('a.title', 'ASC');
         } else{
             $queryBuilder->orderBy('a.publishedAt', 'DESC');

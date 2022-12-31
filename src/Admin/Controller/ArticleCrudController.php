@@ -34,12 +34,11 @@ class ArticleCrudController extends AbstractCrudController
                 fn (?Article $config, ?string $pageName) => $config ? '"' . $config->__toString() . '"' : 'Article'
             )
             ->setEntityLabelInPlural('Articles')
-            ->setDefaultSort(['createAt' => 'DESC'])
-        ;
+            ->setDefaultSort(['createAt' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
-    {                
+    {
         yield IdField::new('id')->hideOnForm();
         yield AssociationField::new('author', 'Auteur')->hideOnIndex()->setCrudController(UserCrudController::class);
         yield AssociationField::new('suggestedBy', 'Suggeré par')->hideOnIndex()->setCrudController(UserCrudController::class);
@@ -49,10 +48,10 @@ class ArticleCrudController extends AbstractCrudController
         yield TextField::new('description', 'Description')->hideOnIndex();
         yield NumberField::new('level', 'Niveau');
         yield CodeEditorField::new('content', 'Contenu')->setLanguage('twig');
-        yield NumberField::new('views', 'Vue(s)')->hideOnForm();
+        yield NumberField::new('views', 'Vue(s)');
         yield AssociationField::new('comments', 'Commentaires')->setCrudController(CommentCrudController::class)->onlyOnIndex();
         yield DateTimeField::new('publishedAt', 'Publié le')->renderAsChoice();
-        yield ImageField::new('image', 'image')->hideOnIndex()->setBasePath('data/article/images/')->setUploadDir('public/data/article/images/')->setUploadedFileNamePattern('[slug].[extension]');
+        yield ImageField::new('image', 'image')->hideOnIndex()->hideWhenUpdating()->setUploadDir('public/data/article/images/')->setBasePath('data/article/images/')->setUploadedFileNamePattern('[slug].[extension]');
         yield CollectionField::new('comments', 'Commentaires')->useEntryCrudForm(CommentCrudController::class)->hideOnIndex();
         yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideWhenCreating()->hideWhenUpdating();
         yield DateTimeField::new('createAt', 'Créé(e) le')->hideWhenCreating()->hideWhenUpdating()->onlyOnDetail();
@@ -61,7 +60,6 @@ class ArticleCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-                ->add(Crud::PAGE_INDEX, Action::DETAIL)
-        ;
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 }

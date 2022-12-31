@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Traits\PreUpdateTrait;
-use App\Traits\PrePersistTrait;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ConfigurationRepository;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
 #[ORM\HasLifecycleCallbacks]

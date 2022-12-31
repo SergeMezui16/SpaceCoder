@@ -24,7 +24,7 @@
         <meta property="twitter:url" content="{{absolute_url(path('article_detail', {slug: article.slug}))}}">
         <meta property="twitter:title" content="{{article.title}} — SpaceCoder">
         <meta property="twitter:description" content="{{article.description}}">
-        <meta property="twitter:image" content="{{article.image}}">
+        <meta property="twitter:image" content="{{absolute_url(article.image)}}">
 
 {% endblock %}
 
@@ -32,5 +32,24 @@
 
 {% include "article/_article.html.twig" %}
 {% include "article/_comments.html.twig" %}
+
+{# CAROUSEL BOX #}
+    <div class="carousel" is="tuto-carousel">
+        <div class="prev" title="Précedent">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+            </svg>
+        </div>
+        <div class="content">
+            <img src="" alt="" />
+            <span class="title"></span>
+            <span class="close">FERMER</span>
+        </div>
+        <div class="next" title="Suivant">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+            </svg>
+        </div>
+    </div>
 
 {% endblock %}
