@@ -49,7 +49,7 @@ class ChangeEmailController extends AbstractController
             $this->manager->persist($auth);
             $this->manager->flush();
 
-            $this->mailer->make($auth->getEmail(), 'Confirmation d\'adresse', 'mail/confirmation_email.html.twig', [
+            $this->mailer->make($auth->getEmail(), 'Confirmation d\'adresse', 'mail/auth/confirmation_email.html.twig', [
                 'signedUrl' => $signatureComponents->getSignedUrl(),
                 'pseudo' => $auth->getUser()->getPseudo(),
                 'expiration' => 1

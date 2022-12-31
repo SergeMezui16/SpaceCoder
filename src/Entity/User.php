@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
@@ -113,14 +114,14 @@ class User
      *
      * @return Collection<int, Role>
      */
-    public function getAuthRole() : array
+    public function getAuthRole() : Role
     {
-        return [...$this->auth->getRoles()];
+        return $this->auth->getRole();
     }
 
-    public function setAuthRole(Collection $roles) : self
+    public function setAuthRole(Role $roles) : self
     {
-        $this->auth->setRoles($roles);
+        $this->auth->setRole($roles);
 
         return $this;
     }

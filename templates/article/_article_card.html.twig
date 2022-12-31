@@ -1,4 +1,7 @@
-<div class="tuto-card">
+<div 
+    class="tuto-card"
+    onclick="window.location.href = '{{ path('article_detail', {slug: article.slug}) }}';"
+>
     <div class="tuto-card-header">
         <img src="{{article.image}}" alt="{{article.subject}}" class="w-8 h-8" />
         <span class="text-sm">{{article.subject}}</span>

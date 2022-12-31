@@ -66,6 +66,15 @@ class UserAuthenticationRepository extends ServiceEntityRepository implements Pa
        ;
     }
 
+    public function lastConnected(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.lastConnexion', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return UserAuthentication[] Returns an array of UserAuthentication objects
 //     */

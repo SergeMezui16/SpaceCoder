@@ -7,8 +7,8 @@
 				UI !
 			{% endblock %}
 		</title>
-<link rel="icon" href="/favicon.svg">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="/favicon.svg">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
@@ -51,101 +51,8 @@
     >
     </span>
 
-    {# HEADER #}
-    <header class="bg-white shadow-md" is="header-componnent">
-        <div class="header" id="header">
-            <div class="header-box">
-                <div class="header-context">
-                    <svg id="js-menu-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-6 cursor-pointer md:hidden">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
-                    </svg>
-                    <form is="search-bar" action="" class="search-form" method="POST">
-                        <label id="js-search-btn" for="search" class="search-label">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                            </svg>
-                        </label>
-                        <div id="js-search" class="header-search-bar is-visible">
-                            <input type="search" name="search" id="search" placeholder="Chercher..." class="h-10 mt-20"/>
-                            <p class="text-xs text-center mx-5 w-auto text-slate-500 my-4" >
-                                Trouvez ce que vous cherchez parmis les <strong>Tutoriels</strong>, <strong>Ressources</strong> et <strong>Projets</strong>...
-                            </p>
-                            <input type="submit" name="submit" id="submit" value="Valider" class="hidden"/>
-                            <svg id="js-close-search-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 absolute right-2 top-2 cursor-pointer">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </div>
-                    </form>
-                    <nav is="hamburger-menu" class="header-nav hidden">
-                        <ul class="header-nav-list">
-                            <li class="">
-                                <a href="" class="flex items-center justify-center" >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"></path>
-                                    </svg>
-                                    Tutoriels
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="" class="flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.875 14.25l1.214 1.942a2.25 2.25 0 001.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 011.872 1.002l.164.246a2.25 2.25 0 001.872 1.002h2.092a2.25 2.25 0 001.872-1.002l.164-.246A2.25 2.25 0 0116.954 9h4.636M2.41 9a2.25 2.25 0 00-.16.832V12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 01.382-.632l3.285-3.832a2.25 2.25 0 011.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0021.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 002.25 2.25z"
-                                        ></path>
-                                    </svg>
-                                    Projets
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="" class="flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                    Ressources
-                                </a>
-                            </li>
-                            <li class="focus">
-                                <a href="" class="flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"></path>
-                                    </svg>
-                                    DevSpace
-                                </a>
-                            </li>
-                        </ul>
-                        <svg id="js-close-menu-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 absolute right-2 top-2 cursor-pointer md:hidden">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </nav>
-                </div>
-                <a href="" class="header-title">
-                    <img src="https://spacecoder.fun/assets/images/logo/favicon.png" alt="Logo" class="logo"/>
-                    <h1 class="brand">
-                        SpaceCoder
-                    </h1>
-                </a>
-            </div>
-            <div is="header-account" class="">
-                <img id="js-account-toggle" src="https://spacecoder.fun/Tutoriels/assets/images/_tuto-poster/14.jpg" alt="avater" class="avatar blink"/>
-                <div id="js-header-account" class="hidden absolute mt-2 p-3 right-5 border backdrop-blur-xl bg-white z-20" >
-                    <img src="https://spacecoder.fun/Tutoriels/assets/images/_tuto-poster/14.jpg" alt="avater" class="avatar small"/>
-                    <div class="flex flex-col ml-6 text-md">
-                        <span class="text-xl flex justify-between">
-                            <a href="">Serge Mezui</a>
-                            <a href="">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon clickable">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                </svg>
-                            </a>
-                        </span>
-                        <span class="my-2">sergemezui2@gmail.com</span>
-                        <span class="w-full mt-2">
-                            <a href="" class="text-link danger">Deconnexion</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    {# HEADER #}    
+    {% include "_partials/_header.html.twig" %}
 
     {# REACT #}
     {# <div id="react-root"></div> #}
@@ -566,7 +473,7 @@
             <h1>Tuto Carousel</h1>
             <article class="tuto">
                 <figure>                     
-                    <img src="https://spacecoder.fun/Tutoriels/assets/images/proton/install-3.png" title="Connexion ProtonVPN" alt="Connexion ProtonVPN" width='100px' />                     
+                    <img src="https://fr.spacecoder.fun/Tutoriels/assets/images/proton/install-3.png" title="Connexion ProtonVPN" alt="Connexion ProtonVPN" width='100px' />                     
                     <figcaption>Connexion</figcaption>                 
                 </figure>
             </article>
@@ -760,7 +667,7 @@
         <h1 class="text-3xl font-bold block my-2">Cards</h1>
 
         <div class="project-card">
-            <img src="https://spacecoder.fun/assets/images/projets/servant.jpg" alt="projet" />
+            <img src="https://fr.spacecoder.fun/assets/images/projets/servant.jpg" alt="projet" />
             <div class="flex flex-col">
                 <h2>Nom du Projet</h2>
                 <span class="author">Serge Serge, ERT</span>
@@ -770,7 +677,7 @@
             <span class="visit">29 visites</span>
         </div>
 
-        <div class="ressource-card" is="ressource-card" style="background: no-repeat center/110% url('https://spacecoder.fun/assets/images/projets/servant.jpg')">
+        <div class="ressource-card" is="ressource-card" style="background: no-repeat center/110% url('https://fr.spacecoder.fun/assets/images/projets/servant.jpg')">
             {# <img src="/favicon.svg" alt="ressource" class="ressource-img" /> #}
             <div class="ressource-content">
                 <a href="" class="ressource-title">Ressource Title</a>
@@ -901,215 +808,7 @@
 
 
     {# FOOTER #}
-    <footer class="bg-gray-500 text-gray-100 py-10 md:py-20">
-        <div
-            class="container mx-auto flex flex-col-reverse md:flex-row justify-between justify-self-start gap-16 p-6 md:p-0"
-        >
-            <div class="md:basis-1/3">
-                <h3 class="brand flex items-center gap-4">
-                    <img
-                        src="/favicon.svg"
-                        alt="SpaceCoder Logo"
-                        class="icon"
-                    />
-                    SpaceCoder
-                </h3>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Deserunt accusantium atque
-                    eveniet, vel molestias commodi totam
-                    recusandae sunt esse quis quae natus,
-                    necessitatibus provident doloremque fugiat
-                    ducimus. Officia, mollitia ipsum?
-                </p>
-                <br />
-                <img
-                    src="https://spacecoder.fun/assets/images/logo/logo1.png"
-                    alt="PASKER"
-                    width="150px"
-                />
-                <p>Copyright © - All Right Reserved - 2022</p>
-                <p>Version 3.1</p>
-            </div>
-            <div class="md:basis-1/3 flex flex-col">
-                <h3 class="brand">En savoir plus</h3>
-                <div class="flex flex-col gap-3 mt-2">
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                            ></path>
-                        </svg>
-                        Me contacter
-                    </a>
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
-                            ></path>
-                        </svg>
-                        GitHub
-                    </a>
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                            ></path>
-                        </svg>
-                        A propos de moi
-                    </a>
-                    <a 
-                    class="flex items-center gap-2" 
-                    href=""
-                    is="tuto-share" 
-                    data-title="SpaceCoder"
-                    data-text="SergeMezui"
-                    data-url="https://spacecoder.fun/"
-                    
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                            ></path>
-                        </svg>
-                        Partager
-                    </a>
-                    <a
-                        href="https://sergemezui.com"
-                        class="underline"
-                    >
-                        Hosted by ...
-                    </a>
-                </div>
-            </div>
-            <div class="md:basis-1/3 flex flex-col">
-                <h3 class="brand">Liens</h3>
-                <div class="flex flex-col gap-3 mt-2">
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
-                            ></path>
-                        </svg>
-                        Tutoriels
-                    </a>
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M7.875 14.25l1.214 1.942a2.25 2.25 0 001.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 011.872 1.002l.164.246a2.25 2.25 0 001.872 1.002h2.092a2.25 2.25 0 001.872-1.002l.164-.246A2.25 2.25 0 0116.954 9h4.636M2.41 9a2.25 2.25 0 00-.16.832V12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 01.382-.632l3.285-3.832a2.25 2.25 0 011.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0021.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 002.25 2.25z"
-                            ></path>
-                        </svg>
-                        Projets
-                    </a>
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"
-                            ></path>
-                        </svg>
-                        Ressources
-                    </a>
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
-                            ></path>
-                        </svg>
-                        DevSapce
-                    </a>
-                    <a class="flex items-center gap-2" href="">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="icon"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
-                            ></path>
-                        </svg>
-                        Politique de confidentialité
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include "_partials/_footer.html.twig" %}
 
     {# CAROUSEL BOX #}
     <div class="carousel" is="tuto-carousel">

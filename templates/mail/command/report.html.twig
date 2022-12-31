@@ -1,0 +1,10 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}Report - {{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>
+        {{ result | nl2br() }}
+    </main>
+{% endblock %}

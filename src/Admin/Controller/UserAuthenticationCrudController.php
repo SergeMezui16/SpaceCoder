@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controller;
 
+use App\Admin\Controller\RoleCrudController;
 use App\Admin\Service\EntityListService;
 use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
@@ -48,13 +49,11 @@ class UserAuthenticationCrudController extends AbstractCrudController
 
         yield IdField::new('id')->hideOnForm();
         yield ArrayField::new('ip', 'Adresses Ip')->onlyOnDetail();
-        yield EmailField::new('email', 'Email')->hideOnForm();
+        yield EmailField::new('email', 'Email');
 
         // yield CollectionField::new('uroles', 'Roles')->hideOnDetail()->setEntryIsComplex()->useEntryCrudForm(RoleCrudController::class);
         // yield ChoiceField::new('roles', 'Roles')->hideOnDetail()->allowMultipleChoices()->setChoices($this->list->getEntityList(Role::class));
-        yield ArrayField::new('uroles', 'Roles')->onlyOnDetail();
-
-        // yield AssociationField::new('roles', 'Roles')->setCrudController(RoleCrudController::class);
+        yield AssociationField::new('role', 'Role');
         
         yield BooleanField::new('blocked', 'Bloqué')->hideWhenCreating();
         yield DateTimeField::new('firstconnexion', 'Première Connexion')->onlyOnDetail();

@@ -11,11 +11,147 @@
 {% block main %}
 
 
+<div class="d-flex md-flex-column gap-5 h-125 justify-content-center align-items-center text-light">
+
+    <div class="bg-primary w-25 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="d-block fs-1">{{nbUsers}}</span>
+        <span class="d-block">Utilisateurs</span>
+    </div>
+    <div class="bg-primary w-25 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="d-block fs-1">{{nbArticlesView}}</span>
+        <span class="d-block">Vues</span>
+    </div>
+    <div class="bg-primary w-25 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="d-block fs-1">{{ nbNewToday }}</span>
+        <span class="d-block">Nouveaux</span>
+    </div>
+</div>
+<br>
+<hr>
+<br>
 
 
+<h3>Derniers Commentaires</h3>
+<table class="datagrid">
+    <thead>
+        <tr>
+            <td>Auteur</td>
+            <td>Contenu</td>
+            <td>Article</td>
+            <td>Reponse à</td>
+            <td>Reponses</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comment in lastComments %}
+            <tr>
+                <td>{{ comment.author }}</td>
+                <td>{{ comment.content }}</td>
+                <td>{{ comment.article }}</td>
+                <td>{{ comment.replyTo }}</td>
+                <td>{{ comment.replies | length }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
+<br>
+<hr>
+<br>
 
-<pre>
-    {{ dump(ea) }}
-</pre>
+<h3>Dernières Inscriptions</h3>
+<table class="datagrid">
+    <thead>
+        <tr>
+            <td>Pseudo</td>
+            <td>Auth</td>
+            <td>Pays</td>
+            <td>Points</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in lastUsers %}
+            <tr>
+                <td>{{ user }}</td>
+                <td>{{ user.auth }}</td>
+                <td><img src="/bundles/easyadmin/images/flags/{{ user.country }}.svg" width="35px" alt="{{ user.country }}"></td>
+                <td>{{ user.coins }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><hr><br>
+
+<h3>Dernier(e)s Connecté(e)s</h3>
+<table class="datagrid">
+    <thead>
+        <tr>
+            <td>Pseudo</td>
+            <td>Auth</td>
+            <td>Pays</td>
+            <td>Points</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for auth in lastConnected %}
+            <tr>
+                <td>{{ auth.user }}</td>
+                <td>{{ auth }}</td>
+                <td><img src="/bundles/easyadmin/images/flags/{{ auth.user.country }}.svg" width="35px" alt="{{ auth.user.country }}"></td>
+                <td>{{ auth.user.coins }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<hr>
+<br>
+
+<h3>Meilleurs Articles</h3>
+<table class="datagrid">
+    <thead>
+        <tr>
+            <td>Titre</td>
+            <td>Sujet</td>
+            <td>Vues</td>
+            <td>Publication</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in bestArticles %}
+            <tr>
+                <td>{{ article.title }}</td>
+                <td>{{ article.subject }}</td>
+                <td>{{ article.views }}</td>
+                <td>{{ article.publishedAt | date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<hr>
+<br>
+
+<h3>Meilleures Ressources</h3>
+<table class="datagrid">
+    <thead>
+        <tr>
+            <td>Titre</td>
+            <td>Sujet</td>
+            <td>Vues</td>
+            <td>Publication</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for res in bestRessources %}
+            <tr>
+                <td>{{ res.name }}</td>
+                <td>{{ res.link }}</td>
+                <td>{{ res.clicks }}</td>
+                <td>{{ res.createAt | date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

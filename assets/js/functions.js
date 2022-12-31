@@ -8,8 +8,10 @@ export const addToast = (title, content, feed = undefined) => {
 
     let layout = document.querySelector('#toast-layout').content.cloneNode(true).firstElementChild
 
-    layout.querySelector('.toast-title').textContent = title
-    layout.querySelector('.toast-content').textContent = content
+
+
+    layout.querySelector('.toast-title').textContent = title === null || title === '' ? document.title.substring(0, 30) : title
+    layout.querySelector('.toast-content').innerHTML = content
     if(feed !== undefined) layout.classList.add(feed)
     layout.querySelector('.toast-close').addEventListener('click', () => handleCloseToast(layout))
     document.querySelector('.toast-box').append(layout)

@@ -115,7 +115,7 @@ class ResetPasswordController extends AbstractController
             $user->setPassword($encodedPassword);
             $this->entityManager->flush();
 
-            $this->mailer->make($user->getEmail(), 'Mot de passe changé avec succes', 'mail/password_changed.html.twig', [
+            $this->mailer->make($user->getEmail(), 'Mot de passe changé avec succes', 'mail/auth/password_changed.html.twig', [
                 'pseudo' => $user->getUser()->getPseudo(),
                 'subject' => 'Mot de passe changé avec succes'
             ])->send();
@@ -148,7 +148,7 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('reset_check_email');
         }
 
-        $this->mailer->make($user->getEmail(), 'Votre demande de restauration de mot de passe', 'mail/reset_password.html.twig', [
+        $this->mailer->make($user->getEmail(), 'Votre demande de restauration de mot de passe', 'mail/auth/reset_password.html.twig', [
             'resetToken' => $resetToken,
             'subject' => 'Restauration de mot de passe'
         ])->send();

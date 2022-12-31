@@ -1,0 +1,21 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}{{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>	
+		<p>Hello, {{pseudo}}.</p>
+		<p>Merci d'avoir rejoint l'équipage de <strong>SpaceCoder</strong>. Vous pouvez désormais accéder à la majorité des fonctionnalités de notre site web.</p>
+		<p>Pour vous accueillir nous vous avons offert <span class="rho">10</span> (Rhô). Découvrez comment vous pouvez en gagner plus et devenir un expert du web en accédant à nos <strong>Articles</strong>, <strong>Projets</strong> et <strong>Ressources</strong>.</p>
+		<p class="text-center my-10 flex flex-col gap-2"> 
+			<a class="btn btn-primary" href="{{ absolute_url(path('home')) }}">ACCEDER A SPACECODER</a>
+		</p>
+
+		<p>Accédez immédiatement pour découvrir les nouveautés de notre plateforme et apprendre des trucs inédits.</p>
+
+		<br>
+		<p>Cordialement, l'equipe SpaceCoder.</p>
+    </main>
+{% endblock %}
+

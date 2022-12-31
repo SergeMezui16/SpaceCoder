@@ -2,8 +2,10 @@
 
 namespace App\Admin;
 
+
 use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
+use App\Authentication\Repository\UserAuthenticationRepository;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Configuration;
@@ -11,6 +13,10 @@ use App\Entity\Contact;
 use App\Entity\Project;
 use App\Entity\Ressource;
 use App\Entity\User;
+use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
+use App\Repository\RessourceRepository;
+use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -24,6 +30,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[IsGranted('ROLE_ADMIN')]
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(
+        private UserRepository $users,
+        private UserAuthenticationRepository $auths,
+        private ArticleRepository $articles,
+        private RessourceRepository $ressources,
+        private CommentRepository $comments
+    )
+    {}
     
     #[Route('/', name: 'admin')]
     public function index(): Response
@@ -45,21 +59,37 @@ class DashboardController extends AbstractDashboardController
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
 
+        $all = $this->users->findAll();
+        $newToday = 0;
+        foreach ($all as $user) {
+            if ((new \DateTimeImmutable())->getTimestamp() -  $user->getCreateAt()->getTimestamp() < 24*60*60) $newToday++;
+        }
+
         return $this->render('admin/index.html.twig', [
-            'user' => new User()
+            'nbUsers' => $this->users->count([]),
+            'nbArticlesView' => $this->articles->views(),
+            'nbNewToday' => $newToday,
+            
+            'bestArticles' => $this->articles->best(3),
+            'bestRessources' => $this->ressources->best(3),
+            
+            'lastUsers' => $this->users->lastUsers(),
+            'lastConnected' => $this->auths->lastConnected(),
+            'lastComments' => $this->comments->last()
+            
         ]);
     }
 
 
-    #[Route('/test', name: 'admin_test')]
-    public function test(): Response
-    {
+    // #[Route('/test', name: 'admin_test')]
+    // public function test(): Response
+    // {
         
 
-        return $this->render('admin/test.html.twig', [
-            'user' => new User()
-        ]);
-    }
+    //     return $this->render('admin/test.html.twig', [
+    //         'user' => new User()
+    //     ]);
+    // }
 
     
 

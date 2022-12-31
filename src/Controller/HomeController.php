@@ -52,15 +52,14 @@ class HomeController extends AbstractController
             $em->persist($contact);
             $em->flush();
 
-            $mailer->make('contact@spacecoder.fun', 'Contact - SpaceCoder', 'mail/contact.html.twig', [
+            $mailer->make('contact@spacecoder.fun', 'Contact - SpaceCoder', 'mail/home/contact.html.twig', [
                 'contact' => $contact,
                 'Subject' => 'Contact',
             ])->send();
 
             $this->addFlash('success', 'Votre message a été envoyé avec success.');
 
-            $contact = new Contact();
-            $form = $this->createForm(ContactType::class, $contact);
+            return $this->redirectToRoute('contact');
         }
 
         return $this->render('home/contact.html.twig', [

@@ -40,9 +40,6 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     )]
     private ?string $email = null;
 
-    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users', cascade:['persist'])]
-    private ?Collection $roles;
-
     /**
      * @var string The hashed password
      */
@@ -84,13 +81,15 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Contact::class)]
     private Collection $contacts;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Role $role = null;
+
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
         $this->contacts = new ArrayCollection();
     }
 
@@ -157,50 +156,25 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
      */
     public function getRoles(): array
     {
-        $roles = $this->roles->map(function($role){
-            return $role->getName();
-        })->toArray();
-        
-        $roles[] = 'ROLE_USER';
+        $role = $this->role;
 
-        return array_unique($roles);
-    }
-
-    public function setRoles(Collection $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    
-    public function getURoles(): Collection
-    {
-        return $this->roles;
-    }
-
-    public function setURoles(Collection $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function addRole(Role $newRole): self
-    {
-        if (!$this->roles->contains($newRole)) {
-            $this->roles[] = $newRole;
-            $newRole->addUser($this);
+        if (empty($role)) {
+            return ['ROLE_USER'];
         }
 
-        return $this;
+        return [$role->getName()]; 
     }
 
-    public function removeUserRole(Role $newRole): self
+
+
+    public function getRole(): ?Role
     {
-        if ($this->roles->removeElement($newRole)) {
-            $newRole->removeUser($this);
-        }
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

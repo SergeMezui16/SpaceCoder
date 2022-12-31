@@ -1,0 +1,30 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}{{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>	
+		<p>Hello, {{pseudo}}.</p>
+		<p>Pour tous ceux qui sont à des kilomètres de vous, et que vous n’avez pas eu l’occasion de voir en cette fin d’année…</p>
+        <p>Ce message vous est adressé à vous et a toutes les personnes que vous potez dans votre coeur.</p>
+        <p class="italic text-center"> <br>
+            Un zeste de réussite <br>
+            Un soupçon d’imprévu <br>
+            Une pointe d’humour <br>
+            Le tout arrosé de bonheur et d’amour ! <br>
+            Et 2023 aura une saveur inoubliable … <br>
+            Meilleurs Vœux 2023 ! <br>
+        </p>
+
+
+		<p class="text-center my-10 flex flex-col gap-2"> 
+			<a class="btn btn-primary" href="{{ absolute_url(path('home')) }}">BONNE ANNÉE</a>
+		</p>
+
+		<p>Pour le célébrer nous vous avons offert <span class="rho">{{ rho }}</span> (Rhô).</p>
+
+		<br>
+		<p>Cordialement, l'equipe SpaceCoder.</p>
+    </main>
+{% endblock %}

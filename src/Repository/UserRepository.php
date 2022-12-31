@@ -45,10 +45,20 @@ class UserRepository extends ServiceEntityRepository
     {
         return
             $this
-            ->createQueryBuilder('u')
-            ->andWhere('u.pseudo LIKE :pseudo')
-            ->setParameter('pseudo', "%$q%")
-            ->getQuery();
+                ->createQueryBuilder('u')
+                ->andWhere('u.pseudo LIKE :pseudo')
+                ->setParameter('pseudo', "%$q%")
+                ->getQuery();
+    }
+
+    public function lastUsers(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.createAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**

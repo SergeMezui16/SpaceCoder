@@ -77,6 +77,25 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
+    public function best(int $limit): array
+   {
+       return $this->createQueryBuilder('a')
+            ->orderBy('a.views', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+       ;
+   }
+
+    public function views()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('SUM(a.views)')
+            ->getQuery()
+            ->getSingleResult()[1]
+        ;
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */

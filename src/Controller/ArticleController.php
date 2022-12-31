@@ -7,12 +7,14 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
+use App\Service\EarnCoinService;
 use App\Service\EntityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/article')]
@@ -39,9 +41,19 @@ class ArticleController extends AbstractController
     public function detail(
         Article $article, 
         Request $request, 
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        EarnCoinService $earner
     ): Response
     {
+        if($article->getPublishedAt() > new \DateTimeImmutable()){
+            throw new NotFoundHttpException();
+        }
+
+        /** @var UserAuthentication */
+        $auth = $this->getUser();
+
+        if($auth) $earner->firstViewer($article, $auth->getUser());
+
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -52,19 +64,22 @@ class ArticleController extends AbstractController
 
             $this->isGranted('IS_AUTHENTICATED');
 
-            /** @var UserAuthentication */
-            $auth = $this->getUser();
-
             $comment
                 ->setAuthor($auth->getUser())
                 ->setArticle($article)
             ;
 
+            $earner->commentOn($auth->getUser());
+            $earner->firstComment($auth->getUser());
+            $earner->firstCommentOn($article, $auth->getUser());
+
             $entityManager->persist($comment);
             $entityManager->flush();
-
-            $comment = new Comment();
-            $form = $this->createForm(CommentType::class, $comment);
+            
+            return $this->redirectToRoute('article_detail', [
+                'slug' => $article->getSlug(),
+                '_fragment' => 'comment-' . $comment->getId()
+            ]);
         }
 
         return $this->render('article/detail.html.twig', [

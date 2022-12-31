@@ -53,6 +53,15 @@ class RessourceRepository extends ServiceEntityRepository
                 ->getQuery()
             ;
     }
+    
+    public function best(int $limit): array
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.clicks', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Ressource[] Returns an array of Ressource objects

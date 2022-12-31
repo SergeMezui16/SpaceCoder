@@ -22,12 +22,13 @@ class RegistrationController extends AbstractController
 {
     public function __construct(
         private VerifyEmailHelperInterface $verifyEmailHelper,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private MailMakerService $mailer
     ){}
 
     
     #[Route('/register', name: 'registration')]
-    public function register(Request $request, UserPasswordHasherInterface $encoder, MailMakerService $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $encoder): Response
     {
 
         $user = new User();
@@ -54,7 +55,7 @@ class RegistrationController extends AbstractController
                 ['id' => $user->getId()]
             );
 
-            $mailer->make($auth->getEmail(), 'Confirmation d\'adresse', 'mail/confirmation_email.html.twig', [
+            $this->mailer->make($auth->getEmail(), 'Confirmation d\'adresse', 'mail/auth/confirmation_email.html.twig', [
                 'signedUrl' => $signatureComponents->getSignedUrl(),
                 'pseudo' => $user->getPseudo(),
                 'expiration' => 1
@@ -96,6 +97,11 @@ class RegistrationController extends AbstractController
         $auth->setBlocked(false);
         $manager->persist($user);
         $manager->flush();
+
+        $this->mailer->make($auth->getEmail(), 'Bienvenu sur SpaceCoder', 'mail/auth/welcome.html.twig', [
+            'subject' => 'Bienvenu sur SpaceCoder',
+            'pseudo' => $user->getPseudo()
+        ])->send();
 
         $this->addFlash('info', 'Votre adresse mail a bien été validé, veuillez vous connecter !');
 

@@ -55,6 +55,15 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
 
+    public function last(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.createAt', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

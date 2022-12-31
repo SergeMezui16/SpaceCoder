@@ -75,10 +75,12 @@ class SearchService
             ->orWhere('a.subject LIKE :param')
             ->orWhere('a.description LIKE :param')
             ->orWhere('a.content LIKE :param')
+            ->andWhere('a.publishedAt <= :now')
 
             ->setMaxResults($limit)
 
             ->setParameter('param', "%$q%")
+            ->setParameter('now', new \DateTimeImmutable())
 
             ->getQuery()
             ->getResult()

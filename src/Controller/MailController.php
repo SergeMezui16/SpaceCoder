@@ -60,4 +60,23 @@ class MailController extends AbstractController
             'domain' => 'http://localhost:8000'
         ]);
     }
+
+    #[Route('/welcome', name: 'mail_welcome')]
+    public function welcome(): Response
+    {
+        return $this->render('mail/auth/welcome.html.twig', [
+            'pseudo' => 'Serge',
+            'subject' => 'Bienvenu sur SpaceCoder',
+        ]);
+    }
+
+    #[Route('/new-year', name: 'mail_new_year')]
+    public function newYear(): Response
+    {
+        return $this->render('mail/command/happy_new_year.html.twig', [
+            'pseudo' => 'Serge',
+            'subject' => 'Bonne Année',
+            'rho' => 20
+        ]);
+    }
 }

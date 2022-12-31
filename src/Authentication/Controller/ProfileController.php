@@ -86,7 +86,7 @@ class ProfileController extends AbstractController
             $this->manager->persist($auth);
             $this->manager->flush();
 
-            $this->mailer->make($auth->getEmail(), 'Mot de passe changé avec succes', 'mail/password_changed.html.twig', [
+            $this->mailer->make($auth->getEmail(), 'Mot de passe changé avec succes', 'mail/auth/password_changed.html.twig', [
                 'pseudo' => $auth->getUser()->getPseudo(),
                 'subject' => 'Mot de passe changé avec succes'
             ])->send();
@@ -129,7 +129,7 @@ class ProfileController extends AbstractController
             $entityManager->persist($auth);
             $entityManager->flush();
 
-            $this->mailer->make($auth->getEmail(), 'Processus de suppression de compte lancée', 'mail/delete_account.html.twig', [
+            $this->mailer->make($auth->getEmail(), 'Processus de suppression de compte lancée', 'mail/auth/delete_account.html.twig', [
                 'pseudo' => $auth->getUser()->getPseudo(),
                 'subject' => 'Processus de suppression de compte lancée'
             ])->send();

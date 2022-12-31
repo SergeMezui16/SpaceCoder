@@ -58,16 +58,21 @@
         {% endblock %}
     </head>
     <body class="">
+
+    
         {% for label, messages in app.flashes %}
 
-            <span
-                class="js-toast"
-                data-title=""
-                data-feed="{{ label }}"
-                data-content="{{ messages | join(', ')  }}"
-            >
+            {% for message in messages %}
+                <span
+                    class="js-toast"
+                    data-title=""
+                    data-feed="{{ label }}"
+                    data-content="{{ message | raw}}"
+                >
+            {% endfor %}
 
         {% endfor %}
+
 
         {% include "_partials/_header.html.twig" %}
         

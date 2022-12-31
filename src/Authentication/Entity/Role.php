@@ -2,14 +2,14 @@
 
 namespace App\Authentication\Entity;
 
-use App\Entity\Project;
-use App\Traits\PreUpdateTrait;
-use App\Traits\PrePersistTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Repository\RoleRepository;
+use App\Entity\Project;
+use App\Traits\PrePersistTrait;
+use App\Traits\PreUpdateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -33,9 +33,6 @@ class Role
     #[ORM\Column(options: ['default' => true])]
     private ?bool $valid;
 
-    #[ORM\ManyToMany(targetEntity: UserAuthentication::class, inversedBy: 'roles')]
-    private $users;
-
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: Project::class)]
     private Collection $projects;
 
@@ -44,6 +41,9 @@ class Role
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'role', targetEntity: UserAuthentication::class)]
+    private Collection $users;
 
 
     public function __construct()
@@ -109,7 +109,8 @@ class Role
     public function addUser(UserAuthentication $user): self
     {
         if (!$this->users->contains($user)) {
-            $this->users[] = $user;
+            $this->users->add($user);
+            $user->setRole($this);
         }
 
         return $this;
@@ -117,7 +118,12 @@ class Role
 
     public function removeUser(UserAuthentication $user): self
     {
-        $this->users->removeElement($user);
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getRole() === $this) {
+                $user->setRole(null);
+            }
+        }
 
         return $this;
     }

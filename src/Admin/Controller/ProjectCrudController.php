@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class ProjectCrudController extends AbstractCrudController
 {
@@ -38,6 +39,7 @@ class ProjectCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('name', 'Nom');
         yield TextField::new('authors', 'Auteurs');
+        yield UrlField::new('url', 'Url');
         yield SlugField::new('slug', 'Slug')->setTargetFieldName('name')->hideOnIndex();
         yield TextField::new('description', 'Description')->hideOnIndex();
         yield NumberField::new('visit', 'Visite')->hideWhenCreating();
