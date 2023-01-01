@@ -34,6 +34,10 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        
         {% if app.environment == 'prod' %}
             <!-- Matomo -->
             <script>
@@ -52,10 +56,6 @@
             <!-- End Matomo Code -->
 
         {% endif %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body class="">
 
