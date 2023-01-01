@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Ressource;
-use App\Repository\ArticleRepository;
 use App\Repository\RessourceRepository;
+use App\Service\EntityService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +29,9 @@ class RessourceController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'ressource_visit')]
-    public function visit(Ressource $ressource)
+    public function visit(Ressource $ressource, EntityService $entityService)
     {
+        $entityService->incrementRessourceClicks($ressource);
         return $this->redirect($ressource->getLink());
     }
 }

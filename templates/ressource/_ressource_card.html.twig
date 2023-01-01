@@ -2,14 +2,14 @@
 	class="ressource-card" 
     is="ressource-card" 
     data-url="{{ressource.slug}}"
-    onclick="window.location.href = '{{path('ressource_visit', {slug: ressource.slug})}}'"
+    onclick="window.open('{{path('ressource_visit', {slug: ressource.slug})}}', '_blank');"
     style="background: no-repeat center/150% url('{{ressource.image}}')"
 >
 	{# <img src="/favicon.svg" alt="ressource" class="ressource-img" /> #}
 	<div class="ressource-content">
-		<a href="{{ressource.slug}}" class="ressource-title">
+		<span class="ressource-title">
 			{{ressource.name}}
-		</a>
+		</span>
 		<div id="js-ressource-description" class="ressource-description">
 			{{ressource.description}}
 		</div>
