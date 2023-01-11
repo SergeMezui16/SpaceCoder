@@ -40,7 +40,7 @@
                 href=""
                 data-title="{{article.title}}"
                 data-text="{{article.description}}"
-                data-url="{{ path('article', {slug: article.slug}) }}"
+                data-url="{{ path('article_detail', {slug: article.slug}) }}"
 
                 class="no-underline my-3 mx-auto"
             >
@@ -56,7 +56,7 @@
                 {% endif %}
                 pour Spacecoder.
             </p>
-            <p>Crée le {{article.updateAt | date('d M. Y')}}</p>
+            <p>Crée le {{article.publishedAt | date('d M. Y')}}</p>
             <p>
                 Proposé par
                 {% if article.suggestedBy != null %}

@@ -24,7 +24,7 @@
         <meta property="twitter:url" content="{{absolute_url(path('article_detail', {slug: article.slug}))}}">
         <meta property="twitter:title" content="{{article.title}} — SpaceCoder">
         <meta property="twitter:description" content="{{article.description}}">
-        <meta property="twitter:image" content="{{absolute_url(article.image)}}">
+        <meta property="twitter:image" content="{{ absolute_url(asset('data/article/images/' ~ article.image)) }}">
 
 {% endblock %}
 
