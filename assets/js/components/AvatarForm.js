@@ -52,7 +52,7 @@ export default class AvatarForm extends HTMLDivElement {
      * @returns {boolean}
      */
     validFileType(file) {
-        for (let i = 0; i < this.#fileTypes.length; i++) {            
+        for (let i = 0; i < this.#fileTypes.length; i++) {
             if(this.#fileTypes[i] === file.type){
                 return true
             }

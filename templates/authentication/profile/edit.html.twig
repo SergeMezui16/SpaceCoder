@@ -20,7 +20,7 @@
         {{ form_start(form) }}
         {{ form_row(form._token) }}
 
-        <div is="avatar-form" class="form-control flex-1 flex flex-col items-center justify-center" data-btn=" .edit" data-img=" .edit img">
+        <div is="avatar-form" class="form-control flex-1 flex flex-col items-center justify-center" data-btn=".avatar-edit" data-img=".avatar-edit img">
 
             <div class="avatar-edit">
                 <img src="{% if user.avatar %}{{user.avatar}}{% else %}/favicon.svg{% endif %}" alt="avatar edit big" title="avatar edit big" class="avatar big"/>
