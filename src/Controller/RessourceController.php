@@ -31,7 +31,7 @@ class RessourceController extends AbstractController
     #[Route('/{slug}', name: 'ressource_visit')]
     public function visit(Ressource $ressource, EntityService $entityService)
     {
-        $entityService->incrementRessourceClicks($ressource);
+        if (!$this->isGranted('ROLE_ADMIN')) $entityService->incrementRessourceClicks($ressource);
         return $this->redirect($ressource->getLink());
     }
 }

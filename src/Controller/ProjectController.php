@@ -24,7 +24,7 @@ class ProjectController extends AbstractController
     #[Route('/{slug}', name: 'project_view')]
     public function view(Project $project, EntityService $entityService): Response
     {
-        $entityService->incrementProjectVisits($project);
+        if (!$this->isGranted('ROLE_ADMIN')) $entityService->incrementProjectVisits($project);
         return $this->redirect($project->getUrl());
     }
 }

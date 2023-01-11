@@ -30,7 +30,6 @@ class ArticleController extends AbstractController
             $request->query->getInt('page', 1),
             12
         );
-        // dd($pagination);
         return $this->render('article/index.html.twig', [
             'title' => 'Articles',
             'pagination' => $pagination
@@ -58,7 +57,7 @@ class ArticleController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         
-        $this->entityService->incrementArticleViews($article);
+        if(!$this->isGranted('ROLE_ADMIN')) $this->entityService->incrementArticleViews($article);
 
         if($form->isSubmitted() && $form->isValid()){
 
