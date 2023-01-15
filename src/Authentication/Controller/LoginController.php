@@ -21,6 +21,8 @@ class LoginController extends AbstractController
     {
         $this->saveTargetPath($request->getSession(), 'main', $request->server->get('HTTP_REFERER', $this->generateUrl('home')));
 
+        if($this->getUser()) $this->redirectToRoute('home');
+
         return $this->render('authentication/login.html.twig', [
             'last_email' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),

@@ -6,7 +6,9 @@ use App\Entity\Configuration;
 use App\Repository\ConfigurationRepository;
 
 /**
- * Service class allows to Get configurations
+ * Aplication Configuration Service
+ *
+ * Service class allows to Get configurations defined in database 
  */
 class ConfigurationService 
 {
@@ -16,12 +18,12 @@ class ConfigurationService
     ){}
 
     /**
-     * Get a configuration 
+     * Get a configuration
      *
      * @param string $const Name of the config
      * @return Configuration|null
      */
-    public function get(string $const) : ?Configuration
+    public function get(string $const): ?Configuration
     {
         return $this->repo->findOneByConstNameField($const);
     }
@@ -30,9 +32,9 @@ class ConfigurationService
      * Get All Configurations of one category
      *
      * @param string $category Name of the configuration category
-     * @return Configuration[]
+     * @return Configuration[]|null Array of Configuration from the same category
      */
-    public function getByCategory(string $category) : array
+    public function getByCategory(string $category): ?array
     {
         return $this->repo->findByCategory($category);
     }

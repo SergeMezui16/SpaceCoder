@@ -1,7 +1,9 @@
 <?php
 namespace App\Model;
 
-
+/**
+ * Search Item Data Model
+ */
 class SearchItemModel
 {
     private ?int $id = null;

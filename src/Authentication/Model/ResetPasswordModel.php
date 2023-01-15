@@ -4,6 +4,9 @@ namespace App\Authentication\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Reset Password Data Model for Form
+ */
 class ResetPasswordModel
 {
     #[Assert\Regex(

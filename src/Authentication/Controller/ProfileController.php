@@ -145,6 +145,16 @@ class ProfileController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Profile Route
+     * 
+     * Profile route has defined in routes.yaml
+     * Cause that route must be more priority than others
+     *
+     * @param User $user
+     * @return Response
+     */
     #[IsGranted('PUBLIC_ACCESS')]
     public function index(User $user): Response
     {
@@ -155,8 +165,19 @@ class ProfileController extends AbstractController
     }
 
 
+    /**
+     * Force Logout
+     * 
+     * @todo Make some tests
+     *
+     * @param Request $request
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param TokenStorageInterface $tokenStorage
+     * @param RequestStack $requestStack
+     * @return void
+     */
     public function forceLogout(
-        // Request $request, 
+        Request $request, 
         EventDispatcherInterface $eventDispatcher, 
         TokenStorageInterface $tokenStorage,
         RequestStack $requestStack

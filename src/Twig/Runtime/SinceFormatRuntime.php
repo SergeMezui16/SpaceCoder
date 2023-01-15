@@ -7,12 +7,15 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class SinceFormatRuntime implements RuntimeExtensionInterface
 {
-    public function __construct()
-    {
-        // Inject dependencies if needed
-    }
+    public function __construct(){}
 
-    public function sinceFormat(\DateTimeImmutable $date)
+    /**
+     * Return time flowed since $date formated in french
+     *
+     * @param \DateTimeImmutable $date
+     * @return string
+     */
+    public function sinceFormat(\DateTimeImmutable $date): string
     {
         return DateFormatUtil::since($date);
     }

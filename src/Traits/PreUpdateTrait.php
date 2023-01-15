@@ -6,6 +6,8 @@ namespace App\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Set a default UpdateAt
+ * 
  * This trait allows to give default values to properties of 
  * an entity before his data has udated on database
  */
