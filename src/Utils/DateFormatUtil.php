@@ -1,6 +1,11 @@
 <?php
 namespace App\Utils;
 
+/**
+ * Class for date formating
+ * 
+ * This class help you to transform a DateTime to another format
+ */
 class DateFormatUtil
 {
     /**

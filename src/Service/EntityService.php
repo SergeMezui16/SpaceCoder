@@ -7,6 +7,11 @@ use App\Entity\Project;
 use App\Entity\Ressource;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Entity Service
+ * 
+ * This Service provide many methods for Entities
+ */
 class EntityService
 {
     public function __construct(
@@ -19,18 +24,36 @@ class EntityService
         $this->entityManager->flush();
     }
 
-    public function incrementProjectVisits(Project $project)
+    /**
+     * Increments visits of Project
+     *
+     * @param Project $project
+     * @return Project
+     */
+    public function incrementProjectVisits(Project $project): Project
     {
-        $project->setVisit($project->getVisit() + 1);
+        return $project->setVisit($project->getVisit() + 1);
     }
 
-    public function incrementArticleViews(Article $article)
+    /**
+     * Increments views of Article
+     *
+     * @param Article $article
+     * @return Article
+     */
+    public function incrementArticleViews(Article $article): Article
     {
-        $article->setViews($article->getViews() + 1);
+        return $article->setViews($article->getViews() + 1);
     }
 
-    public function incrementRessourceClicks(Ressource $ressource)
+    /**
+     * Increments clicks of Ressource
+     *
+     * @param Ressource $ressource
+     * @return Ressource
+     */
+    public function incrementRessourceClicks(Ressource $ressource): Ressource
     {
-        $ressource->setClicks($ressource->getClicks() + 1);
+        return $ressource->setClicks($ressource->getClicks() + 1);
     }
 }

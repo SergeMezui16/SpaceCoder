@@ -4,6 +4,9 @@ namespace App\Model;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
+/**
+ * Search Data Model
+ */
 class SearchData
 {
     private PaginationInterface $pagination;

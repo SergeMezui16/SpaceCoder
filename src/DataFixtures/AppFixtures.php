@@ -16,60 +16,95 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class AppFixtures extends Fixture
 {
+    private $fake;
+    private $manager;
+    private Role $adminRole;
+    private Role $userRole;
+    private Role $projectRole;
+    /** @var User[] $users */
+    private array $users;
+    /** @var Article[] $articles */
+    private array $articles;
+    /** @var Comment[] $comments */
+    private array $comments;
+    /** @var Comment[] $replies */
+    private array $replies;
+    /** @var Project[] $projects */
+    private array $projects;
+    /** @var Ressource[] $ressources */
+    private array $ressources;
 
-    public function __construct(private UserPasswordHasherInterface $encoder){}
+
+
+    public function __construct(
+        private UserPasswordHasherInterface $encoder
+    ){
+        $this->fake = (new Factory())::create('fr_FR');
+        $this->users = [];
+        $this->articles = [];
+        $this->comments = [];
+        $this->replies = [];
+        $this->projects = [];
+        $this->ressources = [];
+    }
     
     public function load(ObjectManager $manager): void
     {
-        $fake = (new Factory())::create('fr_FR');
+        $this->manager = $manager;
+        
+        $this->setRoles();
+        $this->setUser();
+        $this->setUsers();
+        $this->setArticles();
+        $this->setComments();
+        $this->setProjects();
+        $this->setRessources();
 
-        // Configuration
-        $manager->persist(
+        $manager->flush();
+    }
+    
+    public function setConfigurations(): void
+    {
+        $this->manager->persist(
             (new Configuration())
                 ->setName('APP_NAME')
                 ->setValue('SPACECODER')
                 ->setCategory('APP')
         );
-        $manager->persist(
+        $this->manager->persist(
             (new Configuration())
                 ->setName('APP_VERSION')
                 ->setValue('3.0')
                 ->setCategory('APP')
         );
-            
-        
+    }
 
+    public function setRoles(): void
+    {
+        $this->adminRole = (new Role())->setName('ROLE_ADMIN')->setContext('Administration')->setValid(true);
+        $this->userRole = (new Role())->setName('ROLE_USER')->setContext('Utilisateur')->setValid(true);
+        $this->projectRole = (new Role())->setName('ROLE_PROJECT_X')->setContext('Projet X')->setValid(true);
 
-        // ROLES
-        $adminRole = (new Role())->setName('ROLE_ADMIN')->setContext('Administration')
-            ->setValid(true);
+        $this->manager->persist($this->adminRole);
+        $this->manager->persist($this->userRole);
+        $this->manager->persist($this->projectRole);
+    }
 
-        $userRole = (new Role())->setName('ROLE_USER')->setContext('Utilisateur')
-            ->setValid(true);
-
-        $projectRole = (new Role())->setName('ROLE_PROJECT_X')->setContext('Projet X')
-            ->setValid(true);
-
-        $roles = [$adminRole, $userRole];
-        $manager->persist($adminRole);
-        $manager->persist($userRole);
-        $manager->persist($projectRole);
-
-        // ME
+    public function setUser(): void
+    {
         $myAuth = new UserAuthentication();
         $myPass = $this->encoder->hashPassword($myAuth, 'pass');
 
         $me = (new User())
             ->setAuth(
-               $myAuth
-               ->setEmail('serge@mezui.com')
-               ->setPassword($myPass)
-               ->setBlocked(false)
-               ->addRole($adminRole)
-               ->addRole($userRole)
-               ->addRole($projectRole)
+                $myAuth
+                    ->setEmail('serge@mezui.com')
+                    ->setPassword($myPass)
+                    ->setBlocked(false)
+                    ->setRole($this->adminRole)
             )
             ->setPseudo('Serge Mezui')
             ->setSlug('SergeMezui')
@@ -77,107 +112,103 @@ class AppFixtures extends Fixture
             ->setCoins(1000)
             ->setBornAt(new \DateTimeImmutable('2002-10-04 17:24:43.000000'));
 
-        $manager->persist($myAuth);
-        $manager->persist($me);
+        $this->manager->persist($myAuth);
+        $this->manager->persist($me);
+    }
 
-        // USERS
-        $users = [];
+    public function setUsers()
+    {
         for ($i = 0; $i < 15; $i++) {
 
             $auth = new UserAuthentication();
             $pass = $this->encoder->hashPassword($auth, 'pass');
 
             $auth
-                ->setEmail($fake->email())
+                ->setEmail($this->fake->email())
                 ->setPassword($pass)
-                ->setBlocked($fake->boolean())
-                ->addRole($userRole);
+                ->setBlocked($this->fake->boolean())
+                ->setRole($this->userRole);
 
-            $manager->persist($auth);
+            $this->manager->persist($auth);
 
-            $users[] = $user = (new User())
+            $this->users[] = $user = (new User())
                 ->setAuth($auth)
                 ->setSlug('slugUser' . $i)
-                ->setPseudo($fake->name())
-                ->setCountry($fake->countryCode())
+                ->setPseudo($this->fake->name())
+                ->setCountry($this->fake->countryCode())
                 ->setCoins(10)
                 ->setBornAt(new \DateTimeImmutable());
 
-            $manager->persist($user);
+            $this->manager->persist($user);
         }
+    }
 
-        // ARTICLE
-        $articles = [];
-        for ($i=0; $i < 30; $i++) { 
-            $articles[] = $article = (new Article())
-                ->setTitle($fake->sentence())
-                ->setSubject($fake->sentence(2))
-                ->setDescription($fake->paragraph())
-                ->setContent($fake->text(1000))
-                ->setViews($fake->numberBetween(0, 200))
-                ->setImage($fake->imageUrl(640, 350))
-                ->setAuthor($fake->randomElement([...$users, null]))
-                ->setSuggestedBy($fake->randomElement([...$users, null]))
-                ->setAuthor($fake->randomElement($users))
-                ->setLevel($fake->randomElement([1, 2, 3]))
-                ->setPublishedAt(new DateTimeImmutable())
-            ;
-            $manager->persist($article);
+    public function setArticles()
+    {
+        for ($i = 0; $i < 30; $i++) {
+            $this->articles[] = $article = (new Article())
+                ->setTitle($this->fake->sentence())
+                ->setSubject($this->fake->sentence(2))
+                ->setDescription($this->fake->paragraph())
+                ->setContent($this->fake->text(1000))
+                ->setViews($this->fake->numberBetween(0, 200))
+                ->setImage($this->fake->imageUrl(640, 350))
+                ->setAuthor($this->fake->randomElement([...$this->users, null]))
+                ->setSuggestedBy($this->fake->randomElement([...$this->users, null]))
+                ->setAuthor($this->fake->randomElement($this->users))
+                ->setLevel($this->fake->randomElement([1, 2, 3]))
+                ->setPublishedAt(new DateTimeImmutable());
+            $this->manager->persist($article);
         }
+    }
 
+    public function setComments()
+    {
+        for ($i = 0; $i < 30; $i++) {
+            $this->comments[] = $comment = (new Comment())
+                ->setArticle($this->fake->randomElement($this->articles))
+                ->setAuthor($this->fake->randomElement([...$this->users, null]))
+                ->setContent($this->fake->sentence(10, true));
 
-        // COMMENT
-        $comments = [];
-        $replies = [];
-        for ($i=0; $i < 30; $i++) { 
-            $comments[] = $comment = (new Comment())
-                ->setArticle($fake->randomElement($articles))
-                ->setAuthor($fake->randomElement([...$users, null]))
-                ->setContent($fake->sentence(10, true))
-            ;
-            
-            for ($i=0; $i < mt_rand(0, 4); $i++) {
-                $replies[] = $reply = (new Comment())
+            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+                $this->replies[] = $reply = (new Comment())
                     ->setArticle($comment->getArticle())
-                    ->setAuthor($fake->randomElement([...$users, null]))
-                    ->setContent($fake->sentence(10, true))
-                ;
+                    ->setAuthor($this->fake->randomElement([...$this->users, null]))
+                    ->setContent($this->fake->sentence(10, true));
                 $comment->setReplyTo($reply);
             }
-            
-            $manager->persist($comment);
-            $manager->persist($reply);
-        }
 
-        // PROJECT
-        $projects = [];
-        for ($i=0; $i < 10; $i++) { 
-            $projects[] = $project = (new Project())
-                ->setName($fake->sentence(2))
-                ->setDescription($fake->paragraph(1))
-                ->setVisit($fake->numberBetween(0, 100))
-                ->setImage($fake->imageUrl(640, 350))
-                ->setAuthors($fake->sentence(2))
-                ->setUrl($fake->url())
-                ->setRole($projectRole)
-            ;
-            $manager->persist($project);
+            $this->manager->persist($comment);
+            $this->manager->persist($reply);
         }
+    }
 
-        // RESSOURCE
-        $ressources = [];
-        for ($i=0; $i < 70; $i++) { 
-            $ressources[] = $ressource = (new Ressource())
-                ->setName($fake->sentence(2))
-                ->setImage($fake->imageUrl(640, 350))
-                ->setDescription($fake->paragraph(1))
-                ->setClicks($fake->numberBetween(0, 100))
-                ->setLink($fake->url())
-                ->setCategories($fake->words())
-            ;
-            $manager->persist($ressource);
+    public function setProjects()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $this->projects[] = $project = (new Project())
+                ->setName($this->fake->sentence(2))
+                ->setDescription($this->fake->paragraph(1))
+                ->setVisit($this->fake->numberBetween(0, 100))
+                ->setImage($this->fake->imageUrl(640, 350))
+                ->setAuthors($this->fake->sentence(2))
+                ->setUrl($this->fake->url())
+                ->setRole($this->projectRole);
+            $this->manager->persist($project);
         }
+    }
 
-        $manager->flush();
+    public function setRessources()
+    {
+        for ($i = 0; $i < 70; $i++) {
+            $this->ressources[] = $ressource = (new Ressource())
+                ->setName($this->fake->sentence(2))
+                ->setImage($this->fake->imageUrl(640, 350))
+                ->setDescription($this->fake->paragraph(1))
+                ->setClicks($this->fake->numberBetween(0, 100))
+                ->setLink($this->fake->url())
+                ->setCategories($this->fake->words());
+            $this->manager->persist($ressource);
+        }
     }
 }

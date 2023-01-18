@@ -27,6 +27,12 @@ class LoginSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * Check if User Account has been deleted and cancel the deleting process
+     *
+     * @param LoginSuccessEvent $event
+     * @return void
+     */
     public function onLoginSuccessEvent(LoginSuccessEvent $event): void
     {
         /**
@@ -42,7 +48,7 @@ class LoginSubscriber implements EventSubscriberInterface
             }
 
             $user->load($event->getRequest());
-            
+
             $this->session->getFlashBag()->add('info', sprintf('Bienvenu %s, vous nous avez manqué !', $user->getUser()));
 
             $this->em->persist($user);
@@ -50,6 +56,12 @@ class LoginSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @todo Send a flash on logout
+     *
+     * @param LogoutEvent $event
+     * @return void
+     */
     public function onLogoutEvent(LogoutEvent $event): void
     {}
 }

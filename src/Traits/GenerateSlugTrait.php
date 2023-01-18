@@ -7,6 +7,8 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Generate a slug
+ * 
  * This trait allows to give default values to properties of 
  * an entity before it is persisted in the database
  */
@@ -14,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait GenerateSlugTrait
 {
     /**
-     * Generate a slug from pseudo before persist or update
+     * Generate a slug before persist or update
      *
      * @return void
      */

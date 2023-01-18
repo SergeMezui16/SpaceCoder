@@ -10,6 +10,9 @@ use App\Model\SearchItemModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
+/**
+ * Search Service
+ */
 class SearchService
 {
     public function __construct(

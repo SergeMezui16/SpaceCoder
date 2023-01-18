@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * This controller is used to check render of Mail Twig Template
+ */
 #[Route('/mail')]
 #[IsGranted('ROLE_ADMIN')]
 class MailController extends AbstractController

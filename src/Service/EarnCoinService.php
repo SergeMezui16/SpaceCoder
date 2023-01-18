@@ -7,6 +7,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+ * Earn Coin Manager
+ * 
+ * This Service manage how Coins should be share between users 
+ * organized by kind of actions
+ */
 class EarnCoinService
 {
 
@@ -36,7 +42,13 @@ class EarnCoinService
         $this->manager->flush();
     }
 
-
+    /**
+     * Earn Coins if User is the first viewer of this Article
+     *
+     * @param Article $article
+     * @param User $user
+     * @return User
+     */
     public function firstViewer(Article $article, User $user): User
     {
         if($this->isFirstViewer($article)) {
@@ -46,6 +58,13 @@ class EarnCoinService
         return $user;
     }
 
+    /**
+     * Earn Coins if User is the first to comment this Article
+     *
+     * @param Article $article
+     * @param User $user
+     * @return User
+     */
     public function firstCommentOn(Article $article, User $user): User
     {
         if ($this->isFirstCommentOn($article)) {
@@ -55,6 +74,12 @@ class EarnCoinService
         return $user;
     }
 
+    /**
+     * Earn Coins if User icomment for the first time
+     *
+     * @param Article $article
+     * @return User
+     */
     public function firstComment(User $user): User
     {
         if ($this->isFirstComment($user)) {
@@ -64,12 +89,24 @@ class EarnCoinService
         return $user;
     }
 
+    /**
+     * Earn Coins if User make a coment
+     *
+     * @param User $user
+     * @return User
+     */
     public function commentOn(User $user): User
     {
         $this->flash->add('success', EarnCoinService::COMMENT_ON_PHRASE);
         return $user->setCoins($user->getCoins() + EarnCoinService::COMMENT_ON);
     }
 
+    /**
+     * Earn Coins if it Happy New Year day
+     *
+     * @param User $user
+     * @return User
+     */
     public function happyNewYear(User $user): User
     {
         return $user->setCoins($user->getCoins() + EarnCoinService::NEW_YEAR);
@@ -77,19 +114,36 @@ class EarnCoinService
 
 
 
-    
 
+
+    /**
+     * Check if Article has any comment yet
+     *
+     * @param Article $article
+     * @return boolean
+     */
     public function isFirstCommentOn(Article $article): bool
     {
         return count($article->getComments()) === 0;
     }
 
+    /**
+     * Check if User has any comment yet
+     *
+     * @param User $user
+     * @return boolean
+     */
     public function isFirstComment(User $user): bool
     {
         return count($user->getComments()) === 0;
     }
 
-
+    /**
+     * Check if Article has any view yet
+     *
+     * @param Article $article
+     * @return boolean
+     */
     public function isFirstViewer(Article $article): bool
     {
         return $article->getViews() === 0;

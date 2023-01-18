@@ -19,6 +19,12 @@ class SendEmailSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * Send an Email get by Event
+     *
+     * @param SendEmailEvent $event
+     * @return void
+     */
     public function onSendEmailEvent(SendEmailEvent $event): void
     {
         $this->mailer->send($event->getEmail());
