@@ -20,6 +20,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AppFixtures extends Fixture
 {
     private $fake;
+    private $manager;
     private Role $adminRole;
     private Role $userRole;
     private Role $projectRole;
@@ -39,8 +40,7 @@ class AppFixtures extends Fixture
 
 
     public function __construct(
-        private UserPasswordHasherInterface $encoder,
-        private ObjectManager $manager
+        private UserPasswordHasherInterface $encoder
     ){
         $this->fake = (new Factory())::create('fr_FR');
         $this->users = [];
@@ -53,6 +53,8 @@ class AppFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
+        $this->manager = $manager;
+        
         $this->setRoles();
         $this->setUser();
         $this->setUsers();
