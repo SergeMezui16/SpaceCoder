@@ -8,7 +8,7 @@ use App\Authentication\Form\ResetPasswordRequestFormType;
 use App\Authentication\Model\ResetPasswordModel;
 use App\Service\MailMakerService;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

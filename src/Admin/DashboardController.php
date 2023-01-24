@@ -21,7 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -116,7 +116,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Projets');
             yield MenuItem::linkToCrud('Projet', 'fa fa-building', Project::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('Ressource', 'fas fa-database', Ressource::class)->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToCrud('Ressource', 'fa fa-database', Ressource::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('Autres');
             yield MenuItem::linkToCrud('Contact', 'fa fa-address-book', Contact::class)->setPermission('ROLE_ADMIN');
@@ -124,7 +124,11 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Paramétrages');
             yield MenuItem::linkToCrud('Configuration', 'fa fa-toolbox', Configuration::class)->setPermission('ROLE_ADMIN');
             yield MenuItem::linkToUrl('Retourner au site', 'fa-solid fa-rotate-left', '/');
-        
+
+        yield MenuItem::section('Vers le site');
+            yield MenuItem::linkToRoute('Articles', 'fas fa-newspaper', 'article');
+            yield MenuItem::linkToRoute('Ressources', 'fas fa-database', 'ressources');
+            yield MenuItem::linkToRoute('Projets', 'fas fa-building', 'project');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
