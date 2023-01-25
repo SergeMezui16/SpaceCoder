@@ -7,6 +7,6 @@ logout:
     methods: GET
 
 profile:
-    path: /{slug}
+    path: /{slug} # slug of user
     controller: App\Authentication\Controller\ProfileController::index
     methods: GET

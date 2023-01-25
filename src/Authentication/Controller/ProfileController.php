@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -71,7 +72,15 @@ class ProfileController extends AbstractController
 
     #[Route('/change-password', name: 'profile_changepassword')]
     #[IsGranted('IS_AUTHENTICATED')]
-    public function changePassword(Request $request, UserPasswordHasherInterface $encoder): Response
+    /**
+     * @todo make a test
+     *
+     * @param Request $request
+     * @param UserPasswordHasherInterface $encoder
+     * @param TokenInterface $token
+     * @return Response
+     */
+    public function changePassword(Request $request, UserPasswordHasherInterface $encoder, TokenInterface $token): Response
     {
         /** @var UserAuthentication */
         $auth = $this->getUser();
@@ -93,7 +102,7 @@ class ProfileController extends AbstractController
 
             // Remove Session
             $request->getSession()->invalidate();
-            $this->tokenStorage->setToken();
+            $this->tokenStorage->setToken($token);
 
             $this->addFlash('success', 'Mot de passe changé avec succes. Veuillez vous connecter avec vos nouveaux identifiants.');
 

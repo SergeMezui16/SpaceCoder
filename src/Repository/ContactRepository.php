@@ -39,6 +39,21 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Returns the number of undone contacts
+    * @return int 
+    */
+   public function findUndoneNb(): int
+   {
+       return $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.done = false')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleScalarResult()
+       ;
+   }
+
 //    /**
 //     * @return Contact[] Returns an array of Contact objects
 //     */

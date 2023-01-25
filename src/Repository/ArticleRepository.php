@@ -90,7 +90,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->select('SUM(a.views)')
             ->getQuery()
-            ->getSingleResult()[1]
+            ->getSingleScalarResult()
         ;
     }
 
