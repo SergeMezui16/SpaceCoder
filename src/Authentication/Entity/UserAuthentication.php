@@ -86,7 +86,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
 
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $deletedAt = null;
+    private ?\DateTimeImmutable $deleteAt = null;
 
     public function __construct()
     {
@@ -200,7 +200,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->confirmPassword = null;
     }
 
     public function isBlocked(): ?bool
@@ -315,14 +315,14 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeImmutable
+    public function getDeleteAt(): ?\DateTimeImmutable
     {
-        return $this->deletedAt;
+        return $this->deleteAt;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
+    public function setDeleteAt(?\DateTimeImmutable $deletedAt): self
     {
-        $this->deletedAt = $deletedAt;
+        $this->deleteAt = $deletedAt;
 
         return $this;
     }

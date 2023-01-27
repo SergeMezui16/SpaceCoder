@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserCrudController extends AbstractCrudController
@@ -45,6 +46,7 @@ class UserCrudController extends AbstractCrudController
 
         yield ImageField::new('avatar', 'avatar')->setUploadDir('public/data/user/avatar/')->setUploadedFileNamePattern('[slug].spacecoder.[extension]')->hideOnIndex();
         yield SlugField::new('slug', 'Slug')->setTargetFieldName('pseudo')->hideOnIndex();
+        yield TextareaField::new('bio', 'Bio')->hideOnIndex();
         yield NumberField::new('coins', 'Points');
 
         yield ArrayField::new('comments', 'Commentaires')->onlyOnDetail();

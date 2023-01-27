@@ -11,7 +11,6 @@ use App\Entity\User;
 use App\Service\AvatarUploaderService;
 use App\Service\MailMakerService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +20,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -72,15 +72,10 @@ class ProfileController extends AbstractController
 
     #[Route('/change-password', name: 'profile_changepassword')]
     #[IsGranted('IS_AUTHENTICATED')]
-    /**
-     * @todo make a test
-     *
-     * @param Request $request
-     * @param UserPasswordHasherInterface $encoder
-     * @param TokenInterface $token
-     * @return Response
-     */
-    public function changePassword(Request $request, UserPasswordHasherInterface $encoder, TokenInterface $token): Response
+    public function changePassword(
+        Request $request, 
+        UserPasswordHasherInterface $encoder
+    ): Response
     {
         /** @var UserAuthentication */
         $auth = $this->getUser();
@@ -102,7 +97,7 @@ class ProfileController extends AbstractController
 
             // Remove Session
             $request->getSession()->invalidate();
-            $this->tokenStorage->setToken($token);
+            $this->tokenStorage->setToken(null);
 
             $this->addFlash('success', 'Mot de passe changé avec succes. Veuillez vous connecter avec vos nouveaux identifiants.');
 
@@ -133,7 +128,7 @@ class ProfileController extends AbstractController
             /** @var UserAuthentication $auth */
             $auth = $this->getUser();
             
-            $auth->setDeletedAt(new \DateTimeImmutable('+30 days'));
+            $auth->setDeleteAt(new \DateTimeImmutable('+30 days'));
 
             $entityManager->persist($auth);
             $entityManager->flush();

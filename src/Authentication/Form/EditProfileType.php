@@ -27,12 +27,12 @@ class EditProfileType extends AbstractType
             ->add(
                 'country', 
                 CountryType::class, 
-                $this->typer->select('Pays', '--- Choisissez Votre pays ---', false)
+                $this->typer->select('Pays', '--- Choisissez Votre pays ---', true)
             )
             ->add(
                 'bornAt', 
                 DateType::class, 
-                $this->typer->setDateConfiguration('Date de naissance', required: false)
+                $this->typer->setDateConfiguration('Date de naissance', required: true)
             )
             ->add(
                 'bio',

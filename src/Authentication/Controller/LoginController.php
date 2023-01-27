@@ -2,11 +2,11 @@
 
 namespace App\Authentication\Controller;
 
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
@@ -19,7 +19,7 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
-        $this->saveTargetPath($request->getSession(), 'main', $request->server->get('HTTP_REFERER', $this->generateUrl('home')));
+        // $this->saveTargetPath($request->getSession(), 'main', $request->server->get('HTTP_REFERER', $this->generateUrl('home')));
 
         if($this->getUser()) return $this->redirectToRoute('home');
 

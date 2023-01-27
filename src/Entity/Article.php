@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\ArticleRepository;
 use App\Traits\GenerateSlugTrait;
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Article
+class Article implements SearchableInterface
 {
 
     use PrePersistTrait;
@@ -65,7 +66,7 @@ class Article
     #[ORM\JoinColumn(nullable: true)]
     private ?User $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $comments;
 
     #[ORM\Column]
