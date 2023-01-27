@@ -6,6 +6,7 @@ use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\UserRepository;
 use App\Traits\GenerateSlugTrait;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'pseudo',
     message: 'Ce pseudo existe déjà, veuillez réessayer avec un nouveau.'
 )]
-class User
+class User implements SearchableInterface
 {
     use PreUpdateTrait;
     use PrePersistTrait;

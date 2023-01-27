@@ -3,8 +3,9 @@
 namespace App\Traits;
 
 
-use Cocur\Slugify\Slugify;
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Generate a slug
@@ -23,6 +24,6 @@ trait GenerateSlugTrait
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function generateSlug() {
-        $this->slug = (new Slugify())->slugify($this);
+        $this->slug = (new AsciiSlugger())->slug($this);
     }
 }

@@ -55,7 +55,7 @@ class SearchService
      */
     private function fetch(string $q, int $limit): array
     {
-        if($q == '') return []; 
+        if($q == '') return [];
 
         $data = $this->manager
             ->createQueryBuilder('u', 'a', 'r', 'p')
@@ -110,15 +110,34 @@ class SearchService
 
         // Get pertinance
         for ($i = 0; $i < count($datas); $i++) {
-
+            
+            /** @var SearchItemModel $result */
             $result = $datas[$i]->getSearchItem($i);
+            
+
             if (preg_match('/([a-zA-Z0-9]?)+(' . $q . ')([a-zA-Z0-9]?)+/i', $result->getTitle())) {
                 $results[] = [
                     preg_match_all('/([a-zA-Z0-9]?)+(' . $q . ')([a-zA-Z0-9]?)+/i', $result->getTitle()),
                     $result
                 ];
             }
-            $result->setDescription(str_replace($q, '<span class="bling">'.$q.'</span>', strtolower($result->getDescription())))->setTitle(str_replace($q, '<span class="bling">'.$q.'</span>', strtolower($result->getTitle())));
+
+            
+            $result
+                ->setDescription(
+                    str_ireplace(
+                        $q, 
+                        '<span class="bling">'.$q.'</span>',
+                        $result->getDescription()
+                    ))
+                ->setTitle(
+                    str_ireplace(
+                        $q, 
+                        '<span class="bling">'.$q.'</span>',
+                        $result->getTitle()
+                    )
+                )
+            ;
         }
 
         // Oredered by pertinance
@@ -126,8 +145,7 @@ class SearchService
 
             for ($j=0; $j < count($results); $j++) { 
                 $p = 0;
-                if($results[$i][0] > $results[$j][0])
-                {
+                if($results[$i][0] > $results[$j][0]){
                     $p = $results[$j];
                     $results[$j] = $results[$i];
                     $results[$i] = $p;

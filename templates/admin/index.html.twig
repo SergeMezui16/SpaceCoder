@@ -10,20 +10,23 @@
 
 {% block main %}
 
+<div class="d-flex md-flex-column gap-3 h-125 justify-content-center align-items-center text-light">
 
-<div class="d-flex md-flex-column gap-5 h-125 justify-content-center align-items-center text-light">
-
-    <div class="bg-primary w-25 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
-        <span class="d-block fs-1">{{nbUsers}}</span>
+    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="d-block fs-1">{{ nbUsers }}</span>
         <span class="d-block">Utilisateurs</span>
     </div>
-    <div class="bg-primary w-25 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
-        <span class="d-block fs-1">{{nbArticlesView}}</span>
+    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="d-block fs-1">{{ nbArticlesView }}</span>
         <span class="d-block">Vues</span>
     </div>
-    <div class="bg-primary w-25 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
         <span class="d-block fs-1">{{ nbNewToday }}</span>
         <span class="d-block">Nouveaux</span>
+    </div>
+    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="d-block fs-1">{{ contacts }}</span>
+        <span class="d-block">Contacts</span>
     </div>
 </div>
 <br>
@@ -35,21 +38,21 @@
 <table class="datagrid">
     <thead>
         <tr>
-            <td>Auteur</td>
-            <td>Contenu</td>
-            <td>Article</td>
-            <td>Reponse à</td>
-            <td>Reponses</td>
+            <th><a href="">Auteur</a></th>
+            <th><a href="">Contenu</a></th>
+            <th><a href="">Article</a></th>
+            <th><a href="">Reponse à</a></th>
+            <th><a href="">Reponses</a></th>
         </tr>
     </thead>
     <tbody>
         {% for comment in lastComments %}
             <tr>
-                <td>{{ comment.author }}</td>
-                <td>{{ comment.content }}</td>
-                <td>{{ comment.article }}</td>
-                <td>{{ comment.replyTo }}</td>
-                <td>{{ comment.replies | length }}</td>
+                <td data-label="Auteur">{{ comment.author }}</td>
+                <td data-label="Contenu">{{ comment.content }}</td>
+                <td data-label="Article">{{ comment.article }}</td>
+                <td data-label="Reponse à">{{ comment.replyTo ? comment.replyTo : '<span class="text-muted">Aucun</span>'}}</td>
+                <td data-label="Reponses">{{ comment.replies | length }}</td>
             </tr>
         {% endfor %}
     </tbody>
@@ -63,19 +66,19 @@
 <table class="datagrid">
     <thead>
         <tr>
-            <td>Pseudo</td>
-            <td>Auth</td>
-            <td>Pays</td>
-            <td>Points</td>
+            <th><a href="">Pseudo</a></th>
+            <th><a href="">Auth</a></th>
+            <th><a href="">Pays</a></th>
+            <th><a href="">Points</a></th>
         </tr>
     </thead>
     <tbody>
         {% for user in lastUsers %}
             <tr>
-                <td>{{ user }}</td>
-                <td>{{ user.auth }}</td>
-                <td><img src="/bundles/easyadmin/images/flags/{{ user.country }}.svg" width="35px" alt="{{ user.country }}"></td>
-                <td>{{ user.coins }}</td>
+                <td data-label="Pseudo">{{ user }}</td>
+                <td data-label="Auth">{{ user.auth }}</td>
+                <td data-label="Pays"><img src="/bundles/easyadmin/images/flags/{{ user.country }}.svg" width="35px" alt="{{ user.country }}"></td>
+                <td data-label="Points">{{ user.coins }}</td>
             </tr>
         {% endfor %}
     </tbody>
@@ -86,19 +89,19 @@
 <table class="datagrid">
     <thead>
         <tr>
-            <td>Pseudo</td>
-            <td>Auth</td>
-            <td>Pays</td>
-            <td>Points</td>
+            <th><a href="">Pseudo</a></th>
+            <th><a href="">Auth</a></th>
+            <th><a href="">Pays</a></th>
+            <th><a href="">Points</a></th>
         </tr>
     </thead>
     <tbody>
         {% for auth in lastConnected %}
             <tr>
-                <td>{{ auth.user }}</td>
-                <td>{{ auth }}</td>
-                <td><img src="/bundles/easyadmin/images/flags/{{ auth.user.country }}.svg" width="35px" alt="{{ auth.user.country }}"></td>
-                <td>{{ auth.user.coins }}</td>
+                <td data-label="Pseudo">{{ auth.user }}</td>
+                <td data-label="Auth">{{ auth }}</td>
+                <td data-label="Pays"><img src="/bundles/easyadmin/images/flags/{{ auth.user.country }}.svg" width="35px" alt="{{ auth.user.country }}"></td>
+                <td data-label="Points">{{ auth.user.coins }}</td>
             </tr>
         {% endfor %}
     </tbody>
@@ -111,19 +114,19 @@
 <table class="datagrid">
     <thead>
         <tr>
-            <td>Titre</td>
-            <td>Sujet</td>
-            <td>Vues</td>
-            <td>Publication</td>
+            <th><a href="">Titre</a></th>
+            <th><a href="">Sujet</a></th>
+            <th><a href="">Vues</a></th>
+            <th><a href="">Publication</a></th>
         </tr>
     </thead>
     <tbody>
         {% for article in bestArticles %}
             <tr>
-                <td>{{ article.title }}</td>
-                <td>{{ article.subject }}</td>
-                <td>{{ article.views }}</td>
-                <td>{{ article.publishedAt | date('d/m/Y') }}</td>
+                <td data-label="Titre">{{ article.title }}</td>
+                <td data-label="Sujets">{{ article.subject }}</td>
+                <td data-label="Vues">{{ article.views }}</td>
+                <td data-label="Publication">{{ article.publishedAt | date('d/m/Y') }}</td>
             </tr>
         {% endfor %}
     </tbody>
@@ -137,21 +140,24 @@
 <table class="datagrid">
     <thead>
         <tr>
-            <td>Titre</td>
-            <td>Sujet</td>
-            <td>Vues</td>
-            <td>Publication</td>
+            <th><a href="">Titre</a></th>
+            <th><a href="">Sujet</a></th>
+            <th><a href="">Vues</a></th>
+            <th><a href="">Publication</a></th>
         </tr>
     </thead>
     <tbody>
         {% for res in bestRessources %}
             <tr>
-                <td>{{ res.name }}</td>
-                <td>{{ res.link }}</td>
-                <td>{{ res.clicks }}</td>
-                <td>{{ res.createAt | date('d/m/Y') }}</td>
+                <td data-label="Titre">{{ res.name }}</td>
+                <td data-label="sujet">{{ res.link }}</td>
+                <td data-label="Vues">{{ res.clicks }}</td>
+                <td data-label="Publication">{{ res.createAt | date('d/m/Y') }}</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+<br>
+<br>
+<br>
 {% endblock %}

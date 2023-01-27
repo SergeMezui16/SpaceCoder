@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Authentication\Entity\Role;
+use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\ProjectRepository;
 use App\Traits\GenerateSlugTrait;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Project
+class Project implements SearchableInterface
 {
     use PrePersistTrait;
     use PreUpdateTrait;

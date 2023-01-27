@@ -2,18 +2,17 @@
 
 namespace App\Entity;
 
+use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\RessourceRepository;
 use App\Traits\GenerateSlugTrait;
 use App\Traits\PrePersistTrait;
 use App\Traits\PreUpdateTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Ressource
+class Ressource implements SearchableInterface
 {
     use PrePersistTrait;
     use PreUpdateTrait;

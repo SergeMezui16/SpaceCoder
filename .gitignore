@@ -37,3 +37,8 @@ yarn-error.log
 ###> spacecoder/model/article ###
 /templates/article/_model.html.twig
 ###< spacecoder/model/article ###
+
+
+###> spacecoder/todo ###
+/TODO
+###< pacecoder/todo ###

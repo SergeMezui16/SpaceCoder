@@ -36,32 +36,39 @@ class LoginSubscriber implements EventSubscriberInterface
     public function onLoginSuccessEvent(LoginSuccessEvent $event): void
     {
         /**
-         * @var UserAuthentication $user
+         * @var UserAuthentication $auth
          */
-        $user = $event->getUser();
+        $auth = $event->getUser();
 
-        if ($user) {
+        if ($auth) {
 
-            if ($user->getDeletedAt() !== null) {
-                $user->setDeletedAt(null);
-                $this->session->getFlashBag()->add('success', sprintf('Ravi de vous revoir parmi nous %s, vous avez évité que votre compte ne soit définitivement supprimé de très peu !', $user->getUser()));
+            if ($auth->getDeleteAt() !== null) {
+                $auth->setDeleteAt(null);
+                $this->session->getFlashBag()->add('success', sprintf('Ravi de vous revoir parmi nous %s, vous avez évité que votre compte ne soit définitivement supprimé de très peu !', $auth->getUser()));
             }
 
-            $user->load($event->getRequest());
+            $auth->load($event->getRequest());
 
-            $this->session->getFlashBag()->add('info', sprintf('Bienvenu %s, vous nous avez manqué !', $user->getUser()));
+            $this->session->getFlashBag()->add('info', sprintf('Bienvenu %s, vous nous avez manqué !', $auth->getUser()));
 
-            $this->em->persist($user);
+            $this->em->persist($auth);
             $this->em->flush();
         }
     }
 
     /**
-     * @todo Send a flash on logout
+     * Add a flash message
      *
      * @param LogoutEvent $event
      * @return void
      */
     public function onLogoutEvent(LogoutEvent $event): void
-    {}
+    {
+        /**
+         * @var UserAuthentication $auth
+         */
+        $auth = $event->getToken()->getUser();
+
+        $this->session->getFlashBag()->add('info', sprintf('Aurevoir %s, on espère vous revoir bientôt !', $auth->getUser()));
+    }
 }

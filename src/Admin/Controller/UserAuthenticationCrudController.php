@@ -19,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserAuthenticationCrudController extends AbstractCrudController
 {
@@ -50,14 +51,12 @@ class UserAuthenticationCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm();
         yield ArrayField::new('ip', 'Adresses Ip')->onlyOnDetail();
         yield EmailField::new('email', 'Email');
-
-        // yield CollectionField::new('uroles', 'Roles')->hideOnDetail()->setEntryIsComplex()->useEntryCrudForm(RoleCrudController::class);
-        // yield ChoiceField::new('roles', 'Roles')->hideOnDetail()->allowMultipleChoices()->setChoices($this->list->getEntityList(Role::class));
         yield AssociationField::new('role', 'Role');
         
         yield BooleanField::new('blocked', 'Bloqué')->hideWhenCreating();
         yield DateTimeField::new('firstconnexion', 'Première Connexion')->onlyOnDetail();
         yield DateTimeField::new('lastconnexion', 'Dernière Connexion')->hideOnForm();
+        yield DateTimeField::new('deleteAt', 'Suprimé le')->hideOnForm();
         yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm();
         yield DateTimeField::new('createAt', 'Créé(e) le')->onlyOnDetail();
     }

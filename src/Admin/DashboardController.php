@@ -2,7 +2,7 @@
 
 namespace App\Admin;
 
-
+use App\Authentication\Entity\ResetPasswordRequest;
 use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Repository\UserAuthenticationRepository;
@@ -15,16 +15,17 @@ use App\Entity\Ressource;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Repository\ContactRepository;
 use App\Repository\RessourceRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin',)]
 #[IsGranted('ROLE_ADMIN')]
@@ -35,7 +36,8 @@ class DashboardController extends AbstractDashboardController
         private UserAuthenticationRepository $auths,
         private ArticleRepository $articles,
         private RessourceRepository $ressources,
-        private CommentRepository $comments
+        private CommentRepository $comments,
+        private ContactRepository $contacts
     )
     {}
     
@@ -69,6 +71,8 @@ class DashboardController extends AbstractDashboardController
             'nbUsers' => $this->users->count([]),
             'nbArticlesView' => $this->articles->views(),
             'nbNewToday' => $newToday,
+
+            'contacts' => $this->contacts->findUndoneNb(),
             
             'bestArticles' => $this->articles->best(3),
             'bestRessources' => $this->ressources->best(3),
@@ -90,8 +94,6 @@ class DashboardController extends AbstractDashboardController
     //         'user' => new User()
     //     ]);
     // }
-
-    
 
     public function configureDashboard(): Dashboard
     {
@@ -116,15 +118,20 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Projets');
             yield MenuItem::linkToCrud('Projet', 'fa fa-building', Project::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('Ressource', 'fas fa-database', Ressource::class)->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToCrud('Ressource', 'fa fa-database', Ressource::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('Autres');
             yield MenuItem::linkToCrud('Contact', 'fa fa-address-book', Contact::class)->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToCrud('RPR', 'fas fa-key', ResetPasswordRequest::class)->setPermission('ROLE_ADMIN');
             
         yield MenuItem::section('Paramétrages');
             yield MenuItem::linkToCrud('Configuration', 'fa fa-toolbox', Configuration::class)->setPermission('ROLE_ADMIN');
             yield MenuItem::linkToUrl('Retourner au site', 'fa-solid fa-rotate-left', '/');
-        
+
+        yield MenuItem::section('Vers le site');
+            yield MenuItem::linkToRoute('Articles', 'fas fa-newspaper', 'article');
+            yield MenuItem::linkToRoute('Ressources', 'fas fa-database', 'ressources');
+            yield MenuItem::linkToRoute('Projets', 'fas fa-building', 'project');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -132,16 +139,16 @@ class DashboardController extends AbstractDashboardController
         /**
          * @var UserAuthentication
          */
-        $user = $this->getUser();
+        $auth = $this->getUser();
         
         return UserMenu::new()
             ->displayUserName()
             ->displayUserAvatar()
-            ->setName($user->getUser())
-            ->setAvatarUrl($user->getUser()->getAvatar())
+            ->setName($auth->getUser())
+            ->setAvatarUrl($auth->getUser()->getAvatar())
             ->addMenuItems([
-                // MenuItem::linkToRoute('My Profile', 'fa fa-id-card', 'link', ['param' => 'value']),
-                // MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...', ['...' => '...']),
+                MenuItem::linkToRoute('Mon Profile', 'fa fa-id-card', 'profile', ['slug' => $auth->getUser()->getSlug()]),
+                MenuItem::linkToRoute('Paramètres', 'fa fa-user-cog', 'profile_edit'),
                 MenuItem::section(),
                 MenuItem::linkToLogout('Déconnexion', 'fa fa-sign-out')
             ])
