@@ -42,3 +42,6 @@ yarn-error.log
 ###> spacecoder/todo ###
 /TODO
 ###< pacecoder/todo ###
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

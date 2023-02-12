@@ -10,3 +10,6 @@ profile:
     path: /{slug} # slug of user
     controller: App\Authentication\Controller\ProfileController::index
     methods: GET
+
+api_login_check:
+    path: /api/login_check
