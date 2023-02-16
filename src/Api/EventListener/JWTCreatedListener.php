@@ -45,11 +45,6 @@ class JWTCreatedListener
         $payload = $event->getData();
 
         $payload['pseudo'] = $user->getPseudo();
-        $payload['avatar'] = $this->urlHelper->getAbsoluteUrl($user->getAvatar());
-        $payload['country'] = $user->getCountry();
-        $payload['coin'] = $user->getCoins();
-        $payload['bio'] = $user->getBio();
-        $payload['bornAt'] = $user->getBornAt();
         $payload['requestIp'] = $request->getClientIp();
 
         $event->setData($payload);

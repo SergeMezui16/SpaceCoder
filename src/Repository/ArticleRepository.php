@@ -40,6 +40,25 @@ class ArticleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneBySlugPublished(string $slug): ?Article
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        
+        return $queryBuilder
+            ->select('a', 'c')
+            ->leftJoin('a.comments', 'c')
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->andWhere('a.slug = :slug')
+            ->setParameter('slug', $slug)
+
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    
+
     public function findAllPublishedQuery(string $q = ''): Query
     {
         $queryBuilder = $this->createQueryBuilder('a');
