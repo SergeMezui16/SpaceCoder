@@ -45,7 +45,7 @@ html{
 
 /* BUTTON */
 .btn{
-    @apply p-3 mx-auto cursor-pointer rounded shadow-md inline-block w-fit text-center transition ease-in-out;
+    @apply select-none p-3 mx-auto cursor-pointer rounded shadow-md inline-block w-fit text-center transition ease-in-out;
 }
 .btn:hover{
     @apply delay-150 shadow-lg;
@@ -97,7 +97,7 @@ html{
 
 }
 .btn-mini{
-    @apply font-bold px-1 cursor-pointer rounded mx-2 my-1 bg-transparent-purple;
+    @apply select-none font-bold px-1 cursor-pointer rounded mx-2 my-1 bg-transparent-purple;
 }
 .btn-mini:hover{
     @apply shadow-md;

@@ -40,13 +40,9 @@ export default class CommentForm extends HTMLFormElement
      * @param {HTMLElement} element 
      */
     handleClick (element) {
-        this.goToForm()
         this.options.forEach(option => {
-            
-            if(
-                option.innerText === element.querySelector('.comment-content').innerText
-                && option.value === element.dataset.id
-            ){
+
+            if(option.value === element.dataset.id){
                 this.selectInput.selectedIndex = option.index
                 this.reply.removeAttribute('style')
                 this.loadInput()
@@ -54,6 +50,8 @@ export default class CommentForm extends HTMLFormElement
             }
         })
 
+        console.log(element, this.options)
+        this.goToForm()
     }
 
     handleReset () {

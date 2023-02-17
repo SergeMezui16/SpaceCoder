@@ -14,7 +14,7 @@
     </div>
 
 {% else %}
-    <form action="" method="POST" class="comment-form" is="comment-form" data-comments=".comment.main-comment" id="commentForm">
+    <form action="" name="comment" method="POST" class="comment-form" is="comment-form" data-comments=".comment.main-comment" id="commentForm">
         {{ form_start(form) }}
         {{ form_row(form._token) }}
 
