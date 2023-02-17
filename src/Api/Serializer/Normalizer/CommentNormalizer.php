@@ -3,10 +3,31 @@
 namespace App\Api\Serializer\Normalizer;
 
 use App\Entity\Comment;
+use OpenApi\Annotations as OA;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+/**
+ * @OA\Schema(
+ *      schema="Comments",
+ *      description="Comment Collection",
+ *      @OA\Property(property="uri", type="string"),
+ *      @OA\Property(property="id", type="integer"),
+ *      @OA\Property(property="author", type="string"),
+ *      @OA\Property(property="article", type="string"),
+ *      @OA\Property(property="content", type="string"),
+ *      @OA\Property(property="replyTo", type="string")
+ * )
+ * 
+ *  * @OA\Schema(
+ *      schema="Comment",
+ *      description="Comment Item",
+ *      allOf={@OA\Schema(ref="#/components/schemas/Comments")},
+ *      @OA\Property(property="replies", type="array", @OA\Items(type="string") ),
+ *      @OA\Property(property="publishedAt", type="string", format="date-time")
+ * )
+ */
 class CommentNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(

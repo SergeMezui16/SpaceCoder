@@ -1,0 +1,908 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API SpaceCoder",
+        "description": "An API for SpaceCoder web appliation.",
+        "termsOfService": "https://fr.spacecoder.fun/terms-and-conditions",
+        "contact": {
+            "name": "SpaceCoder API Team",
+            "url": "https://fr.spacecoder.fun/contact",
+            "email": "contact@spacecoder.fun"
+        },
+        "license": {
+            "name": "MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://fr.spacecoder.fun/api/",
+            "description": "API SpaceCoder"
+        },
+        {
+            "url": "http://localhost:8000/api/"
+        }
+    ],
+    "paths": {
+        "/article/{slug}": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Info for a specific article",
+                "operationId": "article",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/slug"
+                    },
+                    {
+                        "name": "comments",
+                        "in": "query",
+                        "description": "Return article detail with it's comments",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An article details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Article"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/articles": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "List all articles",
+                "description": "Une Bonne description bien longue",
+                "operationId": "articles",
+                "responses": {
+                    "200": {
+                        "description": "List of Articles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Articles"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/css/app": {
+            "get": {
+                "tags": [
+                    "Asset"
+                ],
+                "summary": "Get css link",
+                "operationId": "css",
+                "responses": {
+                    "200": {
+                        "description": "CSS link",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/js/app": {
+            "get": {
+                "tags": [
+                    "Asset"
+                ],
+                "summary": "Get js link",
+                "operationId": "js",
+                "responses": {
+                    "200": {
+                        "description": "JS link",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login_check": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get JWT Token",
+                "operationId": "JWT",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "JWT Token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthaurized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": "401"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Identifiants invalides."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get connected user",
+                "operationId": "me",
+                "responses": {
+                    "200": {
+                        "description": "An User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/ExpiredToken"
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "Bearer"
+                    }
+                ]
+            }
+        },
+        "/comment/{id}": {
+            "get": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Info for a specific comment",
+                "operationId": "comment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the comment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "replies",
+                        "in": "query",
+                        "description": "Return comment detail with it's replies",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A comment details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/replies/{id}": {
+            "get": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Get replies of a comment",
+                "operationId": "replies",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the comment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A comment details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/comments": {
+            "get": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "List all comments",
+                "operationId": "comments",
+                "responses": {
+                    "200": {
+                        "description": "List of Articles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Comments"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/comments/{slug}": {
+            "get": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Get comments of an article",
+                "operationId": "commentsOfArticle",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "The slug of the article",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Article's comments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Comments"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "List all projects",
+                "operationId": "projects",
+                "responses": {
+                    "200": {
+                        "description": "List of Projects",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Project"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/project/{slug}": {
+            "get": {
+                "tags": [
+                    "Project"
+                ],
+                "summary": "Info for a specific project",
+                "operationId": "project",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/slug"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A Project details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/ressources": {
+            "get": {
+                "tags": [
+                    "Ressource"
+                ],
+                "summary": "List all ressources",
+                "operationId": "ressources",
+                "responses": {
+                    "200": {
+                        "description": "List of Ressources",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ressource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/ressource/{slug}": {
+            "get": {
+                "tags": [
+                    "Ressource"
+                ],
+                "summary": "Info for a specific ressource",
+                "operationId": "ressource",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/slug"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A Ressource details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ressource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/user/{slug}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Info for a specific user",
+                "operationId": "user",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/slug"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/ExpiredToken"
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "Bearer"
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "List all users",
+                "operationId": "users",
+                "responses": {
+                    "200": {
+                        "description": "List of Users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Users"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/ExpiredToken"
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "Bearer"
+                    }
+                ]
+            }
+        },
+        "/avatar/{slug}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Avatar for an user",
+                "operationId": "avatar",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "User's slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/ExpiredToken"
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "Bearer"
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Articles": {
+                "description": "Article Collection",
+                "properties": {
+                    "uri": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "views": {
+                        "type": "integer"
+                    },
+                    "publishedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "comment": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "Article": {
+                "description": "Article Item",
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Articles"
+                    },
+                    {
+                        "properties": {
+                            "level": {
+                                "type": "integer"
+                            },
+                            "content": {
+                                "type": "string"
+                            },
+                            "author": {
+                                "type": "string"
+                            },
+                            "suggeredBy": {
+                                "type": "string"
+                            },
+                            "createAt": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Comments": {
+                "description": "Comment Collection",
+                "properties": {
+                    "uri": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "author": {
+                        "type": "string"
+                    },
+                    "article": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "replyTo": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Comment": {
+                "description": "Comment Item",
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Comments"
+                    },
+                    {
+                        "properties": {
+                            "replies": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "publishedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Project": {
+                "description": "Project",
+                "properties": {
+                    "uri": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "views": {
+                        "type": "integer"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "authors": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "createAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Ressource": {
+                "description": "Ressource",
+                "properties": {
+                    "uri": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "views": {
+                        "type": "integer"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "cotegories": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "createAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Users": {
+                "description": "User Collection",
+                "properties": {
+                    "uri": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "pseudo": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "description": "User Item",
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Articles"
+                    },
+                    {
+                        "properties": {
+                            "slug": {
+                                "type": "string"
+                            },
+                            "coin": {
+                                "type": "integer"
+                            },
+                            "avatar": {
+                                "type": "string"
+                            },
+                            "bio": {
+                                "type": "string"
+                            },
+                            "country": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "responses": {
+            "NotFound": {
+                "description": "Ressource not found.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "example": "404"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Ressource not found."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ExpiredToken": {
+                "description": "Unauthaurized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "integer",
+                                    "example": "401"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Expired JWT Token"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "slug": {
+                "name": "slug",
+                "in": "path",
+                "description": "Ressource slug",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "description": ">- Enter the token with the `Bearer: {token}`, e.g. Bearer abcde12345",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

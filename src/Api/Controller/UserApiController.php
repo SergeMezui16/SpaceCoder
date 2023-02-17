@@ -3,8 +3,8 @@
 namespace App\Api\Controller;
 
 use App\Api\Controller\AbstractApiController;
-use App\Authentication\Entity\UserAuthentication;
 use App\Repository\UserRepository;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +19,31 @@ class UserApiController extends AbstractApiController
         private UrlHelper $urlHelper
     )
     {}
-    
-    // Get User
+
+    /**
+     * @OA\Get(
+     *     path="/user/{slug}",
+     *     summary="Info for a specific user",
+     *     operationId="user",
+     *     tags={"User"},
+     *     @OA\Parameter(ref="#/components/parameters/slug"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="An User details",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         ref="#/components/responses/NotFound"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/ExpiredToken"
+     *     ),
+     * 
+     *     security={"Bearer"}
+     * )
+     */
     #[Route('/user/{slug}', name: 'api_get_user', methods: ['GET'])]
     public function user(Request $request): JsonResponse
     {
@@ -41,21 +64,34 @@ class UserApiController extends AbstractApiController
         );
     }
 
-    // Get Me
-    #[Route('/me', name: 'api_get_me', methods: ['GET'])]
-    public function me(): JsonResponse
-    {
-        /** @var UserAuthentication $auth */
-        $auth = $this->getUser();
-
-        return $this->json(
-            $auth->getUser(),
-            Response::HTTP_OK,
-            context: ['group' => 'item']
-        );
-    }
-    
-
+    /**
+     * @OA\Get(
+     *     path="/users",
+     *     summary="List all users",
+     *     operationId="users",
+     *     tags={"User"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of Users",
+     *         @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Users") 
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         ref="#/components/responses/NotFound"
+     *     ),
+     * 
+     * 
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/ExpiredToken"
+     *     ),
+     * 
+     *     security={"Bearer"}
+     * )
+     */
     #[Route('/users', name: 'api_get_users', methods: ['GET'])]
     public function users(): JsonResponse
     {
@@ -71,7 +107,38 @@ class UserApiController extends AbstractApiController
         );
     }
 
-    // Get user avatar
+    /**
+     * @OA\Get(
+     *     path="/avatar/{slug}",
+     *     summary="Get Avatar for an user",
+     *     operationId="avatar",
+     *     tags={"User"},
+     *      @OA\Parameter(
+     *          name="slug",
+     *          in="path",
+     *          description="User's slug",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="An User details",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         ref="#/components/responses/NotFound"
+     *     ),
+     * 
+     * 
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/ExpiredToken"
+     *     ),
+     * 
+     *     security={"Bearer"}
+     * )
+     */
     #[Route('/avatar/{slug}', name:'api_get_avatar', methods: ['GET'])]
     public function avatar(Request $request): JsonResponse
     {

@@ -3,11 +3,38 @@
 namespace App\Api\Serializer\Normalizer;
 
 use App\Entity\Article;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+/**
+ * @OA\Schema(
+ *      schema="Articles",
+ *      description="Article Collection",
+ *      @OA\Property(property="uri", type="string"),
+ *      @OA\Property(property="id", type="integer"),
+ *      @OA\Property(property="slug", type="string"),
+ *      @OA\Property(property="title", type="string"),
+ *      @OA\Property(property="subject", type="string"),
+ *      @OA\Property(property="description", type="string"),
+ *      @OA\Property(property="views", type="integer"),
+ *      @OA\Property(property="publishedAt", type="string", format="date-time"),
+ *      @OA\Property(property="comment", type="integer"),
+ * )
+ * 
+ *  * @OA\Schema(
+ *      schema="Article",
+ *      description="Article Item",
+ *      allOf={@OA\Schema(ref="#/components/schemas/Articles")},
+ *      @OA\Property(property="level", type="integer"),
+ *      @OA\Property(property="content", type="string"),
+ *      @OA\Property(property="author", type="string"),
+ *      @OA\Property(property="suggeredBy", type="string"),
+ *      @OA\Property(property="createAt", type="string", format="date-time"),
+ * )
+ */
 class ArticleNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
 

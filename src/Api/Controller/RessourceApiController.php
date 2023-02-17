@@ -4,6 +4,7 @@ namespace App\Api\Controller;
 
 use App\Api\Controller\AbstractApiController;
 use App\Repository\RessourceRepository;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,26 @@ class RessourceApiController extends AbstractApiController
         private RessourceRepository $ressources
     ) {}
 
+    /**
+     * @OA\Get(
+     *     path="/ressources",
+     *     summary="List all ressources",
+     *     operationId="ressources",
+     *     tags={"Ressource"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of Ressources",
+     *         @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Ressource") 
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         ref="#/components/responses/NotFound"
+     *     )
+     * )
+     */
     #[Route('/ressources', name: 'api_get_ressources', methods: ['GET'])]
     public function ressources(): JsonResponse
     {
@@ -36,6 +57,24 @@ class RessourceApiController extends AbstractApiController
         );
     }
 
+    /**
+     * @OA\Get(
+     *     path="/ressource/{slug}",
+     *     summary="Info for a specific ressource",
+     *     operationId="ressource",
+     *     tags={"Ressource"},
+     *     @OA\Parameter(ref="#/components/parameters/slug"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="A Ressource details",
+     *         @OA\JsonContent(ref="#/components/schemas/Ressource")
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         ref="#/components/responses/NotFound"
+     *     )
+     * )
+     */
     #[Route('/ressource/{slug}', name: 'api_get_ressource', methods: ['GET'])]
     public function ressource(Request $request): JsonResponse
     {
