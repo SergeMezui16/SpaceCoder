@@ -87,16 +87,28 @@ class User implements SearchableInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bio = null;
 
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Notification::class, orphanRemoval: true)]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->suggestions = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function __toString()
     {
         return $this->pseudo;
+    }
+
+    public function hasNotification(): bool
+    {
+        foreach ($this->notifications as $notification) {
+            if(!$notification->isSaw()) return true;
+        }
+        return false;
     }
 
     public function getSearchItem(int $id): SearchItemModel
@@ -388,6 +400,36 @@ class User implements SearchableInterface
     public function setBio(?string $bio): self
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getRecipient() === $this) {
+                $notification->setRecipient(null);
+            }
+        }
 
         return $this;
     }

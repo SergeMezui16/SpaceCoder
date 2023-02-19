@@ -17,7 +17,7 @@
 	</nav>
 	<hr>
 	{# DASHBOARD #}
-	{% if user == app.user.user %}
+	{% if app.user and user == app.user.user %}
 		<div class="my-3 flex flex-col mb-5">
 			<h2>Tableau de bord*</h2>
 			<ul class="list-disc list-inside flex flex-col gap-2 lg:flex-row">
@@ -44,7 +44,7 @@
 			<p class="text-center px-2 italic">{% if user.bio %}{{user.bio}}{% endif %}</p>
 		</div>
 		{# DATA #}
-		{% if user == app.user.user %}
+		{% if app.user and user == app.user.user %}
 			<div class="flex-1 flex flex-col items-start justify-start p-3">
 				<h3>Informations Personnelles*</h3>
 				<div class="grid grid-cols-2 gap-4 items-center my-2">
@@ -102,7 +102,7 @@
 			{% endfor %}
 		</div>
 	{% endif %}
-	{% if user == app.user.user %}
+	{% if app.user and user == app.user.user %}
 		<hr>
 		<p class="text-sm italic my-4">
 			*Ces informations ne sont visibles que par vous.

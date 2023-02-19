@@ -1,0 +1,26 @@
+{% for notification in notifications %}
+
+    {% if notification.saw == false %}
+        <a
+            href="{{ notification.action }}"
+            class="bg-transparent-purple w-full p-2 cursor-pointer pt-4 max-w-3xl shadow-md {% if not loop.last %}border-b{% endif %}"
+        >
+    {% else %}
+        <div class="w-full p-2 pt-4 max-w-3xl {% if not loop.last %}border-b{% endif %}">
+    {% endif %}
+        <div class="flex p-3">
+            <div class="md:flex justify-center items-center hidden md:w-1/4">
+                <img src="/icons/notification/{{ notification.header }}.svg" alt="icon" class="w-6 h-6">
+            </div>
+            <div class="flex-2">
+                <div class="text-xl">{{ notification.title }}</div>
+                <div class="text-gray-500 text-md">
+                    {{ notification.content }}
+                </div>
+            </div>
+        </div>
+        <div class="text-xs text-gray-500 text-end pt-2">
+            {{ notification.sentAt | since }}
+        </div>
+    {% if notification.saw == false %}</a>{% else %}</div>{% endif %}
+{% endfor %}
