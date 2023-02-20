@@ -6,6 +6,7 @@ use App\Authentication\Entity\UserAuthentication;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
@@ -16,7 +17,7 @@ class LoginSubscriber implements EventSubscriberInterface
     public function __construct(
         private EntityManagerInterface $em
     ){
-        $this->session = new Session();
+        $this->session = new Session(new PhpBridgeSessionStorage());
     }
 
     public static function getSubscribedEvents(): array

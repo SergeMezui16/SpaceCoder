@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 /**
  * Earn Coin Manager
@@ -34,7 +35,7 @@ class EarnCoinService
         private EntityManagerInterface $manager
     )
     {
-        $this->flash = (new Session())->getFlashBag();
+        $this->flash = (new Session(new PhpBridgeSessionStorage()))->getFlashBag();
     }
 
     public function __destruct()
