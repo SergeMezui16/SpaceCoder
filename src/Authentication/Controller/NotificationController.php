@@ -18,6 +18,7 @@ class NotificationController extends AbstractController
         $auth = $this->getUser();
 
         $notifications = $notificationRepository->findAllByRecipent($auth->getUser());
+        $last = [];
         $toSee = 0;
 
 
