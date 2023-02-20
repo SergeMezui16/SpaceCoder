@@ -130,7 +130,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Vers le site');
             yield MenuItem::linkToRoute('Articles', 'fas fa-newspaper', 'article');
-            yield MenuItem::linkToRoute('Ressources', 'fas fa-database', 'ressources');
+            yield MenuItem::linkToRoute('Ressources', 'fas fa-database', 'ressource');
             yield MenuItem::linkToRoute('Projets', 'fas fa-building', 'project');
     }
 
