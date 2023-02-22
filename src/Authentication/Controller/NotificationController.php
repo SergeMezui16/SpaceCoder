@@ -3,42 +3,44 @@
 namespace App\Authentication\Controller;
 
 use App\Authentication\Entity\UserAuthentication;
-use App\Repository\NotificationRepository;
+use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route('/notifications')]
+#[IsGranted('IS_AUTHENTICATED')]
 class NotificationController extends AbstractController
 {
-    #[Route('/notification', name: 'notification')]
-    public function index(EntityManagerInterface $manager, NotificationRepository $notificationRepository): Response
+    #[Route('', name: 'notification')]
+    public function index(): Response
     {
         /** @var UserAuthentication $auth */
         $auth = $this->getUser();
-
-        $notifications = $notificationRepository->findAllByRecipent($auth->getUser());
-        $last = [];
-        $toSee = 0;
-
-
-        foreach($notifications as $notif){
-            $last[] = clone $notif;
-            if($notif->isSaw() === false){
-                $toSee++;
-
-                $notif->setSaw(true);
-                $manager->persist($notif);
-            }
-            
-        }
-        
-        $manager->flush();
+        $notifications = $auth->getUser()->getLastsNotifications();
 
         return $this->render('authentication/notification/index.html.twig', [
-            'notifications' => $last,
-            'to_see' => $toSee
+            'notifications' => $notifications,
+            'to_see' => $auth->getUser()->countUnseeNotification()
         ]);
+    }
+
+    #[Route('/see/{id}', name: 'notification_see')]
+    public function see(Notification $notification, EntityManagerInterface $manager): JsonResponse
+    {
+        if(!$notification->isSaw()){
+            $notification->setSaw(true);
+    
+            $manager->persist($notification);
+            $manager->flush();
+        }
+
+        return $this->json(
+            $notification->getAction()
+        );
     }
 }
  

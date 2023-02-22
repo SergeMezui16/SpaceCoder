@@ -87,7 +87,7 @@ class User implements SearchableInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bio = null;
 
-    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Notification::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Notification::class, mappedBy: 'recipients')]
     private Collection $notifications;
 
     public function __construct()
@@ -103,12 +103,31 @@ class User implements SearchableInterface
         return $this->pseudo;
     }
 
+    /**
+     * Check if user has notifications not read
+     *
+     * @return boolean
+     */
     public function hasNotification(): bool
     {
         foreach ($this->notifications as $notification) {
             if(!$notification->isSaw()) return true;
         }
         return false;
+    }
+
+    /**
+     * Get the number of unsee Notifications
+     *
+     * @return integer
+     */
+    public function countUnseeNotification(): int
+    {
+        $n = 0;
+        foreach($this->getNotifications() as $notif){
+            if(!$notif->isSaw()) $n++;
+        }
+        return $n;
     }
 
     public function getSearchItem(int $id): SearchItemModel
@@ -416,7 +435,7 @@ class User implements SearchableInterface
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications->add($notification);
-            $notification->setRecipient($this);
+            $notification->addRecipient($this);
         }
 
         return $this;
@@ -425,12 +444,21 @@ class User implements SearchableInterface
     public function removeNotification(Notification $notification): self
     {
         if ($this->notifications->removeElement($notification)) {
-            // set the owning side to null (unless already changed)
-            if ($notification->getRecipient() === $this) {
-                $notification->setRecipient(null);
-            }
+            $notification->removeRecipient($this);
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getLastsNotifications()
+    {
+        $notifications = $this->notifications->toArray();
+        
+        usort($notifications, fn ($a, $b) => $a->getSentAt() < $b->getSentAt());
+
+        return $notifications;
     }
 }

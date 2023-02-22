@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Notification;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,17 +37,6 @@ class NotificationRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
-    }
-
-    public function findAllByRecipent(User $recipient)
-    {
-        return $this->createQueryBuilder('n')
-           ->andWhere('n.recipient = :recipient')
-           ->setParameter('recipient', $recipient)
-           ->orderBy('n.sentAt', 'DESC')
-           ->getQuery()
-           ->getResult()
-       ;
     }
 
 //    /**

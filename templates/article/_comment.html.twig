@@ -42,7 +42,7 @@
 
 				<div class="comment ml-10" data-id="{{reply.id}}" id="comment-{{reply.id}}">
 					<div class="comment-info">
-						<img src="{% if author != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="" class="avatar small"/>
+						<img src="{% if author != null and author.avatar != null %}{{author.avatar}}{% else %} /favicon.svg {% endif %}" alt="{{author}}" class="avatar small"/>
 						<div class="flex flex-col">
 							<span class="author">
 								{% if author != null %}

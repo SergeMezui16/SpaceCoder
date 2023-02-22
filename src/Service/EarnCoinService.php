@@ -31,7 +31,8 @@ class EarnCoinService
     private FlashBagInterface $flash;
 
     public function __construct(
-        private EntityManagerInterface $manager
+        private EntityManagerInterface $manager,
+        private NotificationService $notifier
     )
     {
         $this->flash = (new Session())->getFlashBag();
@@ -54,6 +55,7 @@ class EarnCoinService
         if($this->isFirstViewer($article)) {
             $user->setCoins($user->getCoins() + EarnCoinService::FIRST_VIEWER);
             $this->flash->add('success', EarnCoinService::FIRST_VIEWER_PHRASE);
+            $this->notifier->notifyOnFirstViewOnArticle($user);
         }
         return $user;
     }
@@ -70,6 +72,7 @@ class EarnCoinService
         if ($this->isFirstCommentOn($article)) {
             $user->setCoins($user->getCoins() + EarnCoinService::FIRST_COMMENT_ON);
             $this->flash->add('success', EarnCoinService::FIRST_COMMENT_ON_PHRASE);
+            $this->notifier->notifyOnFirstCommentOnArticle($user);
         }
         return $user;
     }
@@ -85,6 +88,7 @@ class EarnCoinService
         if ($this->isFirstComment($user)) {
             $user->setCoins($user->getCoins() + EarnCoinService::FIRST_COMMENT);
             $this->flash->add('success', EarnCoinService::FIRST_COMMENT_PHRASE);
+            $this->notifier->notifyOnfirstComment($user);
         }
         return $user;
     }

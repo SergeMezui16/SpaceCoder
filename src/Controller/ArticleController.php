@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use App\Service\EarnCoinService;
@@ -12,6 +13,7 @@ use App\Service\EntityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -41,7 +43,8 @@ class ArticleController extends AbstractController
         Article $article, 
         Request $request, 
         EntityManagerInterface $entityManager,
-        EarnCoinService $earner
+        EarnCoinService $earner,
+        EventDispatcherInterface $dispatcher
     ): Response
     {
         if($article->getPublishedAt() > new \DateTimeImmutable()){
@@ -68,12 +71,10 @@ class ArticleController extends AbstractController
                 ->setArticle($article)
             ;
 
-            $earner->commentOn($auth->getUser());
-            $earner->firstComment($auth->getUser());
-            $earner->firstCommentOn($article, $auth->getUser());
-
             $entityManager->persist($comment);
             $entityManager->flush();
+
+            $dispatcher->dispatch(new CommentCreatedEvent($comment, $auth));
             
             return $this->redirectToRoute('article_detail', [
                 'slug' => $article->getSlug(),

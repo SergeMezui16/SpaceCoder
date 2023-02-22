@@ -224,7 +224,7 @@ class AppFixtures extends Fixture
             $notifications[] = $notification = (new Notification())
                 ->setTitle($fake->sentence(2))
                 ->setContent($fake->paragraph(1))
-                ->setRecipient($fake->randomElement($users))
+                ->addRecipient($fake->randomElement($users))
                 ->setAction('/article')
                 ->setSaw($fake->randomElement([true, false]))
                 ->setHeader($fake->randomElement(['comment', 'account', 'gift', 'new']))

@@ -64,11 +64,14 @@ class LoginSubscriber implements EventSubscriberInterface
      */
     public function onLogoutEvent(LogoutEvent $event): void
     {
-        /**
-         * @var UserAuthentication $auth
-         */
-        $auth = $event->getToken()->getUser();
 
-        $this->session->getFlashBag()->add('info', sprintf('Aurevoir %s, on espère vous revoir bientôt !', $auth->getUser()));
+        $token = $event->getToken();
+
+        if($token){
+            /** @var UserAuthentication $auth */
+            $auth = $token->getUser();
+
+            $this->session->getFlashBag()->add('info', sprintf('Aurevoir %s, on espère vous revoir bientôt !', $auth->getUser()));
+        }
     }
 }

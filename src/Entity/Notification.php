@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\NotificationRepository;
 use App\Traits\PrePersistTrait;
 use App\Traits\PreUpdateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
@@ -18,9 +20,8 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'notifications')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $recipient = null;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'notifications')]
+    private Collection $recipients;
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
@@ -46,19 +47,36 @@ class Notification
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    public function __construct()
+    {
+        $this->recipients = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRecipient(): ?User
+    /**
+     * @return Collection<int, User>
+     */
+    public function getRecipients(): Collection
     {
-        return $this->recipient;
+        return $this->recipients;
     }
 
-    public function setRecipient(?User $recipient): self
+    public function addRecipient(User $recipient): self
     {
-        $this->recipient = $recipient;
+        if (!$this->recipients->contains($recipient)) {
+            $this->recipients->add($recipient);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipient(User $recipient): self
+    {
+        $this->recipients->removeElement($recipient);
 
         return $this;
     }

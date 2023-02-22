@@ -13,6 +13,7 @@ import DomElements from "./components/DomElements"
 import AvatarForm from "./components/AvatarForm"
 import CommentForm from "./components/CommentForm"
 import CountryFlag from "./components/CountryFlag"
+import Notification from "./components/Notification"
 
 
 // Web Components
@@ -29,6 +30,7 @@ customElements.define('dom-elements', DomElements, {extends: 'span'})
 customElements.define('avatar-form', AvatarForm, {extends: 'div'})
 customElements.define('comment-form', CommentForm, {extends: 'form'})
 customElements.define('country-flag', CountryFlag, {extends: 'img'})
+customElements.define('unsee-notification', Notification, {extends: 'a'})
 // customElements.define('toast-item', Taost)
 
 // TEST ADD TOAST - UI
