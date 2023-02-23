@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification
 {
-    use PreUpdateTrait;
     use PrePersistTrait;
+    use PreUpdateTrait;
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,6 +22,9 @@ class Notification
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'notifications')]
     private Collection $recipients;
+
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
@@ -44,12 +47,14 @@ class Notification
     #[ORM\Column]
     private ?\DateTimeImmutable $updateAt = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
-
     public function __construct()
     {
         $this->recipients = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
     public function getId(): ?int

@@ -10,6 +10,7 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Configuration;
 use App\Entity\Contact;
+use App\Entity\Notification;
 use App\Entity\Project;
 use App\Entity\Ressource;
 use App\Entity\User;
@@ -110,6 +111,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Utilisateurs');
             yield MenuItem::linkToCrud('Utilisateur', 'fa fa-user', User::class)->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToCrud('Notification', 'fa fa-bell', Notification::class)->setPermission('ROLE_ADMIN');
             yield MenuItem::linkToCrud('Role', 'fa fa-shield', Role::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('Articles');

@@ -69,7 +69,7 @@
 				</div>
 			</form>
 			<div is="header-account" class="relative">
-				<div id="js-account-toggle" class="avatar {% if app.user.user.hasNotification %}notify{% endif %}" >
+				<div id="js-account-toggle" class="avatar {% if app.user and app.user.user.hasNotification %}notify{% endif %}" >
 					<img src="{% if app.user and app.user.user.avatar %}{{app.user.user.avatar}}{% else %} /favicon.svg {% endif %}" alt="avater" class="avatar {% if app.user %} blink {% else %} small {% endif %}"/> 
 				</div>
 				<div id="js-header-account" class="hidden absolute mt-2 right-5 w-max rounded shadow-md border backdrop-blur-xl bg-white z-20">
