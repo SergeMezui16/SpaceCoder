@@ -111,7 +111,7 @@ class User implements SearchableInterface
     public function hasNotification(): bool
     {
         foreach ($this->notifications as $notification) {
-            if(!$notification->isSaw()) return true;
+            if(!$notification->hasBeenViewedBy($this)) return true;
         }
         return false;
     }
@@ -124,9 +124,10 @@ class User implements SearchableInterface
     public function countUnseeNotification(): int
     {
         $n = 0;
-        foreach($this->getNotifications() as $notif){
-            if(!$notif->isSaw()) $n++;
+        foreach ($this->notifications as $notif){
+            if($notif->hasBeenViewedBy($this)) $n++;
         }
+
         return $n;
     }
 
@@ -455,7 +456,9 @@ class User implements SearchableInterface
      */
     public function getLastsNotifications()
     {
-        $notifications = $this->notifications->toArray();
+        $notifications = $this->notifications->filter(
+            fn ($notif) => $notif->getSentAt() < (new \DateTimeImmutable())
+        )->toArray();
         
         usort($notifications, fn ($a, $b) => $a->getSentAt() < $b->getSentAt());
 

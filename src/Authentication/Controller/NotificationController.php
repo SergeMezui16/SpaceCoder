@@ -31,9 +31,12 @@ class NotificationController extends AbstractController
     #[Route('/see/{id}', name: 'notification_see')]
     public function see(Notification $notification, EntityManagerInterface $manager): JsonResponse
     {
-        if(!$notification->isSaw()){
-            $notification->setSaw(true);
-    
+        /** @var UserAuthentication $auth */
+        $auth = $this->getUser();
+
+        if(!$notification->hasBeenViewedBy($auth->getUser())) {
+
+            $notification->markAsViewedFor($auth->getUser());
             $manager->persist($notification);
             $manager->flush();
         }

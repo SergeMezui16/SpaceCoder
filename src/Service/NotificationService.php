@@ -48,7 +48,6 @@ class NotificationService
             ->setContent($content)
             ->setTitle($title)
             ->setAction($action)
-            ->setSaw(false)
             ->setSentAt(new \DateTimeImmutable())
             ->setCreateAt(new \DateTimeImmutable())
             ->setUpdateAt(new \DateTimeImmutable())

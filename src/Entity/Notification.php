@@ -7,9 +7,11 @@ use App\Traits\PrePersistTrait;
 use App\Traits\PreUpdateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NotificationRepository::class)]
+#[ORM\Entity(repositoryClass: NotificationRepository::class)] 
+#[ORM\HasLifecycleCallbacks]
 class Notification
 {
     use PrePersistTrait;
@@ -32,9 +34,6 @@ class Notification
     #[ORM\Column(length: 255)]
     private ?string $header = null;
 
-    #[ORM\Column(options: ['default' => false])]
-    private ?bool $saw = false;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $sentAt = null;
 
@@ -47,6 +46,9 @@ class Notification
     #[ORM\Column]
     private ?\DateTimeImmutable $updateAt = null;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private array $views = [];
+
     public function __construct()
     {
         $this->recipients = new ArrayCollection();
@@ -55,6 +57,60 @@ class Notification
     public function __toString()
     {
         return $this->title;
+    }
+
+
+    /**
+     * Generate the array of views from recipients and set it
+     * 
+     * This function must be called after 'setRecipients()' function
+     * This is called after each update and persist of the object
+     *
+     * @return self
+     */
+    #[ORM\PostUpdate]
+    #[ORM\PrePersist]
+    public function initViews(): self
+    {
+        $views = [...$this->views];
+        
+        foreach ($this->recipients as $recipient) {
+            if(!array_key_exists($recipient->getPseudo(), $views)) {
+                $views[$recipient->getPseudo()] = false;
+            }
+        }
+
+        $this->setViews($views);
+
+        return $this;
+    }
+
+    /**
+     * Check if this user saw or not this Notification
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function hasBeenViewedBy(User $user): bool
+    {
+        return array_key_exists($user->getPseudo(), $this->views) && $this->views[$user->getPseudo()] === true;
+    }
+
+    /**
+     * Set Notification as viewed for this user
+     *
+     * @param User $user
+     * @return void
+     */
+    public function markAsViewedFor(User $user)
+    {
+        $views = [...$this->views];
+        
+        if($user->getNotifications()->contains($this)){
+            $views[$user->getPseudo()] = true;
+        }
+
+        $this->setViews($views);
     }
 
     public function getId(): ?int
@@ -106,18 +162,6 @@ class Notification
     public function setHeader(string $header): self
     {
         $this->header = $header;
-
-        return $this;
-    }
-
-    public function isSaw(): ?bool
-    {
-        return $this->saw;
-    }
-
-    public function setSaw(bool $saw): self
-    {
-        $this->saw = $saw;
 
         return $this;
     }
@@ -181,4 +225,17 @@ class Notification
 
         return $this;
     }
+
+    public function getViews(): array
+    {
+        return $this->views;
+    }
+
+    public function setViews(?array $views): self
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
 }

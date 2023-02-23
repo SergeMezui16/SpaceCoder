@@ -1,9 +1,9 @@
 {% for notification in notifications %}
     <a
         href="{{ notification.action }}"
-        {% if not notification.saw %}is="unsee-notification"{% endif %}
+        {% if not notification.hasBeenViewedBy(app.user.user) %}is="unsee-notification"{% endif %}
         data-uri="{{ path('notification_see', {id: notification.id}) }}"
-        class="{% if notification.saw == false %}bg-transparent-purple cursor-pointer shadow-md{% endif %} hover:shadow-md w-full p-2 pt-4 max-w-3xl {% if not loop.last %}border-b{% endif %}"
+        class="{% if notification.hasBeenViewedBy(app.user.user) == false %}bg-transparent-purple cursor-pointer shadow-md{% endif %} hover:shadow-md w-full p-2 pt-4 max-w-3xl {% if not loop.last %}border-b{% endif %}"
     >
         <div class="flex flex-col p-3">
             <div class="flex items-center justify-start gap-2 mb-2 h-10">
