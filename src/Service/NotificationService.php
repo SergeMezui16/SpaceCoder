@@ -116,7 +116,7 @@ class NotificationService
                 ),
                 $this->url->generate('article_detail', [
                     'slug' => $replyTo->getArticle()->getSlug(),
-                    '_fragment' => 'comment-' . $replyTo->getId()
+                    '_fragment' => 'comment-' . $comment->getId()
                 ]),
                 'comment'
             );
