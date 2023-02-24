@@ -87,16 +87,48 @@ class User implements SearchableInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bio = null;
 
+    #[ORM\ManyToMany(targetEntity: Notification::class, mappedBy: 'recipients')]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->suggestions = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function __toString()
     {
         return $this->pseudo;
+    }
+
+    /**
+     * Check if user has notifications not read
+     *
+     * @return boolean
+     */
+    public function hasNotification(): bool
+    {
+        foreach ($this->notifications as $notification) {
+            if(!$notification->hasBeenViewedBy($this)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get the number of unsee Notifications
+     *
+     * @return integer
+     */
+    public function countUnseeNotification(): int
+    {
+        $n = 0;
+        foreach ($this->notifications as $notif){
+            if($notif->hasBeenViewedBy($this)) $n++;
+        }
+
+        return $n;
     }
 
     public function getSearchItem(int $id): SearchItemModel
@@ -390,5 +422,46 @@ class User implements SearchableInterface
         $this->bio = $bio;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->addRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            $notification->removeRecipient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getLastsNotifications()
+    {
+        $notifications = $this->notifications->filter(
+            fn ($notif) => $notif->getSentAt() < (new \DateTimeImmutable())
+        )->toArray();
+        
+        usort($notifications, fn ($a, $b) => $a->getSentAt() < $b->getSentAt());
+
+        return $notifications;
     }
 }

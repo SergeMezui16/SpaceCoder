@@ -7,6 +7,7 @@ use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Configuration;
+use App\Entity\Notification;
 use App\Entity\Project;
 use App\Entity\Ressource;
 use App\Entity\User;
@@ -19,82 +20,62 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    private $fake;
-    private $manager;
-    private Role $adminRole;
-    private Role $userRole;
-    private Role $projectRole;
-    /** @var User[] $users */
-    private array $users;
-    /** @var Article[] $articles */
-    private array $articles;
-    /** @var Comment[] $comments */
-    private array $comments;
-    /** @var Comment[] $replies */
-    private array $replies;
-    /** @var Project[] $projects */
-    private array $projects;
-    /** @var Ressource[] $ressources */
-    private array $ressources;
-
-
 
     public function __construct(
         private UserPasswordHasherInterface $encoder
-    ){
-        $this->fake = (new Factory())::create('fr_FR');
-        $this->users = [];
-        $this->articles = [];
-        $this->comments = [];
-        $this->replies = [];
-        $this->projects = [];
-        $this->ressources = [];
-    }
+    ){}
     
     public function load(ObjectManager $manager): void
     {
-        $this->manager = $manager;
-        
-        $this->setRoles();
-        $this->setUser();
-        $this->setUsers();
-        $this->setArticles();
-        $this->setComments();
-        $this->setProjects();
-        $this->setRessources();
 
-        $manager->flush();
-    }
-    
-    public function setConfigurations(): void
-    {
-        $this->manager->persist(
+        $fake = (new Factory())::create('fr_FR');
+        $users = [];
+        $articles = [];
+        $comments = [];
+        $replies = [];
+        $projects = [];
+        $ressources = [];
+        $notifications = [];
+
+        echo(' Configuration ');
+        $manager->persist(
             (new Configuration())
                 ->setName('APP_NAME')
                 ->setValue('SPACECODER')
                 ->setCategory('APP')
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
         );
-        $this->manager->persist(
+        $manager->persist(
             (new Configuration())
                 ->setName('APP_VERSION')
                 ->setValue('3.0')
                 ->setCategory('APP')
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
         );
-    }
+        $manager->persist(
+            (new Configuration())
+                ->setName('ARL')
+                ->setValue('AZERTYUIOPMLKJHGFDSQWXCVBNJKLMPOIUYTREZAQSDFGHJKLKJHNBVCXSZEDFTGHUJ')
+                ->setCategory('APP')
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
+        );
+        echo('** ✅');
 
-    public function setRoles(): void
-    {
-        $this->adminRole = (new Role())->setName('ROLE_ADMIN')->setContext('Administration')->setValid(true);
-        $this->userRole = (new Role())->setName('ROLE_USER')->setContext('Utilisateur')->setValid(true);
-        $this->projectRole = (new Role())->setName('ROLE_PROJECT_X')->setContext('Projet X')->setValid(true);
+        echo ("\n Role ");
+        $adminRole = (new Role())->setName('ROLE_ADMIN')->setContext('Administration')->setValid(true);
+        $userRole = (new Role())->setName('ROLE_USER')->setContext('Utilisateur')->setValid(true);
+        $projectRole = (new Role())->setName('ROLE_PROJECT_X')->setContext('Projet X')->setValid(true);
 
-        $this->manager->persist($this->adminRole);
-        $this->manager->persist($this->userRole);
-        $this->manager->persist($this->projectRole);
-    }
+        $manager->persist($adminRole);
+        $manager->persist($userRole);
+        $manager->persist($projectRole);
+        echo ('*** ✅');
 
-    public function setUser(): void
-    {
+
+        echo ("\n User ");
         $myAuth = new UserAuthentication();
         $myPass = $this->encoder->hashPassword($myAuth, 'pass');
 
@@ -104,111 +85,157 @@ class AppFixtures extends Fixture
                     ->setEmail('serge@mezui.com')
                     ->setPassword($myPass)
                     ->setBlocked(false)
-                    ->setRole($this->adminRole)
+                    ->setRole($adminRole)
+                    ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                    ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
             )
             ->setPseudo('Serge Mezui')
             ->setSlug('SergeMezui')
             ->setCountry('GA')
             ->setCoins(1000)
-            ->setBornAt(new \DateTimeImmutable('2002-10-04 17:24:43.000000'));
+            ->setBornAt(new \DateTimeImmutable('- ' . mt_rand(2000000, 30000000) . ' second'))
+            ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+            ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
 
-        $this->manager->persist($myAuth);
-        $this->manager->persist($me);
-    }
+        $manager->persist($myAuth);
+        $manager->persist($me);
+        
+        echo ('* ✅');
 
-    public function setUsers()
-    {
-        for ($i = 0; $i < 15; $i++) {
+        echo ("\n Users ");
+        for ($i = 0; $i < 5; $i++) {
 
             $auth = new UserAuthentication();
             $pass = $this->encoder->hashPassword($auth, 'pass');
 
             $auth
-                ->setEmail($this->fake->email())
+                ->setEmail($fake->email())
                 ->setPassword($pass)
-                ->setBlocked($this->fake->boolean())
-                ->setRole($this->userRole);
+                ->setBlocked($fake->boolean())
+                ->setRole($userRole)
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
 
-            $this->manager->persist($auth);
+            $manager->persist($auth);
 
-            $this->users[] = $user = (new User())
+            $users[] = $user = (new User())
                 ->setAuth($auth)
-                ->setSlug('slugUser' . $i)
-                ->setPseudo($this->fake->name())
-                ->setCountry($this->fake->countryCode())
+                ->setSlug('slug-user' . $i)
+                ->setPseudo($fake->name())
+                ->setCountry($fake->countryCode())
                 ->setCoins(10)
-                ->setBornAt(new \DateTimeImmutable());
+                ->setBornAt(new \DateTimeImmutable('- ' . mt_rand(2000000, 30000000) . ' second'))
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
 
-            $this->manager->persist($user);
+            $manager->persist($user);
+            echo ('*');
         }
-    }
 
-    public function setArticles()
-    {
-        for ($i = 0; $i < 30; $i++) {
-            $this->articles[] = $article = (new Article())
-                ->setTitle($this->fake->sentence())
-                ->setSubject($this->fake->sentence(2))
-                ->setDescription($this->fake->paragraph())
-                ->setContent($this->fake->text(1000))
-                ->setViews($this->fake->numberBetween(0, 200))
-                ->setImage($this->fake->imageUrl(640, 350))
-                ->setAuthor($this->fake->randomElement([...$this->users, null]))
-                ->setSuggestedBy($this->fake->randomElement([...$this->users, null]))
-                ->setAuthor($this->fake->randomElement($this->users))
-                ->setLevel($this->fake->randomElement([1, 2, 3]))
-                ->setPublishedAt(new DateTimeImmutable());
-            $this->manager->persist($article);
+        echo (' ✅');
+
+        echo ("\n Article ");
+        for ($i = 0; $i < 5; $i++) {
+            $articles[] = $article = (new Article())
+                ->setTitle($fake->sentence())
+                ->setSubject($fake->sentence(2))
+                ->setDescription($fake->paragraph())
+                ->setContent($fake->text(1000))
+                ->setViews($fake->numberBetween(0, 200))
+                ->setImage($fake->imageUrl(640, 350))
+                ->setAuthor($fake->randomElement([...$users, $me, null]))
+                ->setSuggestedBy($fake->randomElement([...$users, $me, null]))
+                ->setLevel($fake->randomElement([1, 2, 3]))
+                ->setPublishedAt(new DateTimeImmutable('- ' . mt_rand(1, 30000 * ($i + 1)) . ' second'))
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000 * ($i + 1)) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000 * ($i + 1)) . ' second'));
+            $manager->persist($article);
+            echo ('*');
         }
-    }
+        echo (' ✅');
 
-    public function setComments()
-    {
-        for ($i = 0; $i < 30; $i++) {
-            $this->comments[] = $comment = (new Comment())
-                ->setArticle($this->fake->randomElement($this->articles))
-                ->setAuthor($this->fake->randomElement([...$this->users, null]))
-                ->setContent($this->fake->sentence(10, true));
-
-            for ($i = 0; $i < mt_rand(0, 4); $i++) {
-                $this->replies[] = $reply = (new Comment())
-                    ->setArticle($comment->getArticle())
-                    ->setAuthor($this->fake->randomElement([...$this->users, null]))
-                    ->setContent($this->fake->sentence(10, true));
-                $comment->setReplyTo($reply);
-            }
-
-            $this->manager->persist($comment);
-            $this->manager->persist($reply);
-        }
-    }
-
-    public function setProjects()
-    {
+        echo ("\n Comment ");
         for ($i = 0; $i < 10; $i++) {
-            $this->projects[] = $project = (new Project())
-                ->setName($this->fake->sentence(2))
-                ->setDescription($this->fake->paragraph(1))
-                ->setVisit($this->fake->numberBetween(0, 100))
-                ->setImage($this->fake->imageUrl(640, 350))
-                ->setAuthors($this->fake->sentence(2))
-                ->setUrl($this->fake->url())
-                ->setRole($this->projectRole);
-            $this->manager->persist($project);
+            $comments[] = $comment = (new Comment())
+                ->setArticle($fake->randomElement($articles))
+                ->setAuthor($fake->randomElement([...$users, $me, null]))
+                ->setContent($fake->sentence(10, true))
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+            
+            for ($j = 0; $j <= mt_rand(0, 2); $j++) {
+                $replies[] = $reply = (new Comment())
+                    ->setArticle($comment->getArticle())
+                    ->setAuthor($fake->randomElement([...$users, $me, null]))
+                    ->setContent($fake->sentence(10, true))
+                    ->setReplyTo($comment)
+                    ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                    ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                echo ('*');
+                    
+                $manager->persist($reply);
+                $comment->addReply($reply);
+            }
+            
+            $manager->persist($comment);
+            echo ('*');
         }
-    }
+        echo (' ✅');
 
-    public function setRessources()
-    {
-        for ($i = 0; $i < 70; $i++) {
-            $this->ressources[] = $ressource = (new Ressource())
-                ->setName($this->fake->sentence(2))
-                ->setImage($this->fake->imageUrl(640, 350))
-                ->setDescription($this->fake->paragraph(1))
-                ->setClicks($this->fake->numberBetween(0, 100))
-                ->setLink($this->fake->url())
-                ->setCategories($this->fake->words());
-            $this->manager->persist($ressource);
+        
+        echo ("\n Project ");
+        for ($i = 0; $i < 5; $i++) {
+            $projects[] = $project = (new Project())
+                ->setName($fake->sentence(2))
+                ->setDescription($fake->paragraph(1))
+                ->setVisit($fake->numberBetween(0, 100))
+                ->setImage($fake->imageUrl(640, 350))
+                ->setAuthors($fake->sentence(2))
+                ->setUrl($fake->url())
+                ->setRole($projectRole)
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+            $manager->persist($project);
+            echo ('*');
         }
+        echo (' ✅');
+
+        
+        echo ("\n Ressource ");
+        for ($i = 0; $i < 20; $i++) {
+            $ressources[] = $ressource = (new Ressource())
+                ->setName($fake->sentence(2))
+                ->setImage($fake->imageUrl(640, 350))
+                ->setDescription($fake->paragraph(1))
+                ->setClicks($fake->numberBetween(0, 100))
+                ->setLink($fake->url())
+                ->setCategories($fake->words())
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+            $manager->persist($ressource);
+            echo ('*');
+        }
+        echo (' ✅');
+
+        
+        echo ("\n Notification ");
+        for ($i = 0; $i < 15; $i++) {
+            $notifications[] = $notification = (new Notification())
+                ->setTitle($fake->sentence(2))
+                ->setContent($fake->paragraph(1))
+                ->addRecipient($fake->randomElement([...$users, $me]))
+                ->setAction('/article')
+                ->setHeader($fake->randomElement(['comment', 'account', 'gift', 'new']))
+                ->setSentAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+            $manager->persist($notification);
+            echo ('*');
+        }
+        echo (' ✅');
+
+
+        echo ("\n Flushing");
+        $manager->flush();
     }
 }

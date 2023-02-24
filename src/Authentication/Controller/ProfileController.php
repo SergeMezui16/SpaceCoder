@@ -10,6 +10,7 @@ use App\Authentication\Model\ChangePasswordModel;
 use App\Entity\User;
 use App\Service\AvatarUploaderService;
 use App\Service\MailMakerService;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -30,7 +31,8 @@ class ProfileController extends AbstractController
     public function __construct(
         private EntityManagerInterface $manager,
         private MailMakerService $mailer,
-        private TokenStorageInterface $tokenStorage
+        private TokenStorageInterface $tokenStorage,
+        private NotificationService $notifier
     ){}
 
     #[Route('/edit', name: 'profile_edit')]
@@ -77,7 +79,7 @@ class ProfileController extends AbstractController
         UserPasswordHasherInterface $encoder
     ): Response
     {
-        /** @var UserAuthentication */
+        /** @var UserAuthentication $auth */
         $auth = $this->getUser();
 
         $form = $this->createForm(ChangePasswordType::class, new ChangePasswordModel());
@@ -99,6 +101,7 @@ class ProfileController extends AbstractController
             $request->getSession()->invalidate();
             $this->tokenStorage->setToken(null);
 
+            $this->notifier->notifyOnPasswordChanged($auth->getUser());
             $this->addFlash('success', 'Mot de passe changé avec succes. Veuillez vous connecter avec vos nouveaux identifiants.');
 
             return $this->redirectToRoute('logout');

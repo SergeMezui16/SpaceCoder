@@ -2,6 +2,7 @@ export default class DomElements extends HTMLSpanElement {
     constructor () {
         super()
 
+        this.comments = document.querySelectorAll('.comment')
         this.backToTop = document.querySelector('.back-to-top')
     }
 
@@ -9,6 +10,7 @@ export default class DomElements extends HTMLSpanElement {
     connectedCallback() {
         window.addEventListener('scroll', () => this.#showOrHideToTop())
         this.backToTop.addEventListener('click', () => this.#goToTop())
+        if(this.comments.length > 0) this.#blinkComment(this.comments)
     }
 
     disconnectedCallback() {
@@ -43,5 +45,15 @@ export default class DomElements extends HTMLSpanElement {
 
         }
         this.backToTop.style.display = (scrolled > 10) ? 'flex' : 'none'
+    }
+
+    /**
+     * Blink a comment
+     * @param {HTMLElement[]} comments 
+     */
+    #blinkComment (comments) {
+       comments.forEach(element => {
+            if('#' + element.id === location.hash) element.classList.add('bg-transparent-yellow')
+       });  
     }
 }

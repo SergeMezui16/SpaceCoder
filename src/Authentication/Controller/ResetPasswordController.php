@@ -7,14 +7,15 @@ use App\Authentication\Form\ChangePasswordFormType;
 use App\Authentication\Form\ResetPasswordRequestFormType;
 use App\Authentication\Model\ResetPasswordModel;
 use App\Service\MailMakerService;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
@@ -29,7 +30,8 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private EntityManagerInterface $entityManager,
-        private MailMakerService $mailer
+        private MailMakerService $mailer,
+        private NotificationService $notifier
     ) {}
 
     /**
@@ -86,7 +88,8 @@ class ResetPasswordController extends AbstractController
         }
 
         try {
-            $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+            /** @var UserAuthentication $auth */
+            $auth = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
             $this->addFlash('reset_password_error', sprintf(
                 '%s - %s',
@@ -105,15 +108,16 @@ class ResetPasswordController extends AbstractController
             $this->resetPasswordHelper->removeResetRequest($token);
 
             $encodedPassword = $passwordHasher->hashPassword(
-                $user,
+                $auth,
                 $form->get('newPassword')->getData()
             );
 
-            $user->setPassword($encodedPassword);
+            $auth->setPassword($encodedPassword);
             $this->entityManager->flush();
 
-            $this->mailer->make($user->getEmail(), 'Mot de passe changé avec succes', 'mail/auth/password_changed.html.twig', [
-                'pseudo' => $user->getUser()->getPseudo(),
+            $this->notifier->notifyOnResetPassword($auth->getUser());
+            $this->mailer->make($auth->getEmail(), 'Mot de passe changé avec succes', 'mail/auth/password_changed.html.twig', [
+                'pseudo' => $auth->getUser()->getPseudo(),
                 'subject' => 'Mot de passe changé avec succes'
             ])->send();
 
@@ -136,22 +140,22 @@ class ResetPasswordController extends AbstractController
      */
     private function processSendingPasswordResetEmail(string $emailFormData): RedirectResponse
     {
-        $user = $this->entityManager->getRepository(UserAuthentication::class)->findOneBy([
+        $auth = $this->entityManager->getRepository(UserAuthentication::class)->findOneBy([
             'email' => $emailFormData,
         ]);
 
-        if (!$user) {
+        if (!$auth) {
             return $this->redirectToRoute('reset_check_email');
         }
 
         try {
-            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+            $resetToken = $this->resetPasswordHelper->generateResetToken($auth);
         } catch (ResetPasswordExceptionInterface $e) {
 
             return $this->redirectToRoute('reset_check_email');
         }
 
-        $this->mailer->make($user->getEmail(), 'Votre demande de restauration de mot de passe', 'mail/auth/reset_password.html.twig', [
+        $this->mailer->make($auth->getEmail(), 'Votre demande de restauration de mot de passe', 'mail/auth/reset_password.html.twig', [
             'resetToken' => $resetToken,
             'subject' => 'Restauration de mot de passe'
         ])->send();

@@ -49,8 +49,6 @@ export default class CommentForm extends HTMLFormElement
                 this.querySelector('textarea').focus()
             }
         })
-
-        console.log(element, this.options)
         this.goToForm()
     }
 

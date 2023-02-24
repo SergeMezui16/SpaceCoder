@@ -6,6 +6,7 @@ use App\Authentication\Form\RegistrationType;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\MailMakerService;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,8 @@ class RegistrationController extends AbstractController
     public function __construct(
         private VerifyEmailHelperInterface $verifyEmailHelper,
         private UserRepository $userRepository,
-        private MailMakerService $mailer
+        private MailMakerService $mailer,
+        private NotificationService $notifier
     ){}
 
     
@@ -97,6 +99,8 @@ class RegistrationController extends AbstractController
         $auth->setBlocked(false);
         $manager->persist($user);
         $manager->flush();
+
+        $this->notifier->notifyOnWelcome($user);
 
         $this->mailer->make($auth->getEmail(), 'Bienvenu sur SpaceCoder', 'mail/auth/welcome.html.twig', [
             'subject' => 'Bienvenu sur SpaceCoder',

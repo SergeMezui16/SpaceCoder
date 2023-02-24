@@ -269,6 +269,12 @@ p, .p{
 .avatar.big{
     @apply w-40 h-40 border;
 }
+.avatar.notify{
+    @apply relative;
+}
+.avatar.notify:after{
+    @apply absolute -top-4  -right-1 text-red content-['•'] text-4xl;
+}
 
 
 /* FILTRE */
