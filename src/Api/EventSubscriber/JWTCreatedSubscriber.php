@@ -1,27 +1,27 @@
 <?php
-namespace App\Api\EventListener;
 
-use App\Authentication\Entity\UserAuthentication;
+namespace App\Api\EventSubscriber;
+
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\MissingTokenException;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\UrlHelper;
 
 /**
- * JWT Created Listener
+ * JWT Created Subscriber
  * 
  * Enhance token payload with user data
  * 
  * If user has been blocked, an Exception is thrown
  */
-class JWTCreatedListener 
+class JWTCreatedSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(
         private RequestStack $requestStack,
         private UrlHelper $urlHelper
-    )
-    {}
+    ) {}
+
 
     /**
      * On JWT Created
@@ -30,13 +30,13 @@ class JWTCreatedListener
      * @throws MissingTokenException if user is blocked
      * @return void
      */
-    public function onJWTCreated(JWTCreatedEvent $event): void
+    public function onLexikJwtAuthenticationOnJwtCreated(JWTCreatedEvent $event): void
     {
         /** @var UserAuthentication $auth */
         $auth = $event->getUser();
 
 
-        if($auth->isBlocked()){
+        if ($auth->isBlocked()) {
             throw new MissingTokenException('User Blocked.', 401);
         }
 
@@ -50,4 +50,10 @@ class JWTCreatedListener
         $event->setData($payload);
     }
 
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'lexik_jwt_authentication.on_jwt_created' => 'onLexikJwtAuthenticationOnJwtCreated',
+        ];
+    }
 }
