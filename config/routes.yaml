@@ -5,6 +5,15 @@ controllers:
 api:
     resource: ../src/Api/
     type: attribute
+    prefix: /api
+
+api_login_check:
+    path: /api/login_check
+    methods: ['POST']
+
+api_index:
+    path: /api
+    controller: App\Api\Controller\AssetApiController::index
 
 logout:
     path: /logout
@@ -14,6 +23,3 @@ profile:
     path: /{slug} # slug of user
     controller: App\Authentication\Controller\ProfileController::index
     methods: GET
-
-api_login_check:
-    path: /api/login_check

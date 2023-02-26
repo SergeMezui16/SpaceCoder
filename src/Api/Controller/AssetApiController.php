@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api')]
 class AssetApiController extends AbstractApiController
 {
     
@@ -66,11 +65,13 @@ class AssetApiController extends AbstractApiController
         );
     }
 
-
-
-    #[Route('/', name: 'api')]
+    /**
+     * Api Swagger UI
+     *
+     * @return Response
+     */
     public function index(): Response
     {
-        return $this->render('index/doc.html.twig', []);
+        return $this->render('api/index.html.twig', []);
     }
 }

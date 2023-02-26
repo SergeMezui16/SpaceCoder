@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api')]
 class AuthenticationApiController extends AbstractApiController
 {
     public function __construct(
