@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Api\Controller;
 
 use App\Api\Controller\AbstractApiController;
 use App\Repository\ProjectRepository;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,26 +15,29 @@ class ProjectApiController extends AbstractApiController
         private ProjectRepository $projects
     ) {}
 
-    /**
-     * @OA\Get(
-     *     path="/projects",
-     *     summary="List all projects",
-     *     operationId="projects",
-     *     tags={"Project"},
-     *     @OA\Response(
-     *         response="200",
-     *         description="List of Projects",
-     *         @OA\JsonContent(
-     *              type="array",
-     *              @OA\Items(ref="#/components/schemas/Project") 
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         ref="#/components/responses/NotFound"
-     *     )
-     * )
-     */
+    
+    #[OAT\Get(
+        path: '/projects',
+        summary: 'List all projects',
+        operationId: 'projects',
+        tags: ['Project'],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'List of Projects',
+                content: [
+                    new OAT\JsonContent(
+                        type: 'array',
+                        items: new OAT\Items(ref: '#/components/schemas/Project')
+                    )
+                ]
+            ),
+            new OAT\Response(
+                response: 404,
+                ref: '#/components/responses/NotFound'
+            ),
+        ]
+    )]  
     #[Route('/projects', name: 'api_get_projects', methods: ['GET'])]
     public function projects(): JsonResponse
     {
@@ -56,25 +58,30 @@ class ProjectApiController extends AbstractApiController
         );
     }
 
-    /**
-     * @OA\Get(
-     *     path="/project/{slug}",
-     *     summary="Info for a specific project",
-     *     operationId="project",
-     *     tags={"Project"},
-     *     @OA\Parameter(ref="#/components/parameters/slug"),
-     *     @OA\Response(
-     *         response="200",
-     *         description="A Project details",
-     *         @OA\JsonContent(ref="#/components/schemas/Project")
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         ref="#/components/responses/NotFound"
-     *     )
-     * )
-     */
-    #[Route('/project/{slug}', name: 'api_get_project', methods: ['GET'])]
+
+    #[OAT\Get(
+        path: '/projects/{slug}',
+        summary: 'Info for a specific project',
+        operationId: 'project',
+        tags: ['Project'],
+        parameters: [new OAT\Parameter(ref: '#/components/parameters/slug')],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'A Project details',
+                content: [
+                    new OAT\JsonContent(
+                        ref: '#/components/schemas/Project'
+                    )
+                ]
+            ),
+            new OAT\Response(
+                response: 404,
+                ref: '#/components/responses/NotFound'
+            ),
+        ]
+    )]
+    #[Route('/projects/{slug}', name: 'api_get_project', methods: ['GET'])]
     public function project(Request $request): JsonResponse
     {
         $project = $this->projects->findOneBy(['slug' => $request->get('slug')]);

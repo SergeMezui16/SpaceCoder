@@ -3,27 +3,27 @@
 namespace App\Api\Serializer\Normalizer;
 
 use App\Entity\Ressource;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * @OA\Schema(
- *      schema="Ressource",
- *      description="Ressource",
- *      @OA\Property(property="uri", type="string"),
- *      @OA\Property(property="id", type="integer"),
- *      @OA\Property(property="name", type="string"),
- *      @OA\Property(property="slug", type="string"),
- *      @OA\Property(property="description", type="string"),
- *      @OA\Property(property="image", type="string"),
- *      @OA\Property(property="views", type="integer"),
- *      @OA\Property(property="link", type="string"),
- *      @OA\Property(property="cotegories", type="array", @OA\Items(type="string") ),
- *      @OA\Property(property="createAt", type="string", format="date-time")
- * )
- */
+#[OAT\Schema(
+    schema: 'Ressource',
+    description: 'Ressource',
+    properties: [
+        new OAT\Property(property: 'uri', type: 'string'),
+        new OAT\Property(property: 'id', type: 'integer'),
+        new OAT\Property(property: 'name', type: 'string'),
+        new OAT\Property(property: 'slug', type: 'string'),
+        new OAT\Property(property: 'description', type: 'string'),
+        new OAT\Property(property: 'image', type: 'string'),
+        new OAT\Property(property: 'views', type: 'integer'),
+        new OAT\Property(property: 'link', type: 'string'),
+        new OAT\Property(property: 'cotegories', type: 'array', items: new OAT\Items(type: 'string')),
+        new OAT\Property(property: 'createAt', type: 'string', format: 'date-time')
+    ]
+)]
 class RessourceNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
 

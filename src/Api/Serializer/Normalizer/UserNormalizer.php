@@ -3,32 +3,33 @@
 namespace App\Api\Serializer\Normalizer;
 
 use App\Entity\User;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * @OA\Schema(
- *      schema="Users",
- *      description="User Collection",
- *      @OA\Property(property="uri", type="string"),
- *      @OA\Property(property="id", type="integer"),
- *      @OA\Property(property="pseudo", type="string"),
- * )
- * 
- *  * @OA\Schema(
- *      schema="User",
- *      description="User Item",
- *      allOf={@OA\Schema(ref="#/components/schemas/Articles")},
- *      @OA\Property(property="slug", type="string"),
- *      @OA\Property(property="coin", type="integer"),
- *      @OA\Property(property="avatar", type="string"),
- *      @OA\Property(property="bio", type="string"),
- *      @OA\Property(property="country", type="string"),
- * )
- */
+#[OAT\Schema(
+    schema: 'Users',
+    description: 'User Collection',
+    properties: [
+        new OAT\Property(property: 'uri', type: 'string'),
+        new OAT\Property(property: 'id', type: 'integer'),
+        new OAT\Property(property: 'pseudo', type: 'string')
+    ]
+)]
+#[OAT\Schema(
+    schema: 'User',
+    description: 'User Item',
+    allOf: [new OAT\Schema(ref: '#/components/schemas/Articles')],
+    properties: [
+        new OAT\Property(property: 'slug', type: 'string'),
+        new OAT\Property(property: 'coin', type: 'integer'),
+        new OAT\Property(property: 'avatar', type: 'string'),
+        new OAT\Property(property: 'bio', type: 'string'),
+        new OAT\Property(property: 'country', type: 'string')
+    ]
+)]
 class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(

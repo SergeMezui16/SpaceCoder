@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Api\Controller;
 
 use App\Api\Controller\AbstractApiController;
 use App\Authentication\Entity\UserAuthentication;
 use App\Repository\UserRepository;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UrlHelper;
@@ -19,65 +18,74 @@ class AuthenticationApiController extends AbstractApiController
     )
     {}
 
-    /**
-     * @OA\Post(
-     *     path="/login_check",
-     *     summary="Get JWT Token",
-     *     operationId="JWT",
-     *     tags={"Auth"},
-     *     @OA\RequestBody(
-     *          required=true,
-     *          @OA\JsonContent(
-     *              required={"username", "password"},
-     *              @OA\Property(property="username", type="string"),
-     *              @OA\Property(property="password", type="string")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="JWT Token",
-     *         @OA\JsonContent(
-     *              @OA\Property(property="token", type="string"),
-     *         )
-     *     ),
-     *     @OA\Response(
-     *          response="401",
-     *          description="Unauthaurized",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="code", type="integer", example="401"),
-     *              @OA\Property(property="message", type="string", example="Identifiants invalides."),
-     *          )
-     *     )
-     * )
-     */
+    #[OAT\Post(
+        path: '/login_check',
+        summary: 'Get JWT Token',
+        operationId: 'JWT',
+        tags: ['Auth'],
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(
+                required: ['username', 'password'],
+                properties: [
+                    new OAT\Property(property: 'username', type: 'string'),
+                    new OAT\Property(property: 'password', type: 'string'),
+                ]
+            )
+        ),
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'JWT Token',
+                content: [
+                    new OAT\JsonContent(
+                        properties: [
+                            new OAT\Property(property: 'token', type: 'string')
+                        ]
+                    )
+                ]
+            ),
+            new OAT\Response(
+                response: 401,
+                description: 'Unauthaurized',
+                content: [
+                    new OAT\JsonContent(
+                        properties: [
+                            new OAT\Property(property: 'code', type: 'integer', example: 401),
+                            new OAT\Property(property: 'message', type: 'string', example: 'Identifiants invalides.')
+                        ]
+                    )
+                ]
+            )
+        ]
+    )]
     public function login()
     {}
 
-    /**
-     * @OA\Get(
-     *     path="/me",
-     *     summary="Get connected user",
-     *     operationId="me",
-     *     tags={"Auth"},
-     *     @OA\Response(
-     *         response="200",
-     *         description="An User details",
-     *         @OA\JsonContent(ref="#/components/schemas/User")
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         ref="#/components/responses/NotFound"
-     *     ),
-     * 
-     * 
-     *     @OA\Response(
-     *         response="401",
-     *         ref="#/components/responses/ExpiredToken"
-     *     ),
-     * 
-     *     security={"Bearer"}
-     * )
-     */
+    #[OAT\Get(
+        path: '/me',
+        summary: 'Get connected user',
+        operationId: 'me',
+        tags: ['Auth'],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'An User details',
+                content: [
+                    new OAT\JsonContent(ref: '#/components/schemas/User')
+                ]
+            ),
+            new OAT\Response(
+                response: 404,
+                ref: '#/components/responses/NotFound'
+            ),
+            new OAT\Response(
+                response: 401,
+                ref: '#/components/responses/ExpiredToken'
+            )
+        ],
+        security: ['Bearer']        
+    )]
     #[Route('/me', name: 'api_get_me', methods: ['GET'])]
     public function me(): JsonResponse
     {

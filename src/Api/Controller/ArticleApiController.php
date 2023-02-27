@@ -3,7 +3,7 @@ namespace App\Api\Controller;
 
 use App\Api\Controller\AbstractApiController;
 use App\Repository\ArticleRepository;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,32 +16,34 @@ class ArticleApiController extends AbstractApiController
         private ArticleRepository $articles
     ) {}
 
-    /**
-     * @OA\Get(
-     *     path="/article/{slug}",
-     *     summary="Info for a specific article",
-     *     operationId="article",
-     *     tags={"Article"},
-     *     @OA\Parameter(ref="#/components/parameters/slug"),
-     *     @OA\Parameter(
-     *         name="comments",
-     *         in="query",
-     *         description="Return article detail with it's comments",
-     *         required=false,
-     *         @OA\Schema(type="boolean")
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="An article details",
-     *         @OA\JsonContent(ref="#/components/schemas/Article")
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         ref="#/components/responses/NotFound"
-     *     )
-     * )
-     */
-    #[Route('/article/{slug}', name: 'api_get_article', methods: ['GET'])]
+    #[OAT\Get(
+        path: '/articles/{slug}',
+        summary: 'Info for a specific article',
+        operationId: 'article',
+        tags: ['Article'],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/slug'),
+            new OAT\Parameter(
+                name: 'comments',
+                in: 'query',
+                description: 'Return article detail with it\'s comments',
+                required: false,
+                schema: new OAT\Schema(type: 'boolean')
+            )
+        ],
+        responses: [
+            new OAT\Response(
+                response: 200, 
+                description: 'An article details', 
+                content: new OAT\JsonContent(ref: '#/components/schemas/Article')
+            ),
+            new OAT\Response(
+                response: 404, 
+                ref: '#/components/responses/NotFound'
+            ),
+        ]
+    )]
+    #[Route('/articles/{slug}', name: 'api_get_article', methods: ['GET'])]
     public function article(Request $request): JsonResponse
     {
         $data = $this->articles->findOneBySlugPublished($request->get('slug'));
@@ -70,28 +72,28 @@ class ArticleApiController extends AbstractApiController
     }
 
 
-    /**
-     * @OA\Get(
-     *     path="/articles",
-     *     summary="List all articles",
-     *     description="Une Bonne description bien longue",
-     *     deprecated=false,
-     *     operationId="articles",
-     *     tags={"Article"},
-     *     @OA\Response(
-     *         response="200",
-     *         description="List of Articles",
-     *         @OA\JsonContent(
-     *              type="array",
-     *              @OA\Items(ref="#/components/schemas/Articles") 
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         ref="#/components/responses/NotFound"
-     *     )
-     * )
-     */
+    #[OAT\Get(
+        path: '/articles',
+        summary: 'List all articles',
+        description: 'Une Bonne description bien longue',
+        deprecated: false,
+        operationId: 'articles',
+        tags: ['Article'],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'List of Articles',
+                content: new OAT\JsonContent(
+                    type: 'array',
+                    items: new OAT\Items(ref: '#/components/schemas/Articles')                    
+                )
+            ),
+            new OAT\Response(
+                response: 404, 
+                ref: '#/components/responses/NotFound'
+            ),
+        ]
+    )]
     #[Route('/articles', name: 'api_get_articles', methods: ['GET'])]
     public function articles(): JsonResponse
     {

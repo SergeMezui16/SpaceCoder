@@ -3,38 +3,40 @@
 namespace App\Api\Serializer\Normalizer;
 
 use App\Entity\Article;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * @OA\Schema(
- *      schema="Articles",
- *      description="Article Collection",
- *      @OA\Property(property="uri", type="string"),
- *      @OA\Property(property="id", type="integer"),
- *      @OA\Property(property="slug", type="string"),
- *      @OA\Property(property="title", type="string"),
- *      @OA\Property(property="subject", type="string"),
- *      @OA\Property(property="description", type="string"),
- *      @OA\Property(property="views", type="integer"),
- *      @OA\Property(property="publishedAt", type="string", format="date-time"),
- *      @OA\Property(property="comment", type="integer"),
- * )
- * 
- *  * @OA\Schema(
- *      schema="Article",
- *      description="Article Item",
- *      allOf={@OA\Schema(ref="#/components/schemas/Articles")},
- *      @OA\Property(property="level", type="integer"),
- *      @OA\Property(property="content", type="string"),
- *      @OA\Property(property="author", type="string"),
- *      @OA\Property(property="suggeredBy", type="string"),
- *      @OA\Property(property="createAt", type="string", format="date-time"),
- * )
- */
+
+#[OAT\Schema(
+    schema: 'Articles',
+    description: 'Article Collection',
+    properties: [ 
+        new OAT\Property(property: 'uri', type: 'string'),
+        new OAT\Property(property: 'id', type: 'integer'),
+        new OAT\Property(property: 'slug', type: 'string'),
+        new OAT\Property(property: 'title', type: 'string'),
+        new OAT\Property(property: 'subject', type: 'string'),
+        new OAT\Property(property: 'description', type: 'string'),
+        new OAT\Property(property: 'views', type: 'integer'),
+        new OAT\Property(property: 'publishedAt', type: 'string', format: 'date-time'),
+        new OAT\Property(property: 'comment', type: 'integer')
+    ]
+)]
+#[OAT\Schema(
+    schema: 'Article',
+    description: 'Article Item',
+    allOf: [new OAT\Schema(ref: '#/components/schemas/Articles')],
+    properties: [
+        new OAT\Property(property: 'level', type: 'integer'),
+        new OAT\Property(property: 'content', type: 'string'),
+        new OAT\Property(property: 'author', type: 'string'),
+        new OAT\Property(property: 'suggeredBy', type: 'string'),
+        new OAT\Property(property: 'createAt', type: 'string', format: 'date-time')
+    ]
+)] 
 class ArticleNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
 

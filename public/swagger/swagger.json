@@ -20,7 +20,8 @@
             "description": "API SpaceCoder"
         },
         {
-            "url": "http://localhost:8000/api/"
+            "url": "http://localhost:8000/api/",
+            "description": "API Local"
         }
     ],
     "paths": {
@@ -186,7 +187,7 @@
                                     "properties": {
                                         "code": {
                                             "type": "integer",
-                                            "example": "401"
+                                            "example": 401
                                         },
                                         "message": {
                                             "type": "string",
@@ -850,7 +851,7 @@
                             "properties": {
                                 "code": {
                                     "type": "integer",
-                                    "example": "404"
+                                    "example": 404
                                 },
                                 "message": {
                                     "type": "string",
@@ -870,7 +871,7 @@
                             "properties": {
                                 "code": {
                                     "type": "integer",
-                                    "example": "401"
+                                    "example": 401
                                 },
                                 "message": {
                                     "type": "string",
