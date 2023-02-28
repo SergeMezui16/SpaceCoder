@@ -64,6 +64,71 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findOneForApi(int $id)
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt', 'rau', 'ra', 'rrt', 'rr')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('r.author', 'rau')
+            ->leftJoin('r.article', 'ra')
+            ->leftJoin('r.replyTo', 'rrt')
+            ->leftJoin('r.replies', 'rr')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
+    public function findOneByArticleForApi(string $slug)
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('a.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllForApi()
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllRepliesForApi(int $id)
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('rt.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

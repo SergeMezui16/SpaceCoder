@@ -40,6 +40,17 @@ class UserRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findAllWithAuthNotBlocked()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u', 'a')
+            ->leftJoin('u.auth', 'a')
+            ->where('a.blocked != true')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
     public function findAllQuery(string $q = ''): Query
     {

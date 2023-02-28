@@ -57,7 +57,7 @@ class CommentApiController extends AbstractApiController
     #[Route('/comments/{id}', name: 'api_get_comment', methods: ['GET'])]
     public function comment(Request $request): JsonResponse
     {
-        $data = $this->comments->findOneBy(['id' => $request->get('id')]);
+        $data = $this->comments->findOneForApi($request->get('id'));
 
         if ($data === null) return $this->json(
             [
@@ -112,9 +112,9 @@ class CommentApiController extends AbstractApiController
     #[Route('/replies/{id}', name: 'api_get_replies', methods: ['GET'])]
     public function replies(Request $request): JsonResponse
     {
-        $comment = $this->comments->findOneBy(['id' => $request->get('id')]);
+        $replies = $this->comments->findAllRepliesForApi($request->get('id'));
 
-        if ($comment === null) return $this->json(
+        if ($replies === null) return $this->json(
             [
                 'code' => Response::HTTP_NOT_FOUND,
                 'message' => 'Comment not found.'
@@ -123,7 +123,7 @@ class CommentApiController extends AbstractApiController
         );
 
         return $this->json(
-            $comment->getReplies(),
+            $replies,
             Response::HTTP_OK,
             context: ['group' => 'item']
         );
@@ -154,7 +154,7 @@ class CommentApiController extends AbstractApiController
     #[Route('/comments', name: 'api_get_comments', methods: ['GET'])]
     public function comments(): JsonResponse
     {
-        $comments = $this->comments->findAll();
+        $comments = $this->comments->findAllForApi();
 
         if ($comments === null) return $this->json(
             [
@@ -205,9 +205,9 @@ class CommentApiController extends AbstractApiController
     #[Route('/article-comments/{slug}', name: 'api_get_comments_of_article', methods: ['GET'])]
     public function commentsOfArticle(Request $request): JsonResponse
     {
-        $article = $this->articles->findOneBy(['slug' => $request->get('slug')]);
+        $comments = $this->comments->findOneByArticleForApi($request->get('slug'));
 
-        if ($article === null) return $this->json(
+        if ($comments === null) return $this->json(
             [
                 'code' => Response::HTTP_NOT_FOUND,
                 'message' => 'Article not found.'
@@ -216,7 +216,7 @@ class CommentApiController extends AbstractApiController
         );
 
         return $this->json(
-            $article->getComments(),
+            $comments,
             Response::HTTP_OK,
             context: ['group' => 'collection']
         );

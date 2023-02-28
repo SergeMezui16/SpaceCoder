@@ -96,12 +96,7 @@ class UserApiController extends AbstractApiController
     public function users(): JsonResponse
     {
         return $this->json(
-            array_values(
-                array_filter(
-                    $this->users->findAll(), 
-                    fn ($user) => $user->getAuth()->isBlocked() === false
-                )
-            ),
+            $this->users->findAllWithAuthNotBlocked(),
             Response::HTTP_OK,
             context: ['group' => 'collection']
         );

@@ -41,7 +41,7 @@ class ProjectApiController extends AbstractApiController
     #[Route('/projects', name: 'api_get_projects', methods: ['GET'])]
     public function projects(): JsonResponse
     {
-        $projects = $this->projects->findAll();
+        $projects = $this->projects->findAllForApi();
 
         if ($projects === null) return $this->json(
             [
@@ -84,7 +84,7 @@ class ProjectApiController extends AbstractApiController
     #[Route('/projects/{slug}', name: 'api_get_project', methods: ['GET'])]
     public function project(Request $request): JsonResponse
     {
-        $project = $this->projects->findOneBy(['slug' => $request->get('slug')]);
+        $project = $this->projects->findOneForApi($request->get('slug'));
 
         if ($project === null) return $this->json(
             [

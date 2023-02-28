@@ -43,18 +43,22 @@ class ArticleRepository extends ServiceEntityRepository
     public function findOneBySlugPublished(string $slug): ?Article
     {
         $queryBuilder = $this->createQueryBuilder('a');
-        
+
         return $queryBuilder
-            ->select('a', 'c')
+            ->select('a', 'c', 'au', 's', 'r', 'rt', 'cau')
             ->leftJoin('a.comments', 'c')
+            ->leftJoin('a.author', 'au')
+            ->leftJoin('c.author', 'cau')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->leftJoin('a.suggestedBy', 's')
             ->andWhere('a.publishedAt <= :now')
             ->setParameter('now', new \DateTimeImmutable())
             ->andWhere('a.slug = :slug')
             ->setParameter('slug', $slug)
 
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     

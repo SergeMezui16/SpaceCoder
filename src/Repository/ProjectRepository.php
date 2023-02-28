@@ -53,6 +53,30 @@ class ProjectRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    public function findOneForApi(string $slug)
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->select('p', 'r')
+            ->leftJoin('p.role', 'r')
+            ->where('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
+    public function findAllForApi()
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->select('p', 'r')
+            ->leftJoin('p.role', 'r')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */

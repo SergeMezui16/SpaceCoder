@@ -4,8 +4,11 @@ namespace App\Api\Controller;
 use App\Api\Controller\AbstractApiController;
 use App\Authentication\Entity\UserAuthentication;
 use App\Repository\UserRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
 use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,7 +87,7 @@ class AuthenticationApiController extends AbstractApiController
                 ref: '#/components/responses/ExpiredToken'
             )
         ],
-        security: ['Bearer']        
+        security: ['Bearer']
     )]
     #[Route('/me', name: 'api_get_me', methods: ['GET'])]
     public function me(): JsonResponse
