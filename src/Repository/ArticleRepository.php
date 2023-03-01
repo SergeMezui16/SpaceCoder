@@ -40,11 +40,15 @@ class ArticleRepository extends ServiceEntityRepository
         }
     }
 
-    public function findOneBySlugPublished(string $slug): ?Article
+    /**
+     * Find one Article published by slug for API
+     *
+     * @param string $slug
+     * @return Article|null
+     */
+    public function findOneForApi(string $slug): ?Article
     {
-        $queryBuilder = $this->createQueryBuilder('a');
-
-        return $queryBuilder
+        return $this->createQueryBuilder('a')
             ->select('a', 'c', 'au', 's', 'r', 'rt', 'cau')
             ->leftJoin('a.comments', 'c')
             ->leftJoin('a.author', 'au')
@@ -58,11 +62,34 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('slug', $slug)
 
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 
-    
+    /**
+     * Find All published Articles for API
+     *
+     * @return Article[]
+     */
+    public function findAllForApi(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a', 'c')
+            ->leftJoin('a.comments', 'c')
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
+    /**
+     * Find All for Search Engine
+     *
+     * @param string $q query
+     * @return Query
+     */
     public function findAllPublishedQuery(string $q = ''): Query
     {
         $queryBuilder = $this->createQueryBuilder('a');
@@ -88,16 +115,12 @@ class ArticleRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery();
     }
 
-    public function findOneBySlug($slug): array
-    {
-        return
-        $this
-            ->createQueryBuilder('a') 
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
+    /**
+     * Get the bests Articles order by views
+     *
+     * @param integer $limit
+     * @return array
+     */
     public function best(int $limit): array
    {
        return $this->createQueryBuilder('a')
@@ -108,7 +131,12 @@ class ArticleRepository extends ServiceEntityRepository
        ;
    }
 
-    public function views()
+   /**
+    * Get the sum of all views
+    *
+    * @return integer
+    */
+    public function views(): int
     {
         return $this->createQueryBuilder('a')
             ->select('SUM(a.views)')

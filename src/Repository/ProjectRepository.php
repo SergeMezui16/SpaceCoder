@@ -53,7 +53,13 @@ class ProjectRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    public function findOneForApi(string $slug)
+    /**
+     * Find one project for API
+     *
+     * @param string $slug slug of Project
+     * @return Project|null
+     */
+    public function findOneForApi(string $slug): ?Project
     {
         return $this
             ->createQueryBuilder('p')
@@ -62,11 +68,16 @@ class ProjectRepository extends ServiceEntityRepository
             ->where('p.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()
-            ->getSingleResult()
+            ->getOneOrNullResult()
         ;
     }
 
-    public function findAllForApi()
+    /**
+     * Find All Projects for API
+     *
+     * @return Project[]
+     */
+    public function findAllForApi(): array
     {
         return $this
             ->createQueryBuilder('p')

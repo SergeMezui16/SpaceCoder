@@ -41,7 +41,12 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllWithAuthNotBlocked()
+    /**
+     * Find All Unblocked Users for API
+     *
+     * @return User[]
+     */
+    public function findAllForApi(): array
     {
         return $this->createQueryBuilder('u')
             ->select('u', 'a')
@@ -49,6 +54,25 @@ class UserRepository extends ServiceEntityRepository
             ->where('a.blocked != true')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+     * Find One User for API
+     *
+     * @param string $slug slug of the user
+     * @return User|null
+     */
+    public function findOneForApi(string $slug): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u', 'a')
+            ->leftJoin('u.auth', 'a')
+            ->where('a.blocked != true')
+            ->andWhere('u.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
     

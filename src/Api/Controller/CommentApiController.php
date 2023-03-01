@@ -49,6 +49,27 @@ class CommentApiController extends AbstractApiController
                 ]
             ),
             new OAT\Response(
+                response: 201,
+                description: 'A comment details + Replies',
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(
+                            property: 'comment',
+                            title: 'Comment',
+                            description: 'Comment details',
+                            ref: '#/components/schemas/Comment'
+                        ),
+                        new OAT\Property(
+                            property: 'replies',
+                            title: 'Replies',
+                            description: 'List of Replies of comment',
+                            type: 'array',
+                            items: new OAT\Items(ref: '#/components/schemas/Comment')
+                        )
+                    ]
+                )
+            ),
+            new OAT\Response(
                 response: 404,
                 ref: '#/components/responses/NotFound'
             ),
@@ -57,9 +78,10 @@ class CommentApiController extends AbstractApiController
     #[Route('/comments/{id}', name: 'api_get_comment', methods: ['GET'])]
     public function comment(Request $request): JsonResponse
     {
-        $data = $this->comments->findOneForApi($request->get('id'));
+        $id = (int) $request->get('id');
+        $data = $this->comments->findOneForApi($id);
 
-        if ($data === null) return $this->json(
+        if ($data === null || $id === 0) return $this->json(
             [
                 'code' => Response::HTTP_NOT_FOUND,
                 'message' => 'Comment not found.'
@@ -112,9 +134,10 @@ class CommentApiController extends AbstractApiController
     #[Route('/replies/{id}', name: 'api_get_replies', methods: ['GET'])]
     public function replies(Request $request): JsonResponse
     {
-        $replies = $this->comments->findAllRepliesForApi($request->get('id'));
+        $id = (int) $request->get('id');
+        $replies = $this->comments->findAllRepliesForApi($id);
 
-        if ($replies === null) return $this->json(
+        if ($replies === null || $id === 0) return $this->json(
             [
                 'code' => Response::HTTP_NOT_FOUND,
                 'message' => 'Comment not found.'
@@ -205,7 +228,7 @@ class CommentApiController extends AbstractApiController
     #[Route('/article-comments/{slug}', name: 'api_get_comments_of_article', methods: ['GET'])]
     public function commentsOfArticle(Request $request): JsonResponse
     {
-        $comments = $this->comments->findOneByArticleForApi($request->get('slug'));
+        $comments = $this->comments->findAllByArticleForApi($request->get('slug'));
 
         if ($comments === null) return $this->json(
             [

@@ -48,9 +48,9 @@ class UserApiController extends AbstractApiController
     #[Route('/users/{slug}', name: 'api_get_user', methods: ['GET'])]
     public function user(Request $request): JsonResponse
     {
-        $user = $this->users->findOneBy(['slug' => $request->get('slug')]);
+        $user = $this->users->findOneForApi($request->get('slug'));
 
-        if($user === null || $user->getAuth()->isBlocked() === true) return $this->json(
+        if($user === null) return $this->json(
             [
                 'code' => Response::HTTP_NOT_FOUND,
                 'message' => 'User not found.'
@@ -96,7 +96,7 @@ class UserApiController extends AbstractApiController
     public function users(): JsonResponse
     {
         return $this->json(
-            $this->users->findAllWithAuthNotBlocked(),
+            $this->users->findAllForApi(),
             Response::HTTP_OK,
             context: ['group' => 'collection']
         );
@@ -138,7 +138,7 @@ class UserApiController extends AbstractApiController
     #[Route('/avatars/{slug}', name:'api_get_avatar', methods: ['GET'])]
     public function avatar(Request $request): JsonResponse
     {
-        $user = $this->users->findOneBy(['slug' => $request->get('slug')]);
+        $user = $this->users->findOneForApi($request->get('slug'));
 
         if ($user === null) return $this->json(
             [

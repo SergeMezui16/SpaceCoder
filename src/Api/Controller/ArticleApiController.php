@@ -38,6 +38,27 @@ class ArticleApiController extends AbstractApiController
                 content: new OAT\JsonContent(ref: '#/components/schemas/Article')
             ),
             new OAT\Response(
+                response: 201,
+                description: 'An article details + Comments',
+                content: new OAT\JsonContent(
+                    properties: [
+                        new OAT\Property(
+                            property: 'article',
+                            title: 'Article',
+                            description: 'Article details',
+                            ref: '#/components/schemas/Article'
+                        ),
+                        new OAT\Property(
+                            property: 'comments',
+                            title: 'Comments',
+                            description: 'List of Comments of article',
+                            type: 'array',
+                            items: new OAT\Items(ref: '#/components/schemas/Comment')
+                        )
+                    ]
+                )
+            ),
+            new OAT\Response(
                 response: 404, 
                 ref: '#/components/responses/NotFound'
             ),
@@ -46,7 +67,7 @@ class ArticleApiController extends AbstractApiController
     #[Route('/articles/{slug}', name: 'api_get_article', methods: ['GET'])]
     public function article(Request $request): JsonResponse
     {
-        $data = $this->articles->findOneBySlugPublished($request->get('slug'));
+        $data = $this->articles->findOneForApi($request->get('slug'));
 
         if ($data === null) return $this->json(
             [
@@ -97,7 +118,7 @@ class ArticleApiController extends AbstractApiController
     #[Route('/articles', name: 'api_get_articles', methods: ['GET'])]
     public function articles(): JsonResponse
     {
-        $articles = $this->articles->findAllPublishedQuery()->getResult();
+        $articles = $this->articles->findAllForApi();
 
         if ($articles === null) return $this->json(
             [

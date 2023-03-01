@@ -25,7 +25,7 @@
         }
     ],
     "paths": {
-        "/article/{slug}": {
+        "/articles/{slug}": {
             "get": {
                 "tags": [
                     "Article"
@@ -53,6 +53,29 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Article"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "An article details + Comments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "article": {
+                                            "$ref": "#/components/schemas/Article"
+                                        },
+                                        "comments": {
+                                            "title": "Comments",
+                                            "description": "List of Comments of article",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -234,7 +257,7 @@
                 ]
             }
         },
-        "/comment/{id}": {
+        "/comments/{id}": {
             "get": {
                 "tags": [
                     "Comment"
@@ -268,6 +291,29 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "A comment details + Replies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "comment": {
+                                            "$ref": "#/components/schemas/Comment"
+                                        },
+                                        "replies": {
+                                            "title": "Replies",
+                                            "description": "List of Replies of comment",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -340,7 +386,7 @@
                 }
             }
         },
-        "/comments/{slug}": {
+        "/article-comments/{slug}": {
             "get": {
                 "tags": [
                     "Comment"
@@ -405,7 +451,7 @@
                 }
             }
         },
-        "/project/{slug}": {
+        "/projects/{slug}": {
             "get": {
                 "tags": [
                     "Project"
@@ -461,7 +507,7 @@
                 }
             }
         },
-        "/ressource/{slug}": {
+        "/ressources/{slug}": {
             "get": {
                 "tags": [
                     "Ressource"
@@ -490,7 +536,7 @@
                 }
             }
         },
-        "/user/{slug}": {
+        "/users/{slug}": {
             "get": {
                 "tags": [
                     "User"
@@ -562,7 +608,7 @@
                 ]
             }
         },
-        "/avatar/{slug}": {
+        "/avatars/{slug}": {
             "get": {
                 "tags": [
                     "User"
