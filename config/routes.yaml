@@ -11,10 +11,6 @@ api_login_check:
     path: /api/login_check
     methods: ['POST']
 
-api_index:
-    path: /api
-    controller: App\Api\Controller\AssetApiController::index
-
 logout:
     path: /logout
     methods: GET

@@ -71,6 +71,7 @@ class AssetApiController extends AbstractApiController
      *
      * @return Response
      */
+    #[Route('/', name: 'api')]
     public function index(): Response
     {
         return $this->render('api/index.html.twig', []);
