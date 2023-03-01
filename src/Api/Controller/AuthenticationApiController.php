@@ -2,7 +2,8 @@
 namespace App\Api\Controller;
 
 use App\Api\Controller\AbstractApiController;
-use App\Authentication\Entity\UserAuthentication;
+use App\Api\Security\ApiUser;
+use App\Repository\UserRepository;
 use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +45,7 @@ class AuthenticationApiController extends AbstractApiController
                     new OAT\JsonContent(
                         properties: [
                             new OAT\Property(property: 'code', type: 'integer', example: 401),
-                            new OAT\Property(property: 'message', type: 'string', example: 'Identifiants invalides.')
+                            new OAT\Property(property: 'message', type: 'string', example: 'Bad Credentials.')
                         ]
                     )
                 ]
@@ -79,13 +80,13 @@ class AuthenticationApiController extends AbstractApiController
         security: ['Bearer']
     )]
     #[Route('/me', name: 'api_get_me', methods: ['GET'])]
-    public function me(): JsonResponse
+    public function me(UserRepository $users): JsonResponse
     {
-        /** @var UserAuthentication $auth */
+        /** @var ApiUser $auth */
         $auth = $this->getUser();
 
         return $this->json(
-            $auth->getUser(),
+            $users->findOneBy(['pseudo' => $auth->getPseudo()]),
             Response::HTTP_OK,
             context: ['group' => 'item']
         );

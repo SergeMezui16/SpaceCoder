@@ -214,7 +214,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Identifiants invalides."
+                                            "example": "Bad Credentials."
                                         }
                                     },
                                     "type": "object"

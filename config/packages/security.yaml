@@ -18,6 +18,12 @@ security:
             entity:
                 class: App\Authentication\Entity\UserAuthentication
                 property: email
+
+        api_user_provider:
+            lexik_jwt: 
+                class: App\Api\Security\ApiUser
+
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -25,6 +31,7 @@ security:
 
         login:
             pattern: ^/api/login
+            provider: app_user_provider
             stateless: true
             json_login:
                 check_path: /api/login_check
@@ -34,6 +41,7 @@ security:
         api:
             pattern:   ^/api
             stateless: true
+            provider: api_user_provider
             jwt: ~
         
         main:

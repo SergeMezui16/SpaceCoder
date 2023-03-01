@@ -2,11 +2,13 @@
 
 namespace App\Api\EventSubscriber;
 
+use App\Authentication\Entity\UserAuthentication;
+use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\MissingTokenException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\UrlHelper;
 
 /**
  * JWT Created Subscriber
@@ -19,7 +21,6 @@ class JWTCreatedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private RequestStack $requestStack,
-        private UrlHelper $urlHelper
     ) {}
 
 
@@ -34,7 +35,6 @@ class JWTCreatedSubscriber implements EventSubscriberInterface
     {
         /** @var UserAuthentication $auth */
         $auth = $event->getUser();
-
 
         if ($auth->isBlocked()) {
             throw new MissingTokenException('User Blocked.', 401);
