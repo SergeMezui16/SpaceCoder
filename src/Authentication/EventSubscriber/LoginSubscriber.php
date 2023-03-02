@@ -36,12 +36,9 @@ class LoginSubscriber implements EventSubscriberInterface
      */
     public function onLoginSuccessEvent(LoginSuccessEvent $event): void
     {
-        /**
-         * @var UserAuthentication $auth
-         */
         $auth = $event->getUser();
 
-        if ($auth) {
+        if ($auth instanceof UserAuthentication) {
 
             if ($auth->getDeleteAt() !== null) {
                 $auth->setDeleteAt(null);

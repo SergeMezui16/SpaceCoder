@@ -2,6 +2,15 @@ controllers:
     resource: ../src/
     type: attribute
 
+api:
+    resource: ../src/Api/
+    type: attribute
+    prefix: /api
+
+api_login_check:
+    path: /api/login_check
+    methods: ['POST']
+
 logout:
     path: /logout
     methods: GET

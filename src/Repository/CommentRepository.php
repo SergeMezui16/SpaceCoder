@@ -39,7 +39,13 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllByArticle(int $id)
+    /**
+     * Find All comment by article id
+     *
+     * @param integer $id id of article
+     * @return Comment[]
+     */
+    public function findAllByArticle(int $id): array
     {
         return 
             $this
@@ -55,11 +61,113 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
 
-    public function last(): array
+    /**
+     * Find lasts comments published
+     *
+     * @param integer $limit
+     * @return Comment[]
+     */
+    public function last(int $limit = 5): array
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.createAt', 'DESC')
-            ->setMaxResults(5)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find one Comment for API
+     *
+     * @param integer $id id of comment
+     * @return Comment|null
+     */
+    public function findOneForApi(int $id): ?Comment
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt', 'rau', 'ra', 'rrt', 'rr')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('r.author', 'rau')
+            ->leftJoin('r.article', 'ra')
+            ->leftJoin('r.replyTo', 'rrt')
+            ->leftJoin('r.replies', 'rr')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('c.id = :id')
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * Find All comments of an artcle for API
+     *
+     * @param string $slug article slug
+     * @return Comment[]
+     */
+    public function findAllByArticleForApi(string $slug): array
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('a.slug = :slug')
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * Find All comment for API
+     *
+     * @return Comment[]
+     */
+    public function findAllForApi(): array
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * Find All replies of a comment for API
+     *
+     * @param integer $id
+     * @return Comment[]
+     */
+    public function findAllRepliesForApi(int $id): array
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('c', 'a', 'r', 'au', 'rt')
+            ->leftJoin('c.author', 'au')
+            ->leftJoin('c.article', 'a')
+            ->leftJoin('c.replies', 'r')
+            ->leftJoin('c.replyTo', 'rt')
+            ->where('rt.id = :id')
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
     }

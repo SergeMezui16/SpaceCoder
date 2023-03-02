@@ -18,10 +18,32 @@ security:
             entity:
                 class: App\Authentication\Entity\UserAuthentication
                 property: email
+
+        api_user_provider:
+            lexik_jwt: 
+                class: App\Api\Security\ApiUser
+
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            provider: app_user_provider
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            provider: api_user_provider
+            jwt: ~
+        
         main:
             lazy: true
             provider: app_user_provider
@@ -52,6 +74,13 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+
+        # API
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/me$,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/users$,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/user/,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/avatar/,       roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
