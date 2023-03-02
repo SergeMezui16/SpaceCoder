@@ -23,7 +23,14 @@ class ApiUser implements JWTUserInterface
     )
     {}
 
-    public static function createFromPayload($username, array $payload)
+    /**
+     * Create an User from the payload gave by JWT
+     *
+     * @param string $username
+     * @param array $payload
+     * @return self
+     */
+    public static function createFromPayload($username, array $payload): self
     {
         return new self(
             $payload['iat'],
