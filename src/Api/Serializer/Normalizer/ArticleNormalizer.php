@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 #[OAT\Schema(
     schema: 'Articles',
     description: 'Article Collection',
-    properties: [ 
+    properties: [
         new OAT\Property(property: 'uri', type: 'string'),
         new OAT\Property(property: 'id', type: 'integer'),
         new OAT\Property(property: 'slug', type: 'string'),
@@ -36,16 +36,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
         new OAT\Property(property: 'suggeredBy', type: 'string'),
         new OAT\Property(property: 'createAt', type: 'string', format: 'date-time')
     ]
-)] 
+)]
 class ArticleNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-
-        
     public function __construct(
         private UrlHelper $urlHelper,
         private UrlGeneratorInterface $url
-    )
-    {}
+    ) {}
 
     public function normalize($object, string $format = null, array $context = []): array
     {
@@ -65,7 +62,7 @@ class ArticleNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             'views' => $object->getViews(),
             'publishedAt' => $object->getPublishedAt(),
             'comment' => $object->getComments()->count(),
-            'image' => $object->getImage(),
+            'image' => $this->urlHelper->getAbsoluteUrl('/data/article/images/' . $object->getImage())
         ];
 
         if ($group === 'item') {

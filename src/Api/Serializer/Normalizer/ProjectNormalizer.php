@@ -4,6 +4,7 @@ namespace App\Api\Serializer\Normalizer;
 
 use App\Entity\Project;
 use OpenApi\Attributes as OAT;
+use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -28,6 +29,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ProjectNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(
+        private UrlHelper $urlHelper,
         private UrlGeneratorInterface $url
     ) {}
 
@@ -43,7 +45,7 @@ class ProjectNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             'description' => $object->getDescription(),
             'views' => $object->getVisit(),
             'url' => $object->getUrl(),
-            'image' => $object->getImage(),
+            'image' => $this->urlHelper->getAbsoluteUrl('/data/project/images/' . $object->getImage()),
             'authors' => $object->getAuthors(),
             'role' => $object->getRole()->__toString(),
             'createAt' => $object->getCreateAt(),
