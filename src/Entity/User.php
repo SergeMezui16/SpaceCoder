@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Notifier\Notifier;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -110,8 +111,12 @@ class User implements SearchableInterface
      */
     public function hasNotification(): bool
     {
+        /** @var Notification $notification */
         foreach ($this->notifications as $notification) {
-            if(!$notification->hasBeenViewedBy($this)) return true;
+            if(
+                !$notification->hasBeenViewedBy($this) && 
+                $notification->getSentAt() <= new \DateTimeImmutable()
+            ) return true;
         }
         return false;
     }
