@@ -85,7 +85,7 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find All for Search Engine
+     * Find All Published for Search Engine
      *
      * @param string $q query
      * @return Query
@@ -109,6 +109,35 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('q', "%$q%")
                 ->orderBy('a.title', 'ASC');
         } else{
+            $queryBuilder->orderBy('a.publishedAt', 'DESC');
+        }
+
+        return $queryBuilder->getQuery();
+    }
+
+    /**
+     * Find All for Admin to Search Engine
+     *
+     * @param string $q
+     * @return Query
+     */
+    public function findAllQuery(string $q = ''): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder
+            ->select('a', 'c')
+            ->leftJoin('a.comments', 'c');
+
+        if ($q !== '') {
+            $queryBuilder
+                ->andWhere('a.title LIKE :q')
+                ->orWhere('a.subject LIKE :q')
+                ->orWhere('a.description LIKE :q')
+                ->setParameter('q', "%$q%")
+                ->orderBy('a.title', 'ASC')
+            ;
+        } else {
             $queryBuilder->orderBy('a.publishedAt', 'DESC');
         }
 

@@ -23,18 +23,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     public function __construct(private EntityService $entityService) {}
-    
+
     #[Route('/', name: 'article')]
     public function list(PaginatorInterface $paginator, Request $request, ArticleRepository $articleRepository): Response
     {
-        $pagination = $paginator->paginate(
-            $articleRepository->findAllPublishedQuery($request->query->get('q', '')),
-            $request->query->getInt('page', 1),
-            12
-        );
+        $q = $request->query->get('q', '');
+
+        $query = $this->isGranted('ROLE_ADMIN') 
+            ? $articleRepository->findAllQuery($q)
+            : $articleRepository->findAllPublishedQuery($q);
+
         return $this->render('article/index.html.twig', [
             'title' => 'Articles',
-            'pagination' => $pagination
+            'pagination' => $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                12
+            )
         ]);
     }
 
@@ -47,11 +52,12 @@ class ArticleController extends AbstractController
         EventDispatcherInterface $dispatcher
     ): Response
     {
-        if($article->getPublishedAt() > new \DateTimeImmutable()){
-            throw new NotFoundHttpException();
-        }
+        if(
+            $article->getPublishedAt() >= new \DateTimeImmutable() &&
+            !$this->isGranted('ROLE_ADMIN')
+        ) throw new NotFoundHttpException();
 
-        /** @var UserAuthentication */
+        /** @var UserAuthentication $auth */
         $auth = $this->getUser();
 
         if($auth) $earner->firstViewer($article, $auth->getUser());
@@ -59,10 +65,10 @@ class ArticleController extends AbstractController
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        
+
         if(!$this->isGranted('ROLE_ADMIN')) $this->entityService->incrementArticleViews($article);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()) {
 
             $this->isGranted('IS_AUTHENTICATED');
 
@@ -75,7 +81,7 @@ class ArticleController extends AbstractController
             $entityManager->flush();
 
             $dispatcher->dispatch(new CommentCreatedEvent($comment, $auth));
-            
+
             return $this->redirectToRoute('article_detail', [
                 'slug' => $article->getSlug(),
                 '_fragment' => 'comment-' . $comment->getId()
