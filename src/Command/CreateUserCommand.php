@@ -52,7 +52,6 @@ class CreateUserCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
     }
 
-
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $this->io->title('Add User Command Interactive Wizard');
