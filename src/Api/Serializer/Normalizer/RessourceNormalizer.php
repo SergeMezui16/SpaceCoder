@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
         new OAT\Property(property: 'views', type: 'integer'),
         new OAT\Property(property: 'link', type: 'string'),
         new OAT\Property(property: 'cotegories', type: 'array', items: new OAT\Items(type: 'string')),
-        new OAT\Property(property: 'createAt', type: 'string', format: 'date-time')
+        new OAT\Property(property: 'createdAt', type: 'string', format: 'date-time')
     ]
 )]
 class RessourceNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
@@ -45,7 +45,7 @@ class RessourceNormalizer implements NormalizerInterface, CacheableSupportsMetho
             'views' => $object->getClicks(),
             'link' => $object->getLink(),
             'categories' => $object->getCategories(),
-            'createAt' => $object->getCreateAt(),
+            'createdAt' => $object->getCreatedAt(),
         ];
     }
 

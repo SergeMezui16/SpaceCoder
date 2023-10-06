@@ -33,7 +33,7 @@ class UserCrudController extends AbstractCrudController
                 fn (?User $config, ?string $pageName) => $config ? '"' . $config->__toString() . '"' : 'Utilisateur'
             )
             ->setEntityLabelInPlural('Utilisateurs')
-            ->setDefaultSort(['createAt' => 'DESC'])
+            ->setDefaultSort(['createdAt' => 'DESC'])
         ;
     }
 
@@ -56,8 +56,8 @@ class UserCrudController extends AbstractCrudController
         
         yield DateTimeField::new('bornAt', 'Né(e) le')->renderAsNativeWidget(true)->hideOnIndex();
         
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->onlyOnDetail();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->onlyOnDetail();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->onlyOnDetail();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->onlyOnDetail();
     }
 
     public function configureActions(Actions $actions): Actions

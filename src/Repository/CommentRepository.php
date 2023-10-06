@@ -55,7 +55,7 @@ class CommentRepository extends ServiceEntityRepository
                 ->join('c.replyTo', 'rt')
                 ->andWhere('c.article = :val')
                 ->setParameter('val', $id)
-                ->orderBy('c.updateAt')
+                ->orderBy('c.updatedAt')
                 ->getQuery()
                 ->getResult()
         ;
@@ -70,7 +70,7 @@ class CommentRepository extends ServiceEntityRepository
     public function last(int $limit = 5): array
     {
         return $this->createQueryBuilder('c')
-            ->orderBy('c.createAt', 'DESC')
+            ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

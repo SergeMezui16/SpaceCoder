@@ -49,7 +49,7 @@ class RessourceRepository extends ServiceEntityRepository
                 ->orWhere('r.description LIKE :description')
                 ->setParameter('name', "%$q%")
                 ->setParameter('description', "%$q%")
-                ->orderBy('r.updateAt', 'DESC')
+                ->orderBy('r.updatedAt', 'DESC')
                 ->getQuery()
             ;
     }

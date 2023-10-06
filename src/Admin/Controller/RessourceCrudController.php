@@ -44,8 +44,8 @@ class RessourceCrudController extends AbstractCrudController
         yield UrlField::new('link', 'Lien');
         yield ArrayField::new('categories', 'Catégories');
 
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->hideOnForm();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->hideOnForm();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->hideOnForm();
     }
 
     public function configureActions(Actions $actions): Actions

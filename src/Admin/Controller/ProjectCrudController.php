@@ -46,8 +46,8 @@ class ProjectCrudController extends AbstractCrudController
         yield ImageField::new('image', 'Image')->setBasePath('data/project/images/')->setUploadDir('public/data/project/images/')->setUploadedFileNamePattern('[slug].[extension]')->hideOnIndex();
         yield AssociationField::new('role', 'Role');
 
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->hideOnForm();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->hideOnForm();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->hideOnForm();
     }
 
     public function configureActions(Actions $actions): Actions

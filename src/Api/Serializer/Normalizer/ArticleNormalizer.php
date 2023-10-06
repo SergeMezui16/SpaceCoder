@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
         new OAT\Property(property: 'content', type: 'string'),
         new OAT\Property(property: 'author', type: 'string'),
         new OAT\Property(property: 'suggeredBy', type: 'string'),
-        new OAT\Property(property: 'createAt', type: 'string', format: 'date-time')
+        new OAT\Property(property: 'createdAt', type: 'string', format: 'date-time')
     ]
 )]
 class ArticleNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
@@ -72,7 +72,7 @@ class ArticleNormalizer implements NormalizerInterface, CacheableSupportsMethodI
                 'content' => $object->getContent(),
                 'author' => $object->getAuthor() ? $this->url->generate('api_get_user', ['slug' => $object->getAuthor()->getSlug()]) : null,
                 'suggestedBy' => $object->getSuggestedBy() ? $this->url->generate('api_get_user', ['slug' => $object->getSuggestedBy()->getSlug()]) : null,
-                'createAt' => $object->getCreateAt()
+                'createdAt' => $object->getCreatedAt()
             ];
         }
 

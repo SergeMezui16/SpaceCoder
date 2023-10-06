@@ -3,8 +3,8 @@ security:
     role_hierarchy:
         ROLE_USER: ROLE_USER
         ROLE_ADMIN: ROLE_USER
-        ROLE_PROJET_1: [ROLE_PROJET_1, ROLE_ADMIN, ROLE_USER]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_PROJET_1, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_PROJECT_SERVANT: [ROLE_PROJECT_SERVANT, ROLE_ADMIN, ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_PROJECT_SERVANT, ROLE_ALLOWED_TO_SWITCH]
 
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:

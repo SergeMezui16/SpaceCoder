@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
         new OAT\Property(property: 'image', type: 'string'),
         new OAT\Property(property: 'authors', type: 'string'),
         new OAT\Property(property: 'role', type: 'string'),
-        new OAT\Property(property: 'createAt', type: 'string', format: 'date-time')
+        new OAT\Property(property: 'createdAt', type: 'string', format: 'date-time')
     ]
 )]
 class ProjectNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
@@ -48,7 +48,7 @@ class ProjectNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             'image' => $this->urlHelper->getAbsoluteUrl('/data/project/images/' . $object->getImage()),
             'authors' => $object->getAuthors(),
             'role' => $object->getRole()->__toString(),
-            'createAt' => $object->getCreateAt(),
+            'createdAt' => $object->getCreatedAt(),
         ];
     }
 

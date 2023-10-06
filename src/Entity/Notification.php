@@ -2,21 +2,20 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityLifecycleInterface;
 use App\Repository\NotificationRepository;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NotificationRepository::class)] 
+#[ORM\Entity(repositoryClass: NotificationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Notification
+class Notification implements EntityLifecycleInterface
 {
-    use PrePersistTrait;
-    use PreUpdateTrait;
-    
+    use LifecycleTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -39,12 +38,6 @@ class Notification
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $action = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $views = [];
@@ -73,9 +66,9 @@ class Notification
     public function initViews(): self
     {
         $views = [...$this->views];
-        
+
         foreach ($this->recipients as $recipient) {
-            if(!array_key_exists($recipient->getPseudo(), $views)) {
+            if (!array_key_exists($recipient->getPseudo(), $views)) {
                 $views[$recipient->getPseudo()] = false;
             }
         }
@@ -105,8 +98,8 @@ class Notification
     public function markAsViewedFor(User $user)
     {
         $views = [...$this->views];
-        
-        if($user->getNotifications()->contains($this)){
+
+        if ($user->getNotifications()->contains($this)) {
             $views[$user->getPseudo()] = true;
         }
 
@@ -190,30 +183,6 @@ class Notification
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
     public function getTitle(): ?string
     {
         return $this->title;
@@ -237,5 +206,4 @@ class Notification
 
         return $this;
     }
-
 }

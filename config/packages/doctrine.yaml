@@ -20,6 +20,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Authentication/Entity'
                 prefix: 'App\Authentication\Entity'
                 alias: Auth
+            Servant:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Servant/Entity'
+                prefix: 'App\Servant\Entity'
+                alias: Servant
 
 when@test:
     doctrine:

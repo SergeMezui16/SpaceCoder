@@ -30,7 +30,7 @@ class ContactCrudController extends AbstractCrudController
                 fn (?Contact $config, ?string $pageName) => $config ? '"' . $config->__toString() . '"' : 'Contact'
             )
             ->setEntityLabelInPlural('Contacts')
-            ->setDefaultSort(['createAt' => 'DESC']);
+            ->setDefaultSort(['createdAt' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
@@ -43,8 +43,8 @@ class ContactCrudController extends AbstractCrudController
         yield BooleanField::new('done', 'Traité');
         yield AssociationField::new('user', 'Utilisateur')->hideOnForm()->setCrudController(UserAuthenticationCrudController::class);
 
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm()->hideOnIndex();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->hideOnForm();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->hideOnForm()->hideOnIndex();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->hideOnForm();
     }
 
 

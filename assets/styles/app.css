@@ -26,6 +26,10 @@ body.debug{
     @apply content-['3.1'];
 }
 
+.turbo-progress-bar {
+    @apply bg-purple h-1;
+}
+
 html{
     @apply scroll-smooth;
 }

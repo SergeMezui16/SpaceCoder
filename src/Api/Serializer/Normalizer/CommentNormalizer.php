@@ -63,7 +63,7 @@ class CommentNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             $data = [
                 ...$data,
                 'replies' => $replies,
-                'publishedAt' => $object->getCreateAt()
+                'publishedAt' => $object->getCreatedAt()
             ];
         }
 

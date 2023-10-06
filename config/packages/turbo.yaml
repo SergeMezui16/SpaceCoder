@@ -1,0 +1,4 @@
+turbo:
+    broadcast:
+        entity_template_prefixes:
+            App\Servant\Entity\: broadcast/

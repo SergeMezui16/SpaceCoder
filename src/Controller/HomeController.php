@@ -43,8 +43,8 @@ class HomeController extends AbstractController
             $contact
                 ->setUser($this->getUser())
                 ->setDone(false)
-                ->setCreateAt(new \DateTimeImmutable())
-                ->setUpdateAt(new \DateTimeImmutable())
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable())
             ;
             
             $em->persist($contact);
@@ -62,7 +62,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/contact.html.twig', [
             'title' => 'Contact',
-            'form' => $form->createView()
+            'form' => $form
         ]);
     }
 

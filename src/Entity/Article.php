@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use App\Interface\EntityLifecycleInterface;
 use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\ArticleRepository;
 use App\Traits\GenerateSlugTrait;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -16,11 +16,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Article implements SearchableInterface
+class Article implements SearchableInterface, EntityLifecycleInterface
 {
 
-    use PrePersistTrait;
-    use PreUpdateTrait;
+    use LifecycleTrait;
     use GenerateSlugTrait;
 
     #[ORM\Id]
@@ -55,12 +54,6 @@ class Article implements SearchableInterface
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'suggestions')]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $suggestedBy = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: true)]
@@ -214,30 +207,6 @@ class Article implements SearchableInterface
     public function setSuggestedBy(?User $suggestedBy): self
     {
         $this->suggestedBy = $suggestedBy;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
 
         return $this;
     }

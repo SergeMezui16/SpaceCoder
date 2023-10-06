@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -33,10 +32,11 @@ class ProfileController extends AbstractController
         private MailMakerService $mailer,
         private TokenStorageInterface $tokenStorage,
         private NotificationService $notifier
-    ){}
+    ) {
+    }
 
     #[Route('/edit', name: 'profile_edit')]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit(Request $request, AvatarUploaderService $uploader): Response
     {
         /** @var UserAuthentication $auth */
@@ -47,14 +47,14 @@ class ProfileController extends AbstractController
         $form = $this->createForm(EditProfileType::class, $user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var UploadedFile $avatar */
             $avatar = $form->get('avatar')->getData();
 
-            if($avatar === null){
+            if ($avatar === null) {
                 $user->setAvatar($oldAvatar);
-            } else{
+            } else {
                 $user->setAvatar($uploader->upload($avatar, $user->getPseudo()));
             }
 
@@ -63,29 +63,31 @@ class ProfileController extends AbstractController
 
             $this->addFlash('success', 'Vos informations ont bien été mis à jour !');
 
+            return $this->redirectToRoute('profile', [
+                'slug' => $auth->getUser()->getSlug()
+            ]);
         }
 
         return $this->render('authentication/profile/edit.html.twig', [
             'title' => 'Editer le profile',
             'user' => $user,
-            'form' => $form->createView()
+            'form' => $form
         ]);
     }
 
     #[Route('/change-password', name: 'profile_changepassword')]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function changePassword(
-        Request $request, 
+        Request $request,
         UserPasswordHasherInterface $encoder
-    ): Response
-    {
+    ): Response {
         /** @var UserAuthentication $auth */
         $auth = $this->getUser();
 
         $form = $this->createForm(ChangePasswordType::class, new ChangePasswordModel());
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $auth->setPassword($encoder->hashPassword($auth, $form->get('newPassword')->getData()));
 
@@ -105,32 +107,30 @@ class ProfileController extends AbstractController
             $this->addFlash('success', 'Mot de passe changé avec succes. Veuillez vous connecter avec vos nouveaux identifiants.');
 
             return $this->redirectToRoute('logout');
-
         }
 
         return $this->render('authentication/profile/change_password.html.twig', [
             'title' => 'Changer de mot de passe',
-            'form' => $form->createView()
+            'form' => $form
         ]);
     }
 
 
     #[Route('/delete', name: 'profile_delete')]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function delete(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        EventDispatcherInterface $eventDispatcher, 
-        RequestStack $requestStack, 
-    ): Response
-    {
+        Request $request,
+        EntityManagerInterface $entityManager,
+        EventDispatcherInterface $eventDispatcher,
+        RequestStack $requestStack,
+    ): Response {
         $form = $this->createForm(DeleteUserAccountType::class);
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
+
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserAuthentication $auth */
             $auth = $this->getUser();
-            
+
             $auth->setDeleteAt(new \DateTimeImmutable('+30 days'));
 
             $entityManager->persist($auth);
@@ -142,13 +142,13 @@ class ProfileController extends AbstractController
             ])->send();
 
             // $this->forceLogout($eventDispatcher, $this->tokenStorage, $requestStack);
-            
+
             return $this->redirectToRoute('logout');
         }
-        
+
         return $this->render('authentication/profile/delete.html.twig', [
             'title' => 'Suppression de compte',
-            'form' => $form->createView()
+            'form' => $form
         ]);
     }
 
@@ -184,12 +184,11 @@ class ProfileController extends AbstractController
      * @return void
      */
     public function forceLogout(
-        Request $request, 
-        EventDispatcherInterface $eventDispatcher, 
+        Request $request,
+        EventDispatcherInterface $eventDispatcher,
         TokenStorageInterface $tokenStorage,
         RequestStack $requestStack
-    ): void 
-    {
+    ): void {
         // $logoutEvent = new LogoutEvent($request, $tokenStorage->getToken());
         // $eventDispatcher->dispatch($logoutEvent);
         // $tokenStorage->setToken(null);

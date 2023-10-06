@@ -17,7 +17,7 @@
 						{% endif %}
 					</span>
 					<span class="date">
-						{{comment.updateAt | date('d/m/Y • H:i')}}
+						{{comment.updatedAt | date('d/m/Y • H:i')}}
 						{% if app.user %}
 							<span class="btn-mini js-btn-reply">
 								Répondre
@@ -54,7 +54,7 @@
 								{% endif %}
 							</span>
 							<span class="date">
-								{{reply.updateAt | date('d/m/Y • H:i')}}
+								{{reply.updatedAt | date('d/m/Y • H:i')}}
 							</span>
 						</div>
 					</div>

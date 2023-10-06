@@ -40,7 +40,7 @@ class UserAuthenticationCrudController extends AbstractCrudController
                 fn (?UserAuthentication $config, ?string $pageName) => $config ? '"' . $config->__toString() . '"' : 'Auth'
             )
             ->setEntityLabelInPlural('Auth')
-            ->setDefaultSort(['createAt' => 'DESC'])
+            ->setDefaultSort(['createdAt' => 'DESC'])
         ;
     }
 
@@ -57,8 +57,8 @@ class UserAuthenticationCrudController extends AbstractCrudController
         yield DateTimeField::new('firstconnexion', 'Première Connexion')->onlyOnDetail();
         yield DateTimeField::new('lastconnexion', 'Dernière Connexion')->hideOnForm();
         yield DateTimeField::new('deleteAt', 'Suprimé le')->hideOnForm();
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->onlyOnDetail();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->hideOnForm();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->onlyOnDetail();
     }
 
     public function configureActions(Actions $actions): Actions

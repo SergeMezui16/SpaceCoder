@@ -10,154 +10,352 @@
 
 {% block main %}
 
-<div class="d-flex md-flex-column gap-3 h-125 justify-content-center align-items-center text-light">
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+<div class="d-flex md-flex-column gap-3 h-125 justify-content-center align-items-center text-light mb-3">
 
-    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
-        <span class="d-block fs-1">{{ nbUsers }}</span>
-        <span class="d-block">Utilisateurs</span>
-    </div>
-    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
-        <span class="d-block fs-1">{{ nbArticlesView }}</span>
-        <span class="d-block">Vues</span>
-    </div>
-    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
-        <span class="d-block fs-1">{{ nbNewToday }}</span>
-        <span class="d-block">Nouveaux</span>
-    </div>
-    <div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
-        <span class="d-block fs-1">{{ contacts }}</span>
-        <span class="d-block">Contacts</span>
-    </div>
+	<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+		<span class="d-block fs-1">
+			{{ nbUsers }}
+		</span>
+		<span class="d-block">
+			Utilisateurs
+		</span>
+	</div>
+	<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+		<span class="d-block fs-1">
+			{{ nbArticlesView }}
+		</span>
+		<span class="d-block">
+			Vues
+		</span>
+	</div>
+	<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+		<span class="d-block fs-1">
+			{{ nbNewToday }}
+		</span>
+		<span class="d-block">
+			Nouveaux
+		</span>
+	</div>
+	<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+		<span class="d-block fs-1">
+			{{ contacts }}
+		</span>
+		<span class="d-block">
+			Contacts
+		</span>
+	</div>
 </div>
-<br>
-<hr>
-<br>
 
+{% endif %}
 
-<h3>Derniers Commentaires</h3>
-<table class="datagrid">
-    <thead>
-        <tr>
-            <th><a href="">Auteur</a></th>
-            <th><a href="">Contenu</a></th>
-            <th><a href="">Article</a></th>
-            <th><a href="">Reponse à</a></th>
-            <th><a href="">Reponses</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for comment in lastComments %}
-            <tr>
-                <td data-label="Auteur">{{ comment.author }}</td>
-                <td data-label="Contenu">{{ comment.content }}</td>
-                <td data-label="Article">{{ comment.article }}</td>
-                <td data-label="Reponse à">{{ comment.replyTo ? comment.replyTo : '<span class="text-muted">Aucun</span>'}}</td>
-                <td data-label="Reponses">{{ comment.replies | length }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% if is_granted('ROLE_PROJECT_SERVANT') %}
+	<div class="d-flex md-flex-column gap-3 h-125 justify-content-center align-items-center text-light mb-3">
 
-<br>
-<hr>
-<br>
-
-<h3>Dernières Inscriptions</h3>
-<table class="datagrid">
-    <thead>
-        <tr>
-            <th><a href="">Pseudo</a></th>
-            <th><a href="">Auth</a></th>
-            <th><a href="">Pays</a></th>
-            <th><a href="">Points</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in lastUsers %}
-            <tr>
-                <td data-label="Pseudo">{{ user }}</td>
-                <td data-label="Auth">{{ user.auth }}</td>
-                <td data-label="Pays"><img src="/bundles/easyadmin/images/flags/{{ user.country }}.svg" width="35px" alt="{{ user.country }}"></td>
-                <td data-label="Points">{{ user.coins }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<br><hr><br>
-
-<h3>Dernier(e)s Connecté(e)s</h3>
-<table class="datagrid">
-    <thead>
-        <tr>
-            <th><a href="">Pseudo</a></th>
-            <th><a href="">Auth</a></th>
-            <th><a href="">Pays</a></th>
-            <th><a href="">Points</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for auth in lastConnected %}
-            <tr>
-                <td data-label="Pseudo">{{ auth.user }}</td>
-                <td data-label="Auth">{{ auth }}</td>
-                <td data-label="Pays"><img src="/bundles/easyadmin/images/flags/{{ auth.user.country }}.svg" width="35px" alt="{{ auth.user.country }}"></td>
-                <td data-label="Points">{{ auth.user.coins }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<br>
-<hr>
-<br>
-
-<h3>Meilleurs Articles</h3>
-<table class="datagrid">
-    <thead>
-        <tr>
-            <th><a href="">Titre</a></th>
-            <th><a href="">Sujet</a></th>
-            <th><a href="">Vues</a></th>
-            <th><a href="">Publication</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for article in bestArticles %}
-            <tr>
-                <td data-label="Titre">{{ article.title }}</td>
-                <td data-label="Sujets">{{ article.subject }}</td>
-                <td data-label="Vues">{{ article.views }}</td>
-                <td data-label="Publication">{{ article.publishedAt | date('d/m/Y') }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+		<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+			<span class="d-block fs-1">
+				{{ dioceses }}
+			</span>
+			<span class="d-block">
+				Diocèse
+			</span>
+		</div>
+		<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+			<span class="d-block fs-1">
+				{{ zones }}
+			</span>
+			<span class="d-block">
+				Zone
+			</span>
+		</div>
+		<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+			<span class="d-block fs-1">
+				{{ parishes }}
+			</span>
+			<span class="d-block">
+				Paroisse
+			</span>
+		</div>
+		<div class="bg-primary w-25 p-2 py-3 h-100 d-flex flex-column justify-content-center align-items-center">
+			<span class="d-block fs-1">
+				{{ servants }}
+			</span>
+			<span class="d-block">
+				Servant
+			</span>
+		</div>
+	</div>
+{% endif %}
 
 <br>
 <hr>
 <br>
 
-<h3>Meilleures Ressources</h3>
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+<h3>
+	Derniers Commentaires
+</h3>
 <table class="datagrid">
-    <thead>
-        <tr>
-            <th><a href="">Titre</a></th>
-            <th><a href="">Sujet</a></th>
-            <th><a href="">Vues</a></th>
-            <th><a href="">Publication</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for res in bestRessources %}
-            <tr>
-                <td data-label="Titre">{{ res.name }}</td>
-                <td data-label="sujet">{{ res.link }}</td>
-                <td data-label="Vues">{{ res.clicks }}</td>
-                <td data-label="Publication">{{ res.createAt | date('d/m/Y') }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				<a href="">
+					Auteur
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Contenu
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Article
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Reponse à
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Reponses
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for comment in lastComments %}
+			<tr>
+				<td data-label="Auteur">
+					{{ comment.author }}
+				</td>
+				<td data-label="Contenu">
+					{{ comment.content }}
+				</td>
+				<td data-label="Article">
+					{{ comment.article }}
+				</td>
+				<td data-label="Reponse à">
+					{{ comment.replyTo ? comment.replyTo : '<span class="text-muted">Aucun</span>'}}
+				</td>
+				<td data-label="Reponses">
+					{{ comment.replies | length }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<br>
+<hr>
+<br>
+
+<h3>
+	Dernières Inscriptions
+</h3>
+<table class="datagrid">
+	<thead>
+		<tr>
+			<th>
+				<a href="">
+					Pseudo
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Auth
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Pays
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Points
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in lastUsers %}
+			<tr>
+				<td data-label="Pseudo">
+					{{ user }}
+				</td>
+				<td data-label="Auth">
+					{{ user.auth }}
+				</td>
+				<td data-label="Pays">
+					<img src="/bundles/easyadmin/images/flags/{{ user.country }}.svg" width="35px" alt="{{ user.country }}">
+				</td>
+				<td data-label="Points">
+					{{ user.coins }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<br>
+<hr>
+<br>
+
+<h3>
+	Dernier(e)s Connecté(e)s
+</h3>
+<table class="datagrid">
+	<thead>
+		<tr>
+			<th>
+				<a href="">
+					Pseudo
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Auth
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Pays
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Points
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for auth in lastConnected %}
+			<tr>
+				<td data-label="Pseudo">
+					{{ auth.user }}
+				</td>
+				<td data-label="Auth">
+					{{ auth }}
+				</td>
+				<td data-label="Pays">
+					<img src="/bundles/easyadmin/images/flags/{{ auth.user.country }}.svg" width="35px" alt="{{ auth.user.country }}">
+				</td>
+				<td data-label="Points">
+					{{ auth.user.coins }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<br>
+<hr>
+<br>
+
+<h3>
+	Meilleurs Articles
+</h3>
+<table class="datagrid">
+	<thead>
+		<tr>
+			<th>
+				<a href="">
+					Titre
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Sujet
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Vues
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Publication
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for article in bestArticles %}
+			<tr>
+				<td data-label="Titre">
+					{{ article.title }}
+				</td>
+				<td data-label="Sujets">
+					{{ article.subject }}
+				</td>
+				<td data-label="Vues">
+					{{ article.views }}
+				</td>
+				<td data-label="Publication">
+					{{ article.publishedAt | date('d/m/Y') }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<br>
+<hr>
+<br>
+
+<h3>
+	Meilleures Ressources
+</h3>
+<table class="datagrid">
+	<thead>
+		<tr>
+			<th>
+				<a href="">
+					Titre
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Sujet
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Vues
+				</a>
+			</th>
+			<th>
+				<a href="">
+					Publication
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for res in bestRessources %}
+			<tr>
+				<td data-label="Titre">
+					{{ res.name }}
+				</td>
+				<td data-label="sujet">
+					{{ res.link }}
+				</td>
+				<td data-label="Vues">
+					{{ res.clicks }}
+				</td>
+				<td data-label="Publication">
+					{{ res.createdAt | date('d/m/Y') }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
 </table>
 <br>
 <br>
 <br>
+
+{% endif %}
 {% endblock %}

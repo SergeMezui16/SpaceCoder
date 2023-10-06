@@ -6,17 +6,16 @@ use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Interface\EntityLifecycleInterface;
 use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\UserRepository;
 use App\Traits\GenerateSlugTrait;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Notifier\Notifier;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -25,10 +24,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     'pseudo',
     message: 'Ce pseudo existe déjà, veuillez réessayer avec un nouveau.'
 )]
-class User implements SearchableInterface
+class User implements SearchableInterface, EntityLifecycleInterface
 {
-    use PreUpdateTrait;
-    use PrePersistTrait;
+    use LifecycleTrait;
     use GenerateSlugTrait;
 
     #[ORM\Id]
@@ -69,12 +67,6 @@ class User implements SearchableInterface
     #[Assert\Valid]
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserAuthentication $auth = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
 
     #[ORM\OneToMany(mappedBy: 'suggestedBy', targetEntity: Article::class, orphanRemoval: false)]
     private Collection $suggestions;
@@ -142,7 +134,7 @@ class User implements SearchableInterface
             ->setId($id)
             ->setTitle($this->pseudo)
             ->setNature('User')
-            ->setPublishedAt($this->createAt)
+            ->setPublishedAt($this->createdAt)
             ->setDescription($this->bio)
             ->setUrl($this->slug)
             ->setOther($this);
@@ -299,30 +291,6 @@ class User implements SearchableInterface
     public function setAuth(?UserAuthentication $auth): self
     {
         $this->auth = $auth;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
 
         return $this;
     }

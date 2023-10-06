@@ -7,8 +7,8 @@ use App\Authentication\Entity\Role;
 use App\Authentication\Repository\UserAuthenticationRepository;
 use App\Entity\Contact;
 use App\Entity\User;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Interface\EntityLifecycleInterface;
+use App\Traits\LifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,10 +24,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     'email',
     message: 'Un utilisateur avec cet email existe déjà.'
 )]
-class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInterface
+class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInterface, EntityLifecycleInterface
 {
-    use PreUpdateTrait;
-    use PrePersistTrait;
+    use LifecycleTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -65,12 +64,6 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
 
     #[ORM\OneToOne(mappedBy: 'auth', cascade: ['persist', 'remove'])]
     private ?User $user = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
 
     #[Assert\EqualTo(
         propertyPath: 'password',
@@ -265,30 +258,6 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
                 return;
             }, $this->ip)
         );
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
         return $this;
     }
 

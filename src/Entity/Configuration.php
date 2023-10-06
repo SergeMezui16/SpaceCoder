@@ -2,18 +2,17 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityLifecycleInterface;
 use App\Repository\ConfigurationRepository;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Configuration
+class Configuration implements EntityLifecycleInterface
 {
 
-    use PreUpdateTrait;
-    use PrePersistTrait;
+    use LifecycleTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,13 +27,6 @@ class Configuration
 
     #[ORM\Column(length: 255)]
     private ?string $category = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
 
     public function __toString()
     {
@@ -82,27 +74,4 @@ class Configuration
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
 }

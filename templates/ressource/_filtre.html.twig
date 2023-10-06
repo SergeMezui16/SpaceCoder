@@ -6,7 +6,7 @@
 	<div class="filter-items">
 		{{ knp_pagination_sortable(pagination, 'Nom', 'r.name') }}
 		{{ knp_pagination_sortable(pagination, 'Vues', 'r.clicks') }}
-		{{ knp_pagination_sortable(pagination, 'Sortie', 'r.createAt') }}
+		{{ knp_pagination_sortable(pagination, 'Sortie', 'r.createdAt') }}
 		{{ knp_pagination_sortable(pagination, 'Catégorie', 'r.categories') }}
 		{{ knp_pagination_filter(pagination, {'r.name': 'Nom'}) }}
 	</div>

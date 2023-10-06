@@ -3,14 +3,14 @@
 namespace App\Admin\Controller;
 
 use App\Authentication\Entity\Role;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class RoleCrudController extends AbstractCrudController
 {
@@ -37,8 +37,8 @@ class RoleCrudController extends AbstractCrudController
         yield TextField::new('name', 'Nom');
         yield TextField::new('context', 'Context');
         yield BooleanField::new('valid', 'Valide')->renderAsSwitch(false);
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideWhenCreating()->hideWhenUpdating();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->hideWhenCreating()->hideWhenUpdating();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->hideWhenCreating()->hideWhenUpdating()->hideOnIndex();
     }
 
     public function configureActions(Actions $actions): Actions

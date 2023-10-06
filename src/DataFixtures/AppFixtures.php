@@ -43,24 +43,24 @@ class AppFixtures extends Fixture
                 ->setName('APP_NAME')
                 ->setValue('SPACECODER')
                 ->setCategory('APP')
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
         );
         $manager->persist(
             (new Configuration())
                 ->setName('APP_VERSION')
                 ->setValue('3.0')
                 ->setCategory('APP')
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
         );
         $manager->persist(
             (new Configuration())
                 ->setName('ARL')
                 ->setValue('AZERTYUIOPMLKJHGFDSQWXCVBNJKLMPOIUYTREZAQSDFGHJKLKJHNBVCXSZEDFTGHUJ')
                 ->setCategory('APP')
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
         );
         echo('** ✅');
 
@@ -86,16 +86,16 @@ class AppFixtures extends Fixture
                     ->setPassword($myPass)
                     ->setBlocked(false)
                     ->setRole($adminRole)
-                    ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                    ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
+                    ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                    ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'))
             )
             ->setPseudo('Serge Mezui')
             ->setSlug('SergeMezui')
             ->setCountry('GA')
             ->setCoins(1000)
             ->setBornAt(new \DateTimeImmutable('- ' . mt_rand(2000000, 30000000) . ' second'))
-            ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-            ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+            ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+            ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
 
         $manager->persist($myAuth);
         $manager->persist($me);
@@ -113,8 +113,8 @@ class AppFixtures extends Fixture
                 ->setPassword($pass)
                 ->setBlocked($fake->boolean())
                 ->setRole($userRole)
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
 
             $manager->persist($auth);
 
@@ -125,8 +125,8 @@ class AppFixtures extends Fixture
                 ->setCountry($fake->countryCode())
                 ->setCoins(10)
                 ->setBornAt(new \DateTimeImmutable('- ' . mt_rand(2000000, 30000000) . ' second'))
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
 
             $manager->persist($user);
             echo ('*');
@@ -147,8 +147,8 @@ class AppFixtures extends Fixture
                 ->setSuggestedBy($fake->randomElement([...$users, $me, null]))
                 ->setLevel($fake->randomElement([1, 2, 3]))
                 ->setPublishedAt(new DateTimeImmutable('- ' . mt_rand(1, 30000 * ($i + 1)) . ' second'))
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000 * ($i + 1)) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000 * ($i + 1)) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000 * ($i + 1)) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000 * ($i + 1)) . ' second'));
             $manager->persist($article);
             echo ('*');
         }
@@ -160,8 +160,8 @@ class AppFixtures extends Fixture
                 ->setArticle($fake->randomElement($articles))
                 ->setAuthor($fake->randomElement([...$users, $me, null]))
                 ->setContent($fake->sentence(10, true))
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
             
             for ($j = 0; $j <= mt_rand(0, 2); $j++) {
                 $replies[] = $reply = (new Comment())
@@ -169,8 +169,8 @@ class AppFixtures extends Fixture
                     ->setAuthor($fake->randomElement([...$users, $me, null]))
                     ->setContent($fake->sentence(10, true))
                     ->setReplyTo($comment)
-                    ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                    ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                    ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                    ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
                 echo ('*');
                     
                 $manager->persist($reply);
@@ -193,8 +193,8 @@ class AppFixtures extends Fixture
                 ->setAuthors($fake->sentence(2))
                 ->setUrl($fake->url())
                 ->setRole($projectRole)
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
             $manager->persist($project);
             echo ('*');
         }
@@ -210,8 +210,8 @@ class AppFixtures extends Fixture
                 ->setClicks($fake->numberBetween(0, 100))
                 ->setLink($fake->url())
                 ->setCategories($fake->words())
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
             $manager->persist($ressource);
             echo ('*');
         }
@@ -227,8 +227,8 @@ class AppFixtures extends Fixture
                 ->setAction('/article')
                 ->setHeader($fake->randomElement(['comment', 'account', 'gift', 'new']))
                 ->setSentAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setCreateAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
-                ->setUpdateAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
+                ->setCreatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 300000) . ' second'))
+                ->setUpdatedAt(new \DateTimeImmutable('- ' . mt_rand(1, 100000) . ' second'));
             $manager->persist($notification);
             echo ('*');
         }

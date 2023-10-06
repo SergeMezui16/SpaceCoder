@@ -2,20 +2,19 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityLifecycleInterface;
 use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\RessourceRepository;
 use App\Traits\GenerateSlugTrait;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Ressource implements SearchableInterface
+class Ressource implements SearchableInterface, EntityLifecycleInterface
 {
-    use PrePersistTrait;
-    use PreUpdateTrait;
+    use LifecycleTrait;
     use GenerateSlugTrait;
 
     #[ORM\Id]
@@ -42,12 +41,6 @@ class Ressource implements SearchableInterface
     private ?string $link = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
-    #[ORM\Column]
     private array $categories = [];
 
     public function __toString()
@@ -61,7 +54,7 @@ class Ressource implements SearchableInterface
             ->setId($id)
             ->setTitle($this->name)
             ->setNature('Ressource')
-            ->setPublishedAt($this->createAt)
+            ->setPublishedAt($this->createdAt)
             ->setDescription($this->description)
             ->setUrl($this->slug);
     }
@@ -139,30 +132,6 @@ class Ressource implements SearchableInterface
     public function setLink(string $link): self
     {
         $this->link = $link;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
 
         return $this;
     }

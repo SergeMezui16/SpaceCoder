@@ -5,19 +5,18 @@ namespace App\Authentication\Entity;
 use App\Authentication\Entity\UserAuthentication;
 use App\Authentication\Repository\RoleRepository;
 use App\Entity\Project;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Interface\EntityLifecycleInterface;
+use App\Traits\LifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Role
+class Role implements EntityLifecycleInterface
 {
 
-    use PreUpdateTrait;
-    use PrePersistTrait;
+    use LifecycleTrait;
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,12 +34,6 @@ class Role
 
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: Project::class)]
     private Collection $projects;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
 
     #[ORM\OneToMany(mappedBy: 'role', targetEntity: UserAuthentication::class)]
     private Collection $users;
@@ -157,30 +150,4 @@ class Role
 
         return $this;
     }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
-
-
 }

@@ -54,8 +54,8 @@ class NotificationCrudController extends AbstractCrudController
         yield TextareaField::new('content', 'Contenu');
         yield DateTimeField::new('sentAt', 'Envoyé(e) le');
 
-        yield DateTimeField::new('updateAt', 'Modifié(e) le')->hideOnForm()->hideOnIndex();
-        yield DateTimeField::new('createAt', 'Créé(e) le')->hideOnForm()->hideOnIndex();
+        yield DateTimeField::new('updatedAt', 'Modifié(e) le')->hideOnForm()->hideOnIndex();
+        yield DateTimeField::new('createdAt', 'Créé(e) le')->hideOnForm()->hideOnIndex();
     }
 
 

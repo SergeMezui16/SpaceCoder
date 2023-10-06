@@ -2,6 +2,7 @@
 
 namespace App\Admin;
 
+use App\Admin\Controller\ParishCrudController;
 use App\Authentication\Entity\ResetPasswordRequest;
 use App\Authentication\Entity\Role;
 use App\Authentication\Entity\UserAuthentication;
@@ -17,8 +18,19 @@ use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ContactRepository;
+use App\Repository\DioceseRepository;
+use App\Repository\ParishRepository;
 use App\Repository\RessourceRepository;
+use App\Repository\ServantRepository;
 use App\Repository\UserRepository;
+use App\Repository\ZoneRepository;
+use App\Servant\Entity\Diocese;
+use App\Servant\Entity\Parish;
+use App\Servant\Entity\ParishStatus;
+use App\Servant\Entity\Servant;
+use App\Servant\Entity\ServantLevel;
+use App\Servant\Entity\ServantPost;
+use App\Servant\Entity\Zone;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -38,10 +50,14 @@ class DashboardController extends AbstractDashboardController
         private ArticleRepository $articles,
         private RessourceRepository $ressources,
         private CommentRepository $comments,
-        private ContactRepository $contacts
-    )
-    {}
-    
+        private ContactRepository $contacts,
+        private DioceseRepository $dioceses,
+        private ZoneRepository $zones,
+        private ParishRepository $parishes,
+        private ServantRepository $servants
+    ) {
+    }
+
     #[Route('/', name: 'admin')]
     public function index(): Response
     {
@@ -65,23 +81,28 @@ class DashboardController extends AbstractDashboardController
         $all = $this->users->findAll();
         $newToday = 0;
         foreach ($all as $user) {
-            if ((new \DateTimeImmutable())->getTimestamp() -  $user->getCreateAt()->getTimestamp() < 24*60*60) $newToday++;
+            if ((new \DateTimeImmutable())->getTimestamp() -  $user->getCreatedAt()->getTimestamp() < 24 * 60 * 60) $newToday++;
         }
 
         return $this->render('admin/index.html.twig', [
-            'nbUsers' => $this->users->count([]),
-            'nbArticlesView' => $this->articles->views(),
-            'nbNewToday' => $newToday,
+            'nbUsers' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->users->count([]) : 0,
+            'nbArticlesView' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->articles->views() : 0,
+            'nbNewToday' => $this->isGranted('ROLE_SUPER_ADMIN') ? $newToday : 0,
 
-            'contacts' => $this->contacts->findUndoneNb(),
-            
-            'bestArticles' => $this->articles->best(3),
-            'bestRessources' => $this->ressources->best(3),
-            
-            'lastUsers' => $this->users->lastUsers(),
-            'lastConnected' => $this->auths->lastConnected(),
-            'lastComments' => $this->comments->last()
-            
+            'contacts' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->contacts->findUndoneNb() : 0,
+
+            'bestArticles' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->articles->best(3) : [],
+            'bestRessources' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->ressources->best(3) : [],
+
+            'lastUsers' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->users->lastUsers() : [],
+            'lastConnected' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->auths->lastConnected() : [],
+            'lastComments' => $this->isGranted('ROLE_SUPER_ADMIN') ? $this->comments->last() : [],
+
+            'zones' => $this->isGranted('ROLE_PROJECT_SERVANT') ? $this->zones->count([]) : 0,
+            'dioceses' => $this->isGranted('ROLE_PROJECT_SERVANT') ? $this->dioceses->count([]) : 0,
+            'parishes' => $this->isGranted('ROLE_PROJECT_SERVANT') ? $this->parishes->count([]) : 0,
+            'servants' => $this->isGranted('ROLE_PROJECT_SERVANT') ? $this->servants->count([]) : 0,
+
         ]);
     }
 
@@ -89,7 +110,7 @@ class DashboardController extends AbstractDashboardController
     // #[Route('/test', name: 'admin_test')]
     // public function test(): Response
     // {
-        
+
 
     //     return $this->render('admin/test.html.twig', [
     //         'user' => new User()
@@ -109,31 +130,40 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::section('Utilisateurs');
-            yield MenuItem::linkToCrud('Utilisateur', 'fa fa-user', User::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('Notification', 'fa fa-bell', Notification::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('Role', 'fa fa-shield', Role::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::section('Utilisateurs')->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Utilisateur', 'fa fa-user', User::class)->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Notification', 'fa fa-bell', Notification::class)->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Role', 'fa fa-shield', Role::class)->setPermission('ROLE_SUPER_ADMIN');
 
-        yield MenuItem::section('Articles');
-            yield MenuItem::linkToCrud('Article', 'fa fa-newspaper', Article::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('Commentaire', 'fa fa-comment', Comment::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::section('Articles')->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Article', 'fa fa-newspaper', Article::class)->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Commentaire', 'fa fa-comment', Comment::class)->setPermission('ROLE_SUPER_ADMIN');
 
-        yield MenuItem::section('Projets');
-            yield MenuItem::linkToCrud('Projet', 'fa fa-building', Project::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('Ressource', 'fa fa-database', Ressource::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::section('Projets')->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Projet', 'fa fa-building', Project::class)->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Ressource', 'fa fa-database', Ressource::class)->setPermission('ROLE_SUPER_ADMIN');
 
-        yield MenuItem::section('Autres');
-            yield MenuItem::linkToCrud('Contact', 'fa fa-address-book', Contact::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToCrud('RPR', 'fas fa-key', ResetPasswordRequest::class)->setPermission('ROLE_ADMIN');
-            
-        yield MenuItem::section('Paramétrages');
-            yield MenuItem::linkToCrud('Configuration', 'fa fa-toolbox', Configuration::class)->setPermission('ROLE_ADMIN');
-            yield MenuItem::linkToUrl('Retourner au site', 'fa-solid fa-rotate-left', '/');
+        yield MenuItem::section('Projet Servant');
+        yield MenuItem::linkToCrud('Diocèse', 'fa fa-map-location', Diocese::class)->setPermission('ROLE_PROJECT_SERVANT');
+        yield MenuItem::linkToCrud('Zone', 'fa fa-location-dot', Zone::class)->setPermission('ROLE_PROJECT_SERVANT');
+        yield MenuItem::linkToCrud('Paroisse', 'fa fa-church', Parish::class)->setPermission('ROLE_PROJECT_SERVANT');
+        yield MenuItem::linkToCrud('Servant', 'fa fa-user', Servant::class)->setPermission('ROLE_PROJECT_SERVANT');
+        yield MenuItem::linkToCrud('Niveau', 'fa fa-list', ServantLevel::class)->setPermission('ROLE_PROJECT_SERVANT');
+        yield MenuItem::linkToCrud('Poste', 'fa fa-list', ServantPost::class)->setPermission('ROLE_PROJECT_SERVANT');
+        yield MenuItem::linkToCrud('Statut', 'fa fa-list', ParishStatus::class)->setPermission('ROLE_PROJECT_SERVANT');
+
+        yield MenuItem::section('Autres')->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Contact', 'fa fa-address-book', Contact::class)->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('RPR', 'fas fa-key', ResetPasswordRequest::class)->setPermission('ROLE_SUPER_ADMIN');
+
+        yield MenuItem::section('Paramétrages')->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Configuration', 'fa fa-toolbox', Configuration::class)->setPermission('ROLE_SUPER_ADMIN');
 
         yield MenuItem::section('Vers le site');
-            yield MenuItem::linkToRoute('Articles', 'fas fa-newspaper', 'article');
-            yield MenuItem::linkToRoute('Ressources', 'fas fa-database', 'ressource');
-            yield MenuItem::linkToRoute('Projets', 'fas fa-building', 'project');
+        yield MenuItem::linkToUrl('Retourner au site', 'fa-solid fa-rotate-left', '/');
+        yield MenuItem::linkToRoute('Articles', 'fas fa-newspaper', 'article');
+        yield MenuItem::linkToRoute('Ressources', 'fas fa-database', 'ressource');
+        yield MenuItem::linkToRoute('Projets', 'fas fa-building', 'project');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -142,7 +172,7 @@ class DashboardController extends AbstractDashboardController
          * @var UserAuthentication
          */
         $auth = $this->getUser();
-        
+
         return UserMenu::new()
             ->displayUserName()
             ->displayUserAvatar()
@@ -153,7 +183,6 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToRoute('Paramètres', 'fa fa-user-cog', 'profile_edit'),
                 MenuItem::section(),
                 MenuItem::linkToLogout('Déconnexion', 'fa fa-sign-out')
-            ])
-        ;
+            ]);
     }
 }

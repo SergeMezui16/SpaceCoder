@@ -3,18 +3,17 @@
 namespace App\Entity;
 
 use App\Authentication\Entity\UserAuthentication;
+use App\Interface\EntityLifecycleInterface;
 use App\Repository\ContactRepository;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Contact
+class Contact implements EntityLifecycleInterface
 {
 
-    use PreUpdateTrait;
-    use PrePersistTrait;
+    use LifecycleTrait;
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,12 +31,6 @@ class Contact
 
     #[ORM\Column(length: 255)]
     private ?string $message = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
 
     public $recaptcha;
 
@@ -102,30 +95,6 @@ class Contact
     public function setMessage(string $message): self
     {
         $this->message = $message;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
 
         return $this;
     }

@@ -49,8 +49,8 @@ class NotificationService
             ->setTitle($title)
             ->setAction($action)
             ->setSentAt(new \DateTimeImmutable())
-            ->setCreateAt(new \DateTimeImmutable())
-            ->setUpdateAt(new \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
         ;
 
         foreach ($recipients as $recipient) $notification->addRecipient($recipient);

@@ -49,7 +49,7 @@ class ProjectRepository extends ServiceEntityRepository
             ->orWhere('p.description LIKE :description')
             ->setParameter('name', "%$q%")
             ->setParameter('description', "%$q%")
-            ->orderBy('p.updateAt', 'DESC')
+            ->orderBy('p.updatedAt', 'DESC')
             ->getQuery();
     }
 

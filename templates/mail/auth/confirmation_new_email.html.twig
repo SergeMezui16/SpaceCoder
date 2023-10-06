@@ -1,0 +1,22 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}{{subject}}{% endblock %}
+
+{% block body %}
+
+    <main>	
+		<p>Hello, {{pseudo}}.</p>
+		<p>La modification de votre adresse email s'est bien effectuée. Votre compte a été momentanément bloqué !</p>
+		<p>Pour activer votre compte immédiatement, cliquez sur le bouton ci-dessous pour finaliser le changement de votre de votre compte.</p>
+		<p class="text-center my-10 flex flex-col gap-2"> 
+			<a class="btn btn-primary" href="{{signedUrl}}">LIEN DE CONFIRMATION</a>
+			ou
+			<span class="underline text-purple hover:text-purple-light">{{signedUrl}}</span>
+		</p>
+		<p>Ce lien expire dans {{expiration}} heure à partir du moment où vous avez reçu ce mail.</p>
+
+		<br>
+		<p>Cordialement, l'equipe SpaceCoder.</p>
+    </main>
+{% endblock %}
+

@@ -709,7 +709,7 @@
                             "suggeredBy": {
                                 "type": "string"
                             },
-                            "createAt": {
+                            "createdAt": {
                                 "type": "string",
                                 "format": "date-time"
                             }
@@ -797,7 +797,7 @@
                     "role": {
                         "type": "string"
                     },
-                    "createAt": {
+                    "createdAt": {
                         "type": "string",
                         "format": "date-time"
                     }
@@ -837,7 +837,7 @@
                             "type": "string"
                         }
                     },
-                    "createAt": {
+                    "createdAt": {
                         "type": "string",
                         "format": "date-time"
                     }

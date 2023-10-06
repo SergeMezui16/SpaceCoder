@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityLifecycleInterface;
 use App\Repository\CommentRepository;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -13,10 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Comment
+class Comment implements EntityLifecycleInterface
 {
-    use PrePersistTrait;
-    use PreUpdateTrait;
+    use LifecycleTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,12 +43,6 @@ class Comment
         minMessage: 'Le commentaire doit contenir au moins 5 caractères.',
     )]
     private ?string $content = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
 
     public function __construct()
     {
@@ -140,30 +133,6 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
 
         return $this;
     }

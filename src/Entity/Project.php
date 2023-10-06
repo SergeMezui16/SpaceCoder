@@ -3,20 +3,19 @@
 namespace App\Entity;
 
 use App\Authentication\Entity\Role;
+use App\Interface\EntityLifecycleInterface;
 use App\Interface\SearchableInterface;
 use App\Model\SearchItemModel;
 use App\Repository\ProjectRepository;
 use App\Traits\GenerateSlugTrait;
-use App\Traits\PrePersistTrait;
-use App\Traits\PreUpdateTrait;
+use App\Traits\LifecycleTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Project implements SearchableInterface
+class Project implements SearchableInterface, EntityLifecycleInterface
 {
-    use PrePersistTrait;
-    use PreUpdateTrait;
+    use LifecycleTrait;
     use GenerateSlugTrait;
     
     #[ORM\Id]
@@ -39,12 +38,6 @@ class Project implements SearchableInterface
     #[ORM\Column(length: 255)]
     private ?string $image = '';
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
-
     #[ORM\Column(length: 255)]
     private ?string $authors = null;
 
@@ -66,7 +59,7 @@ class Project implements SearchableInterface
             ->setId($id)
             ->setTitle($this->name)
             ->setNature('Project')
-            ->setPublishedAt($this->createAt)
+            ->setPublishedAt($this->createdAt)
             ->setDescription($this->description)
             ->setUrl($this->slug);
     }
@@ -132,30 +125,6 @@ class Project implements SearchableInterface
     public function setImage(string $image): self
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
-    {
-        $this->updateAt = $updateAt;
 
         return $this;
     }

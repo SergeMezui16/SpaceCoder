@@ -57,7 +57,7 @@
 				<h3>Statistiques Personnelles*</h3>
 				<div class="grid grid-cols-2 gap-4 items-center my-2">
 					<div class="text-sm">Durée</div>
-					<div class="italic">il y'a {{user.createAt | since}}</div>
+					<div class="italic">il y'a {{user.createdAt | since}}</div>
 					<div class="text-sm">Commentaires</div>
 					<div class="italic">{{user.comments | length}}</div>
 					{# <div class="text-sm">Suggestions</div>
@@ -88,7 +88,7 @@
 								{% endif %}
 							</span>
 							<span class="date">
-								{{comment.updateAt | date('d/m/Y • H:i')}}
+								{{comment.updatedAt | date('d/m/Y • H:i')}}
 								<a href="{{ path('article_detail', {slug: comment.article.slug, _fragment: 'comment-' ~ (comment.id |trans)}) }}" class="btn-mini">voir</a>
 								{% if comment.replyTo %}
 									<em>Réponse</em>
