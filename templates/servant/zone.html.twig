@@ -1,0 +1,93 @@
+{% extends 'servant/base.html.twig' %}
+
+{% block title %}
+	Zone
+	{{ zone.name }}
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="bg-gray-100 border bg-cover bg-center p-4 rounded mb-5">
+		<h1 class="text-5xl">
+			Zone
+			{{ zone.name }}
+		</h1>
+		<p class="text-gray-700">
+			{{ zone.description }}
+		</p>
+
+
+		<div class="flex">
+			<div class="flex-1 md:flex items-start justify-start hidden">
+				<img class="w-full max-h-72 rounded m-5" src="{% if zone.image %}/data/servant/images/{{zone.image}}{% else %}/favicon.svg{% endif %}" alt="">
+			</div>
+			<div class="flex-1">
+
+				<table class="table-fixed w-full">
+					<tbody class="">
+						<tr>
+							<td class="text-gray-700 py-3">
+								Nom
+							</td>
+							<td class="text-end">
+								{{ zone.name }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Localisation
+							</td>
+							<td class="text-end">
+								{{ zone.location }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Aumônier Zonal
+							</td>
+							<td class="text-end">
+								{{ zone.chaplain }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Aumônier Zonal
+							</td>
+							<td class="text-end">
+								{{ zone.chaplain }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	{% if zone.parishes | length != 0 %}
+		<div class="bg-gray-100 p-4 rounded border">
+
+			<h3 class="text-3xl">
+				Liste des Paroisses (
+				{{ zone.parishes | length }}
+				)
+			</h3>
+			<hr>
+			<div class="flex flex-wrap gap-5 py-5">
+				{% for parish in zone.parishes %}
+					<div class="w-60 rounded border">
+						<div class="h-32 bg-cover bg-center rounded-t" style="background-image: url('{% if parish.image %}/data/servant/images/{{parish.image}}{% else %}/favicon.svg{% endif %}')"></div>
+
+						<a class="p-2 block hover:text-purple-500" href="{{ path('servant_parish', {id: parish.id}) }}">
+							{{parish.name}}
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+
+		</div>
+	{% endif %}
+
+
+{% endblock %}

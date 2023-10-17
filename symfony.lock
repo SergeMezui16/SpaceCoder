@@ -56,6 +56,9 @@
             "ref": "b131e6cbfe1b898a508987851963fff485986285"
         }
     },
+    "endroid/qr-code-bundle": {
+        "version": "5.0.0"
+    },
     "google/recaptcha": {
         "version": "1.2",
         "recipe": {

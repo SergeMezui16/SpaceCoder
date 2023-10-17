@@ -1,0 +1,100 @@
+{% extends 'servant/base.html.twig' %}
+
+{% block title %}Diocese {{ diocese.name }}{% endblock %}
+
+
+{% block body %}
+<div class="bg-gray-100 border bg-cover bg-center p-4 rounded mb-5">
+	<h1 class="text-5xl">
+		Diocèse
+		{{ diocese.name }}
+	</h1>
+	<div class="flex">
+		<div class="flex-1 md:flex items-start justify-start hidden">
+			<img class="w-full  max-h-80 rounded m-5" src="{% if diocese.image %}/data/servant/images/{{diocese.image}}{% else %}/favicon.svg{% endif %}" alt="">
+		</div>
+		<div class="flex-1">
+
+			<table class="table-fixed w-full">
+				<tbody class="">
+					<tr>
+						<td class="text-gray-700 py-3">
+							Nom
+						</td>
+						<td class="text-end">
+							{{ diocese.name }}
+						</td>
+					</tr>
+					<tr>
+						<td class="text-gray-700 py-3">
+							Localisation
+						</td>
+						<td class="text-end">
+							{{ diocese.location }}
+						</td>
+					</tr>
+					<tr>
+						<td class="text-gray-700 py-3">
+							Évèque
+						</td>
+						<td class="text-end">
+							{{ diocese.bishop }}
+						</td>
+					</tr>
+					<tr>
+						<td class="text-gray-700 py-3">
+							Aumonier Diocesain
+						</td>
+						<td class="text-end">
+							{{ diocese.chaplain }}
+						</td>
+					</tr>
+					<tr>
+						<td class="text-gray-700 py-3">
+							Saint Patron
+						</td>
+						<td class="text-end">
+							{{ diocese.patronSaint }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
+
+
+{# <div class="bg-gray-100 border bg-cover bg-center p-4 rounded mb-5">
+    <h1 class="text-5xl">Diocèse {{ diocese.name }}</h1>
+
+    <div class="my-4 text-2xl flex flex-col gap-3">
+        <span>Nom: {{ diocese.name }}</span>
+        <span>Localisation: {{ diocese.location }}</span>
+        <span>Evèque: {{ diocese.bishop }}</span>
+        <span>Aumonier Diocesain: {{ diocese.chaplain }}</span>
+        <span>Saint Patron: {{ diocese.patronSaint }}</span>
+    </div>
+</div> #}
+
+{% if diocese.zones | length != 0 %}
+	<div class="bg-gray-100 p-4 rounded border">
+
+		<h3 class="text-3xl">Liste des Zones ({{ diocese.zones | length }}) </h3>
+		<hr>
+		<div class="flex flex-wrap gap-5 py-5">
+			{% for zone in diocese.zones %}
+				<div class="w-60 rounded border">
+					<div class="h-32 bg-cover bg-center rounded-t" style="background-image: url('{% if diocese.image %}/data/servant/images/{{zone.image}}{% else %}/favicon.svg{% endif %}')"></div>
+
+					<a class="p-2 block hover:text-purple-500" href="{{ path('servant_zone', {id: zone.id}) }}">{{zone.name}}</a>
+				</div>
+			{% endfor %}
+		</div>
+
+	</div>
+{% endif %}
+
+
+
+{% endblock %}

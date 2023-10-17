@@ -53,7 +53,7 @@ class Servant implements EntityLifecycleInterface
     private ?Parish $parish = null;
 
     #[ORM\ManyToOne(inversedBy: 'servants')]
-    #[Assert\NotBlank, Assert\Valid]
+    #[Assert\Valid]
     private ?ServantPost $post = null;
 
     #[ORM\ManyToOne(inversedBy: 'servants')]

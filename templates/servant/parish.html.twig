@@ -1,0 +1,148 @@
+{% extends 'servant/base.html.twig' %}
+
+{% block title %}
+	Paroisse
+	{{ parish.name }}
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="bg-gray-100 border bg-cover bg-center p-4 rounded mb-5">
+		<h1 class="text-5xl">
+			Paroisse
+			{{ parish.name }}
+		</h1>
+		<p class="text-gray-700">
+			{{ parish.description }}
+		</p>
+
+		<div class="flex">
+			<div class="flex-1 md:flex items-start justify-start hidden">
+				<img class="w-full  max-h-80 rounded m-5" src="{% if parish.image %}/data/servant/images/{{parish.image}}{% else %}/favicon.svg{% endif %}" alt="">
+			</div>
+			<div class="flex-1">
+
+				<table class="table-fixed w-full">
+					<tbody class="">
+						<tr>
+							<td class="text-gray-700 py-3">
+								Nom
+							</td>
+							<td class="text-end">
+								{{ parish.name }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Initiales
+							</td>
+							<td class="text-end">
+								{{ parish.initial }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Localisation
+							</td>
+							<td class="text-end">
+								{{ parish.location }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Curé
+							</td>
+							<td class="text-end">
+								{{ parish.priest }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Aumônier Paroissial
+							</td>
+							<td class="text-end">
+								{{ parish.chaplain }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Saint Patron
+							</td>
+							<td class="text-end">
+								{{ parish.patronSaint }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Zone
+							</td>
+							<td class="text-end">
+								{{ parish.zone.name }}
+							</td>
+						</tr>
+						<tr>
+							<td class="text-gray-700 py-3">
+								Statut
+							</td>
+							<td class="text-end">
+								{{ parish.status }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	{% if bureau | length != 0 %}
+		<div class="bg-gray-100 p-4 rounded border mb-5">
+
+			<h3 class="text-3xl">
+				Membre du bureau (
+				{{ bureau | length }}
+				)
+			</h3>
+			<hr>
+			<div class="flex flex-wrap gap-5 py-5">
+				{% for servant in bureau %}
+					<div class="w-60 rounded border">
+						<div class="h-32 bg-cover bg-center rounded-t" style="background-image: url('{% if servant.photo %}/data/servant/images/{{servant.photo}}{% else %}/favicon.svg{% endif %}')"></div>
+
+						<a class="p-2 block hover:text-purple-500" href="{{ path('servant_servant', {id: servant.id}) }}">
+							{{servant.name}}
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+
+		</div>
+	{% endif %}
+
+	{% if servants | length != 0 %}
+		<div class="bg-gray-100 p-4 rounded border mb-5">
+
+			<h3 class="text-3xl">
+				Liste des Servants (
+				{{ servants | length }}
+				)
+			</h3>
+			<hr>
+			<div class="flex flex-wrap gap-5 py-5">
+				{% for servant in servants %}
+					<div class="w-60 rounded border">
+						<div class="h-32 bg-cover bg-center rounded-t" style="background-image: url('{% if servant.photo %}/data/servant/images/{{servant.photo}}{% else %}/favicon.svg{% endif %}')"></div>
+
+						<a class="p-2 block hover:text-purple-500" href="{{ path('servant_servant', {id: servant.id}) }}">
+							{{servant.name}}
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+
+		</div>
+	{% endif %}
+
+
+{% endblock %}

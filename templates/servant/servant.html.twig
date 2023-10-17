@@ -1,0 +1,62 @@
+{% extends 'servant/base.html.twig' %}
+
+{% block title %}Servant
+	{{ servant.name }}
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="flex items-center justify-center h-fit p-4 rounded ">
+		<div class="bg-gray-100 p-4 rounded border items-center flex flex-col justify-center">
+            <div class="">
+                <img class="w-48 rounded" src="{% if servant.photo %}/data/servant/images/{{servant.photo}}{% else %}/favicon.svg{% endif %}" alt="{{ servant.name }}">
+            </div>
+
+            <div class="mt-4">
+                <table class="table-fixed w-80">
+                    <tbody class="">
+                        <tr>
+                            <td class="text-gray-700 py-3">Nom</td>
+                            <td class="text-end">{{servant.name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Prénom</td>
+                            <td class="text-end">{{servant.surname}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Paroisse</td>
+                            <td class="text-end"><a href="{{ path('servant_parish', {id: servant.parish.id}) }}">{{servant.parish}}</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Niveau</td>
+                            <td class="text-end">{{servant.level}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Poste</td>
+                            <td class="text-end">{{servant.post ?? "<em>aucun(e)</em>"}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Sexe</td>
+                            <td class="text-end">{% if servant.sex == 'F' %} Feminin {% else %} Masculin {% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Date de naissance</td>
+                            <td class="text-end">{{servant.birthday | date('d/m/Y')}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray-700 py-3">Téléphone</td>
+                            <td class="text-end"><a href="tel:{{servant.phone}}">{{servant.phone}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <img class="w-32 my-4 rounded" src="{{ qr_code_data_uri(url('servant_servant', {id: servant.id})) }}" />
+                {{ servant.code }}
+            </div>
+		</div>
+	</div>
+
+{% endblock %}
