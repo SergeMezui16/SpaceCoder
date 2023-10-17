@@ -31,6 +31,7 @@ yarn-error.log
 /public/data/article/images/*
 /public/data/article/ressources/*
 /public/data/project/images/*
+/public/data/servant/images/*
 /public/data/user/avatar/*
 ###< spacecoder/data/uploads ###
 
