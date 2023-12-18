@@ -1,7 +1,7 @@
 export default class CopyForm extends HTMLDivElement {
 
 
-    constructor () {
+    constructor() {
         super()
 
         this.txt = this.querySelector('.js-copy-input').value
@@ -22,15 +22,19 @@ export default class CopyForm extends HTMLDivElement {
 
         this.btn.innerHTML = this.iconCopy
 
+        this.copy = this.copy.bind(this)
+        this.updateClipboard = this.updateClipboard.bind(this)
+        this.display = this.display.bind(this)
+
     }
 
 
-    connectedCallback () {
+    connectedCallback() {
         this.btn.addEventListener('click', (e) => this.copy(e))
     }
 
 
-    disconnectedCallback () {
+    disconnectedCallback() {
         this.btn.removeEventListener('click', () => this.copy())
         window.clearTimeout(this.timeOut)
     }
@@ -46,7 +50,7 @@ export default class CopyForm extends HTMLDivElement {
      */
     updateClipboard(txt) {
         navigator.clipboard.writeText(txt)
-            .then(() => {this.display(this.btn, true)}, () => {this.display(this.btn, false)})
+            .then(() => { this.display(this.btn, true) }, () => { this.display(this.btn, false) })
     }
 
 
@@ -59,7 +63,7 @@ export default class CopyForm extends HTMLDivElement {
 
         let css = null
 
-        if(isCopied){
+        if (isCopied) {
             btn.innerHTML = this.iconOk
             css = 'copied'
             btn.classList.add(css)
@@ -69,7 +73,7 @@ export default class CopyForm extends HTMLDivElement {
             btn.classList.add(css)
         }
 
-        this.timeOut = window.setTimeout( () => {
+        this.timeOut = window.setTimeout(() => {
             btn.classList.remove(css)
             btn.innerHTML = this.iconCopy
         }, 1000)

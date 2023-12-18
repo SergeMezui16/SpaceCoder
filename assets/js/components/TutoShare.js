@@ -1,17 +1,18 @@
 import { addToast } from "../functions"
 
-export default class TutoShare extends HTMLAnchorElement{
+export default class TutoShare extends HTMLAnchorElement {
 
 
-    constructor () {
+    constructor() {
         super()
+        this.handleClick = this.handleClick.bind(this)
     }
 
-    connectedCallback () {
+    connectedCallback() {
         this.addEventListener('click', this.handleClick)
     }
 
-    disconnectedCallback () {
+    disconnectedCallback() {
         this.removeEventListener('click', this.handleClick)
     }
 
@@ -20,10 +21,10 @@ export default class TutoShare extends HTMLAnchorElement{
      * @param {Event} event 
      * @returns {void}
      */
-    async handleClick (event) {
+    async handleClick(event) {
         event.preventDefault()
 
-        if(!navigator.canShare){
+        if (!navigator.canShare) {
             addToast('Erreur de partage', 'Votre navigateur ne permet pas le partage.', 'danger')
             return
         }

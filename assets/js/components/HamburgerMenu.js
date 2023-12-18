@@ -1,6 +1,6 @@
 export default class HamburgerMenu extends HTMLElement {
 
-    constructor () {
+    constructor() {
         super()
 
         this.menuButton = document.getElementById('js-menu-btn')
@@ -11,21 +11,26 @@ export default class HamburgerMenu extends HTMLElement {
             rootMargin: '0px',
             threshold: 1.0
         })
+
+        this.toggle = this.toggle.bind(this)
+        this.open = this.open.bind(this)
+        this.close = this.close.bind(this)
+        this.visibleCallback = this.visibleCallback.bind(this)
     }
 
 
-    connectedCallback () {
+    connectedCallback() {
         this.menuButton.addEventListener('click', () => this.open())
         this.closeButton.addEventListener('click', () => this.close())
     }
 
 
-    disconnectedCallback () {
+    disconnectedCallback() {
         this.menuButton.removeEventListener('click', () => this.open())
         this.closeButton.removeEventListener('click', () => this.close())
     }
 
-    toggle () {
+    toggle() {
         this.classList.toggle('hidden')
     }
 
@@ -33,15 +38,15 @@ export default class HamburgerMenu extends HTMLElement {
     /**
      * Open the Menu
      */
-    open () {        
+    open() {
         this
             .animate([
-                {transform: 'translateX(-100%)', opacity: 0},
-                {transform: 'translateX(0)', opacity: 1}
-            ], {duration: 300})
+                { transform: 'translateX(-100%)', opacity: 0 },
+                { transform: 'translateX(0)', opacity: 1 }
+            ], { duration: 300 })
             .ready.then(() => this.toggle())
 
-        this.querySelectorAll('li').forEach( (li) => {
+        this.querySelectorAll('li').forEach((li) => {
             this.observer.observe(li)
         })
     }
@@ -49,13 +54,13 @@ export default class HamburgerMenu extends HTMLElement {
     /**
      * Close the Menu
      */
-    close () {
+    close() {
         this
             .animate([
-                {transform: 'translateX(0)', opacity: 1},
-                {transform: 'translateX(-100%)', opacity: 0}
-            ], {duration: 200})
-            .finished.then(() => this.toggle())        
+                { transform: 'translateX(0)', opacity: 1 },
+                { transform: 'translateX(-100%)', opacity: 0 }
+            ], { duration: 200 })
+            .finished.then(() => this.toggle())
     }
 
 
@@ -63,17 +68,17 @@ export default class HamburgerMenu extends HTMLElement {
      * 
      * @param {any} entries 
      */
-    visibleCallback (entries) {
-        entries.forEach( (entry) => {
+    visibleCallback(entries) {
+        entries.forEach((entry) => {
 
             if (entry.isIntersecting) {
 
                 entry.target.animate([
-                    {transform: 'translateX(-30px)', opacity: 0},
-                    {transform: 'translateX(0)', opacity: 1}
+                    { transform: 'translateX(-30px)', opacity: 0 },
+                    { transform: 'translateX(0)', opacity: 1 }
                 ], {
-                    duration: 300, 
-                    iterations: 1, 
+                    duration: 300,
+                    iterations: 1,
                     delay: 100,
                     easing: 'cubic-bezier(0.8, 0.04, 0.98, 0.335)'
                 })

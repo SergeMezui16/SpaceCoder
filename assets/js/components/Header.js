@@ -2,8 +2,8 @@ export default class Header extends HTMLElement {
 
 
     #keyframe = [
-        {transform: 'translateY(-'+ this.offsetHeight +'px)', opacity: '0'},
-        {transform: 'translateY(0px)', opacity: '1'}
+        { transform: 'translateY(-' + this.offsetHeight + 'px)', opacity: '0' },
+        { transform: 'translateY(0px)', opacity: '1' }
     ]
 
 
@@ -11,26 +11,26 @@ export default class Header extends HTMLElement {
         duration: 200
     }
 
-    constructor () {
+    constructor() {
         super()
 
         this.show = false
         this.prevScrollpos = window.pageYOffset;
         this.handleScroll = this.handleScroll.bind(this)
     }
-    
-    connectedCallback () {
+
+    connectedCallback() {
         window.addEventListener('scroll', this.handleScroll)
     }
 
-    disconnectedCallback (){
+    disconnectedCallback() {
         window.removeEventListener('scroll', this.handleScroll)
     }
 
     handleScroll() {
 
         // Dont show the header if menu is open
-        if(!document.querySelector('[is="hamburger-menu"]').classList.contains('hidden')) return
+        if (!document.querySelector('[is="hamburger-menu"]').classList.contains('hidden')) return
 
         const currentScrollPos = window.pageYOffset;
 
@@ -39,16 +39,16 @@ export default class Header extends HTMLElement {
             this.animate(this.#keyframe, this.#options)
             this.show = true
 
-        } else if(this.prevScrollpos < currentScrollPos && this.show) {
+        } else if (this.prevScrollpos < currentScrollPos && this.show) {
 
             let anim = this.animate([
-                {transform: 'translateY(0px)', opacity: '1'},
-                {transform: 'translateY(-'+ this.offsetHeight +'px)', opacity: '0'}
-            ], {duration: 300})
-            anim.finished.then( () => this.classList.remove('show-header'))
+                { transform: 'translateY(0px)', opacity: '1' },
+                { transform: 'translateY(-' + this.offsetHeight + 'px)', opacity: '0' }
+            ], { duration: 300 })
+            anim.finished.then(() => this.classList.remove('show-header'))
             this.show = false
 
-        } else if (currentScrollPos === 0){
+        } else if (currentScrollPos === 0) {
             this.classList.remove('show-header')
             this.show = true
         }

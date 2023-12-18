@@ -1,6 +1,5 @@
-export default class CommentForm extends HTMLFormElement
-{
-    constructor () {
+export default class CommentForm extends HTMLFormElement {
+    constructor() {
         super()
 
         this.comments = document.querySelectorAll(this.dataset.comments)
@@ -11,12 +10,16 @@ export default class CommentForm extends HTMLFormElement
         this.options = this.selectInput.querySelectorAll('option')
 
         this.reply = this.querySelector('.js-input-out')
-
         this.out = this.reply.querySelector('div.form-input')
+
+        this.handleClick = this.handleClick.bind(this)
+        this.handleReset = this.handleReset.bind(this)
+        this.loadInput = this.loadInput.bind(this)
+        this.goToForm = this.goToForm.bind(this)
     }
 
-    connectedCallback () {
-        if(this.selectInput.selectedIndex !== 0) this.reply.removeAttribute('style')
+    connectedCallback() {
+        if (this.selectInput.selectedIndex !== 0) this.reply.removeAttribute('style')
 
         this.loadInput()
 
@@ -28,7 +31,7 @@ export default class CommentForm extends HTMLFormElement
     }
 
 
-    disconnectedCallback () {
+    disconnectedCallback() {
         this.querySelector('input[type="reset"]').removeEventListener('click', () => this.handleReset())
         this.comments.forEach(comment => {
             comment.querySelector('.js-btn-reply').removeEventListener('click', () => this.handleClick(comment))
@@ -39,10 +42,10 @@ export default class CommentForm extends HTMLFormElement
      * Change value of replyTo field in comment from
      * @param {HTMLElement} element 
      */
-    handleClick (element) {
+    handleClick(element) {
         this.options.forEach(option => {
 
-            if(option.value === element.dataset.id){
+            if (option.value === element.dataset.id) {
                 this.selectInput.selectedIndex = option.index
                 this.reply.removeAttribute('style')
                 this.loadInput()
@@ -52,19 +55,19 @@ export default class CommentForm extends HTMLFormElement
         this.goToForm()
     }
 
-    handleReset () {
+    handleReset() {
         this.reply.setAttribute('style', 'display: none;')
         this.selectInput.selectedIndex = 0
     }
 
-    loadInput () {
+    loadInput() {
         this.out.innerText = this.selectInput.selectedOptions[0].innerText
     }
 
-    goToForm () {
+    goToForm() {
         let link = window.location.href
 
-        if(!link.includes(this.id)) link = link + '#' + this.id
+        if (!link.includes(this.id)) link = link + '#' + this.id
 
         window.location.href = link
     }

@@ -13,5 +13,5 @@ export default class CountryFlag extends HTMLImageElement {
         this.setAttribute('src', `${this.#api}/${this.country}.svg`)
     }
 
-    disconnectedCallback() {}
+    disconnectedCallback() { }
 }

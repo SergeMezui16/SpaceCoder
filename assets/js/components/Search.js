@@ -14,41 +14,41 @@ export default class Search extends HTMLFormElement {
         this.toggle = this.toggle.bind(this)
     }
 
-    connectedCallback () {
+    connectedCallback() {
         this.searchButton.addEventListener('click', () => this.open())
         this.closeButton.addEventListener('click', () => this.close())
         this.input.addEventListener('blur', () => this.close())
     }
 
 
-    disconnectedCallback () {
+    disconnectedCallback() {
         this.searchButton.removeEventListener('click', () => this.open())
         this.closeButton.removeEventListener('click', () => this.close())
         this.input.removeEventListener('blur', () => this.close())
     }
 
-    toggle () {
+    toggle() {
         this.searchBar.classList.toggle('is-visible')
     }
 
-    open () {
+    open() {
         this.searchBar
-                .animate([
-                    {opacity: 0},
-                    {opacity: 1}
-                ], {duration: 200})
-                .ready.then(() => {
-                    this.toggle()
-                    this.input.focus()
+            .animate([
+                { opacity: 0 },
+                { opacity: 1 }
+            ], { duration: 200 })
+            .ready.then(() => {
+                this.toggle()
+                this.input.focus()
             })
     }
 
-    close () {
+    close() {
         this.searchBar
-                .animate([
-                    {transform: 'translateY(0)', opacity: 1},
-                    {transform: 'translateY(-100vh)', opacity: 0}
-                ], {duration: 300})
-                .finished.then(() => this.toggle())
+            .animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: 'translateY(-100vh)', opacity: 0 }
+            ], { duration: 300 })
+            .finished.then(() => this.toggle())
     }
 }

@@ -8,7 +8,7 @@
 
 export default class TuToCarousel extends HTMLDivElement {
 
-    constructor () {
+    constructor() {
         super()
 
         this.figures = document.querySelectorAll('.tuto figure')
@@ -16,8 +16,8 @@ export default class TuToCarousel extends HTMLDivElement {
          * @type {TutoImage[]}
          */
         this.images = this.getTutoImages(this.figures)
-        
-        
+
+
         this.srcInput = this.querySelector('.content img')
         this.captionInput = this.querySelector('.content span.title')
 
@@ -26,19 +26,26 @@ export default class TuToCarousel extends HTMLDivElement {
         this.closeBtn = this.querySelector('.carousel .close')
 
         this.img = null
+
+        this.getTutoImages = this.getTutoImages.bind(this)
+        this.getTutoImage = this.getTutoImage.bind(this)
+        this.toggle = this.toggle.bind(this)
+        this.load = this.load.bind(this)
+        this.getNextImg = this.getNextImg.bind(this)
+        this.getPrevImg = this.getPrevImg.bind(this)
     }
 
 
-    connectedCallback () {
+    connectedCallback() {
 
-        this.figures.forEach( (figure) => {
+        this.figures.forEach((figure) => {
             figure.addEventListener('click', (e) => {
                 e.preventDefault()
 
                 this.img = this.getTutoImage(e.currentTarget)
-                if(this.img === undefined) return
+                if (this.img === undefined) return
                 this.load(this.img)
-                this.toggle()                
+                this.toggle()
             })
         })
 
@@ -60,18 +67,18 @@ export default class TuToCarousel extends HTMLDivElement {
             e.preventDefault()
             this.toggle()
         })
-        
+
     }
 
 
-    disconnectedCallback () {
-        this.figures.forEach( (figure) => {
-            figure.removeEventListener('click', () => {})
+    disconnectedCallback() {
+        this.figures.forEach((figure) => {
+            figure.removeEventListener('click', () => { })
         })
 
-        this.nextBtn.removeEventListener('click', () => {})
-        this.prevBtn.removeEventListener('click', () => {})
-        this.closeBtn.removeEventListener('click', (e) => {})
+        this.nextBtn.removeEventListener('click', () => { })
+        this.prevBtn.removeEventListener('click', () => { })
+        this.closeBtn.removeEventListener('click', (e) => { })
     }
 
 
@@ -87,7 +94,7 @@ export default class TuToCarousel extends HTMLDivElement {
          * @type {TutoImage[]}
          */
         const images = []
-        Array.from(figures).flatMap( (el, i) => {
+        Array.from(figures).flatMap((el, i) => {
             images.push({
                 id: i,
                 url: el.querySelector('img').src,
@@ -105,24 +112,24 @@ export default class TuToCarousel extends HTMLDivElement {
      */
     getTutoImage(figure) {
         const imgUrl = figure.querySelector('img').src
-        return this.images.find( (el) => el.url === imgUrl) 
+        return this.images.find((el) => el.url === imgUrl)
     }
 
     /**
      * Open or Close the Carousel
      */
-    toggle () {
+    toggle() {
         this.animate([
-            {transform: 'scale(.1)', opacity: 0},
-            {transform: 'scale(1)', opacity: 1}
-        ], {duration: 250})
+            { transform: 'scale(.1)', opacity: 0 },
+            { transform: 'scale(1)', opacity: 1 }
+        ], { duration: 250 })
         this.classList.toggle('open')
     }
 
     /**
      * Load the Carousel datas With current TutoImage
      */
-    load () {
+    load() {
         this.srcInput.setAttribute('src', this.img.url)
         this.srcInput.setAttribute('alt', this.img.description)
         this.srcInput.setAttribute('title', this.img.description)
@@ -131,12 +138,12 @@ export default class TuToCarousel extends HTMLDivElement {
 
 
     getNextImg() {
-        const element = this.images.find( (el) => el.id === (this.img.id + 1))
-        return  element === undefined ? this.images[0] : element
+        const element = this.images.find((el) => el.id === (this.img.id + 1))
+        return element === undefined ? this.images[0] : element
     }
 
     getPrevImg() {
-        const element = this.images.find( (el) => el.id === (this.img.id - 1))
-        return  element === undefined ? this.images[this.images.length - 1] : element
+        const element = this.images.find((el) => el.id === (this.img.id - 1))
+        return element === undefined ? this.images[this.images.length - 1] : element
     }
 }

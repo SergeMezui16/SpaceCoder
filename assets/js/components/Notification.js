@@ -1,8 +1,9 @@
 export default class Notification extends HTMLAnchorElement {
 
-    constructor () {
-        super ()
+    constructor() {
+        super()
         this.uri = this.dataset.uri
+        this.handleClick = this.handleClick.bind(this)
     }
 
     connectedCallback() {
@@ -21,9 +22,9 @@ export default class Notification extends HTMLAnchorElement {
     handleClick(event) {
         event.preventDefault()
 
-        fetch(this.uri, {method: 'GET'})
-            .then( (response) => response.json())
-            .then( (target) => window.location.href = target)
+        fetch(this.uri, { method: 'GET' })
+            .then((response) => response.json())
+            .then((target) => window.location.href = target)
     }
 
 }
