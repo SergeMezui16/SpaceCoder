@@ -37,7 +37,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-        
+
         {% if app.environment == 'prod' %}
             <!-- Matomo -->
             <script defer>
@@ -58,23 +58,11 @@
     </head>
     <body class="">
 
-    
-        {% for label, messages in app.flashes %}
-
-            {% for message in messages %}
-                <span
-                    class="js-toast"
-                    data-title=""
-                    data-feed="{{ label }}"
-                    data-content="{{ message | raw}}"
-                >
-            {% endfor %}
-
-        {% endfor %}
+        {{ include('components/flash.html.twig') }}
 
 
         {% include "_partials/_header.html.twig" %}
-        
+
         <div class="main">
             {% block body %}{% endblock %}
         </div>
@@ -88,11 +76,7 @@
         <span is="dom-elements"></span>
 
         {# BACK TO TP #}
-        <div href="#top" class="back-to-top">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"/>
-            </svg>
-        </div>
+        {{ include('components/back_to_top.html.twig') }}
 
         {# TEMPLATES HTML #}
 
@@ -105,10 +89,7 @@
                     </svg>
                     <div class="toast-title">Toast</div>
                 </div>
-                <div class="toast-content">
-                    Lorem ipsum, dolor sit amet coa repellendus ex laborum
-                                error velit a.
-                </div>
+                <div class="toast-content"></div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="toast-close">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
