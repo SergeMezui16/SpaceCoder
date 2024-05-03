@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '../../base.html.twig' %}
 
 {% block title %}{{title}}{% endblock %}
 
@@ -36,7 +36,7 @@
 {# RESULTS #}
 <div class="container m-auto mb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-2"> 
 	{% for project in projects %}
-		{% include "project/_project_card.html.twig" %}
+		{% include "_project_card.html.twig" %}
 	{% endfor %}
 </div>
 

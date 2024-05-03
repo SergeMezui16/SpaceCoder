@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '../../base.html.twig' %}
 
 {% block title %}{{title}}{% endblock %}
 
@@ -32,7 +32,7 @@
             </span>
             <span class="hero-text">{% if pagination.totalItemCount != 0 %}Page {{pagination.currentPageNumber}}{% endif %}</span>
         </div>
-		{% include "ressource/_filtre.html.twig" %}
+		{% include "_filtre.html.twig" %}
     </div>
 </div>
 
@@ -40,7 +40,7 @@
 <div class="container m-auto mb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-2"> 
 	{% if pagination.totalItemCount != 0 %}
 		{% for ressource in pagination %}
-			{% include "ressource/_ressource_card.html.twig" %}
+			{% include "_ressource_card.html.twig" %}
 		{% endfor %}
 	{% else %}
 		<div class="flex flex-col items-center p-4 border bg-gray-100 rounded">
