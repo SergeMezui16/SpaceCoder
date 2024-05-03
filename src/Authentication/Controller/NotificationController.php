@@ -11,33 +11,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/notifications')]
+#[Route('/notifications', name: 'notification.')]
 #[IsGranted('IS_AUTHENTICATED')]
 class NotificationController extends AbstractController
 {
-    #[Route('', name: 'notification')]
+    #[Route('', name: 'index')]
     public function index(): Response
     {
         /** @var UserAuthentication $auth */
         $auth = $this->getUser();
         $notifications = $auth->getUser()->getLastsNotifications();
 
-        return $this->render('authentication/notification/index.html.twig', [
+        return $this->render('pages/notification/index.html.twig', [
             'notifications' => $notifications,
             'to_see' => $auth->getUser()->countUnseeNotification()
         ]);
     }
 
-    #[Route('/see/{id}', name: 'notification_see')]
+    #[Route('/see/{id}', name: 'see')]
     public function see(Notification $notification, EntityManagerInterface $manager): JsonResponse
     {
         /** @var UserAuthentication $auth */
         $auth = $this->getUser();
 
         if(!$notification->hasBeenViewedBy($auth->getUser())) {
-
             $notification->markAsViewedFor($auth->getUser());
-            $manager->persist($notification);
             $manager->flush();
         }
 
