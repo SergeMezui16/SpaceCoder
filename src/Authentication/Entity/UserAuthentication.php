@@ -3,7 +3,6 @@
 namespace App\Authentication\Entity;
 
 
-use App\Authentication\Entity\Role;
 use App\Authentication\Repository\UserAuthenticationRepository;
 use App\Entity\Contact;
 use App\Entity\User;
@@ -40,7 +39,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     private ?string $email = null;
 
     /**
-     * @var string The hashed password
+     * @var null|string The hashed password
      */
     #[ORM\Column]
     #[Assert\Regex(
@@ -91,6 +90,16 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         return $this->email;
     }
 
+    public function getPseudo(): ?string
+    {
+        return (string)$this->user;
+    }
+
+    public function getSlug(): ?string
+    {
+        return (string) $this->user->getSlug();
+    }
+
     public function serialize()
     {
         return serialize($this->id);
@@ -102,7 +111,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     }
 
     /**
-     * Reload connexion informations
+     * Reload connexion information
      *
      * @param Request $request
      * @return UserAuthentication
@@ -111,7 +120,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     {
         $this->addIp($request->getClientIp());
         $this->lastConnexion = new \DateTimeImmutable();
-        if($this->firstConnexion === null) $this->firstConnexion = new \DateTimeImmutable();
+        if ($this->firstConnexion === null) $this->firstConnexion = new \DateTimeImmutable();
 
         return $this;
     }
@@ -140,12 +149,12 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
+     * @return array
      * @see UserInterface
-     * @return array|Collection<int, Role>
      */
     public function getRoles(): array
     {
@@ -155,9 +164,8 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
             return ['ROLE_USER'];
         }
 
-        return [$role->getName()]; 
+        return [$role->getName()];
     }
-
 
 
     public function getRole(): ?Role
@@ -190,7 +198,7 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->confirmPassword = null;
@@ -244,17 +252,17 @@ class UserAuthentication implements UserInterface, PasswordAuthenticatedUserInte
         return $this;
     }
 
-    public function addIp(?string $ip) : self
+    public function addIp(?string $ip): self
     {
-        if(!in_array($ip, $this->ip)) $this->ip[] = $ip;
+        if (!in_array($ip, $this->ip)) $this->ip[] = $ip;
         return $this;
     }
 
-    public function removeIp(?string $ip)
+    public function removeIp(?string $ip): static
     {
         $this->ip = array_filter(
             array_map(function($i) use ($ip) {
-                if($i !== $ip) return $i;
+                if ($i !== $ip) return $i;
                 return;
             }, $this->ip)
         );

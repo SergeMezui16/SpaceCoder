@@ -1,0 +1,12 @@
+{% for label, messages in app.flashes %}
+
+    {% for message in messages %}
+        <span
+                class="js-toast"
+                data-title=""
+                data-feed="{{ label }}"
+                data-content="{{ message | raw}}"
+        ></span>
+    {% endfor %}
+
+{% endfor %}

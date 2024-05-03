@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    <div class="container m-auto  my-10 p-6 flex items-center justify-center">
+
+        <div class="flex bg-gray-100 shadow-md rounded max-w-fit text-gray-500">
+            <div class="login-img max-w-lg">
+                <img src="{{ asset('image/group.png') }}" alt="group" class="">
+            </div>
+
+            <form action="" method="post" class="p-6 flex flex-col w-max-fit">
+                {{ form_start(form) }}
+                {{ form_row(form._token) }}
+
+                <div class="container mx-auto">
+                    <h2 class="text-start text-gray-500">Contactez nous !</h2>
+                    <hr>
+                    <br>
+                    <div class="form-control {% if form_errors(form.name) %} invalid {% endif %}">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                        {{ form_help(form.name) }}
+                    </div>
+
+
+                    <div class="form-control {% if form_errors(form.email) %} invalid {% endif %}">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                        {{ form_help(form.email) }}
+                    </div>
+
+
+                    <div class="form-control {% if form_errors(form.object) %} invalid {% endif %}">
+                        {{ form_label(form.object) }}
+                        {{ form_widget(form.object) }}
+                        {{ form_errors(form.object) }}
+                        {{ form_help(form.object) }}
+                    </div>
+
+                    <div class="form-control {% if form_errors(form.message) %} invalid {% endif %}">
+                        {{ form_label(form.message) }}
+                        {{ form_widget(form.message) }}
+                        {{ form_errors(form.message) }}
+                        {{ form_help(form.message) }}
+                    </div>
+
+                    <div class="form-control {% if form_errors(form.recaptcha) %} invalid {% endif %}">
+                        {{ form_label(form.recaptcha) }}
+                        {{ form_widget(form.recaptcha) }}
+                        {{ form_errors(form.recaptcha) }}
+                        {{ form_help(form.recaptcha) }}
+                    </div>
+
+                    <div class="form-control">
+                        <span>Vos données personnelles ne sont utilisées qu'à des fins d'authentification et ne sont jamais partagées avec des tiers (Lire les <a
+                                    href="{{ path('terms') }}" class="text-link">conditions générales d'utilisation</a>).</span>
+                    </div>
+
+                    <div class="mt-6 text-end">
+                        <input type="submit" name="submit" id="sub" value="ENVOYER" class="btn btn-primary"/>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </form>
+        </div>
+
+    </div>
+
+
+{% endblock %}

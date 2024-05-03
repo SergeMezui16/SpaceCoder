@@ -1,0 +1,53 @@
+{% extends '../../../base.html.twig' %}
+
+{% block title %}Restaurez votre mot de passe.{% endblock %}
+
+{% block body %}
+
+<div class="container mx-auto rounded shadow-md my-10 flex flex-col md:flex-row gap-4 p-4 bg-gray-100">
+    <div class="flex-1 flex flex-col items-start justify-start p-3 text-gray-500">
+        <h3>Restaurer votre mot de passe.</h3>
+        <hr class="w-full mb-4">
+        <p>Vous avez oublié votre mot de passe ? Vous pouvez le restaurer ici !</p>
+        <p>Entrez simplement votre nouveau mot de passe et confirmez le en respectant les regles de securité (doit contenir au moins huit caractères, au moins une lettre, un chiffre et un caractère spécial. [ # ? ! @ $ % ^ & * - ]).</p>
+		<p>Apres cela, connectez vous avec votre nouveau mot de passe.</p>
+    </div>
+    <form action="" method="post" class="flex justify-center flex-1 py-7">
+        {{ form_start(form) }}
+        {{ form_row(form._token) }}
+
+        <div class="row">
+
+			<div class="form-control {% if form_errors(form.newPassword) %} invalid {% endif %}" is="password-input">
+				{{ form_label(form.newPassword) }}
+				<div class="">
+					{{ form_widget(form.newPassword) }}
+					<button class="show-btn" tabindex="-1">
+						Voir
+					</button>
+				</div>
+				{{ form_errors(form.newPassword) }}
+				{{ form_help(form.newPassword) }}
+			</div>
+
+			<div class="form-control {% if form_errors(form.confirmPassword) %} invalid {% endif %}" is="password-input">
+				{{ form_label(form.confirmPassword) }}
+				<div class="">
+					{{ form_widget(form.confirmPassword) }}
+					<button class="show-btn" tabindex="-1">
+						Voir
+					</button>
+				</div>
+				{{ form_errors(form.confirmPassword) }}
+				{{ form_help(form.confirmPassword) }}
+			</div>
+
+			<div class="mt-6 text-center">
+				<input type="submit" name="submit" id="sub" value="METTRE A JOUR" class="btn btn-primary"/>
+			</div>
+		</div>
+        {{ form_end(form) }}
+    </form>
+</div>
+
+{% endblock %}

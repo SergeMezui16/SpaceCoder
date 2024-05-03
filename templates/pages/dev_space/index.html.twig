@@ -1,0 +1,83 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+
+<div class="bg-vantablack p-4 w-full text-gray-100">
+    <div class="container m-auto">
+        <ul class="flex gap-4 items-center w-full">
+            <li>
+                <a href="https://github.com/SergeMezui16/SpaceCoder" class="flex" target="_blank">
+                    GitHub
+                </a>
+            </li>
+            <li>
+                <a href="{{path('api')}}" class="flex" target="_blank">
+                    API
+                </a>
+            </li>
+            <li>
+                <a href="{{path('ui')}}" class="flex" target="_blank">UI</a>
+            </li>
+            <ul class="flex items-center justify-end w-full">
+                <li class="version">SpaceCoder </li>
+            </ul>
+        </ul>
+    </div>
+</div>
+
+<div class="container m-auto bg-gray-100 text-gray-500 shadow-md rounded p-6 my-10">
+    <h1 class="hero text-vantablack brand">V3</h1>
+
+    <h2>Languages</h2>
+    <div class="ml-5 my-5">
+        <img src="https://www.php.net/images/logos/php-logo.svg" class="m-3 float-left" alt="php" width="75px">
+        <p> <a href="https://www.php.net/" target="_blank" class="text-link">PHP</a> est le language utilisé majoritairement sur ce projet. C'est un vieux language et qui a la réputation d'être un peu brouillon mais sa version 8 permet de produire du code propre et documenté. Couplé avec le paradigme de Programmation Orienté Objet (POO), la language PHP permet de gérer presque entièrement le côté serveur (backend) d'une application Web quand on le maîtrise bien.</p>
+    </div>
+
+    <div class="ml-5 my-5">
+        <img src="http://openacademy.github.io/HTML5-open-academy/session07-css3/images/css3_logo.png" class="m-3 float-left" alt="HTML + CSS" width="75px">
+        <p>Ces deux langages qui permettent respectivement la structure et le style des pages Web sont des incontournables lorsqu'on fait du Web.</p>
+    </div> <br>
+
+    <div class="ml-5 my-5">
+        <img src="https://logos-download.com/wp-content/uploads/2019/01/JavaScript_Logo.png" class="m-3 float-left" alt="javascrip" width="75px">
+        <p>Le Javascript est un language presque incontournable pour le web de nos jours, il permet de créer des interactions directement dans la page. Des animations aux composants réactifs, le Javascript nous a permis de rendre le site plus dynamique.</p>
+    </div>
+
+    <br>
+
+
+
+    <h2>Frameworks/Technologies</h2>
+    <div class="ml-5 my-5">
+        <img src="https://image.pngaaa.com/350/3500350-middle.png" class="m-3 float-left" alt="symfony" width="75px">
+        <p>Symfony : C'est un framework basé sur le PHP qui permet de structurer le code et s'affranchir de certaines tâches récurrente dans le Web. Notamment le routing, la gestion des formulaires ou même de l'authentification.</p>
+    </div>
+    <br>
+
+    <div class="ml-5 my-5">
+        <img src="https://codekitapp.com/images/help/free-tailwind-icon@2x.png" class="m-3 float-left" alt="tailwind" width="75px">
+        <p>Tailwind CSS est une implémentation de système de conception en CSS pur. Il est également configurable. Il donne aux développeurs de super pouvoirs. Il leur permet de construire des sites Web avec une interface propre et cohérente dès le départ. Il s’intègre bien avec n’importe quel framework de développement web parce que c’est juste CSS !</p>
+    </div>
+    <br>
+
+    <h1 class="hero text-vantablack brand">Caisse à outils</h1>
+
+    <h2 id="arl">ARL</h2>
+    <div class="form-copy" is="copy-form">
+        <input name="text" class="copy-input js-copy-input" readonly type="text" value="{{ arl.value }}"/>
+        <button class="copy-btn">Copier</button>
+    </div>
+
+    {# <h2>Base de données</h2>
+    <h2>Api</h2>
+    <h2>Authentification</h2> #}
+
+    {# <h1 class="hero text-vantablack brand">SpaceCoder 2</h1>
+    <h1 class="hero text-vantablack brand">SpaceCoder 1</h1> #}
+
+</div>
+
+{% endblock %}

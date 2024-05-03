@@ -1,0 +1,39 @@
+{% extends '../../../base.html.twig' %}
+
+{% block title %}Restaurer votre mot de passe{% endblock %}
+
+{% block body %}
+<div class="container mx-auto my-10 shadow-md rounded flex flex-col md:flex-row gap-4 p-4 bg-gray-100">
+    <div class="flex-1 flex flex-col items-start justify-start p-3 text-gray-500">
+        <h3>Restaurer votre mot de passe.</h3>
+        <hr class="w-full mb-4">
+        <p>Vous avez oublié votre mot de passe ? Vous pouvez le restaurer ici !</p>
+        <p>Pour le faire il suffit de suivre les etapes :</p>
+        <ol class="list-decimal flex flex-col ml-8 gap-2">
+            <li>Renseignez votre email actuel. Celui-ci permet de nous rassurer qu'il s'agisse bien de vous;</li>
+			<li>Apres avoir soumis le formulaire, vous recevrez un lien par mail qui vous servira a acceder a la restauration;</li>
+			<li>En cliquant sur ce lien, vous serez redirigé vers un formulaire ou vous pourez restauré votre mot de passe.</li>
+        </ol>
+    </div>
+    <form action="" method="post" class="flex justify-center flex-1 py-7">
+        {{ form_start(form) }}
+        {{ form_row(form._token) }}
+
+        <div class="row">
+
+			<div class="form-control {% if form_errors(form.email) %} invalid {% endif %}">
+				{{ form_label(form.email) }}
+				{{ form_widget(form.email) }}
+				{{ form_errors(form.email) }}
+				{{ form_help(form.email) }}
+			</div>
+
+			<div class="mt-6 text-center">
+				<input type="submit" name="submit" id="sub" value="ENVOYER L'EMAIL DE RESTAURATION" class="btn btn-primary"/>
+			</div>
+		</div>
+        {{ form_end(form) }}
+                        
+    </form>
+</div>
+{% endblock %}

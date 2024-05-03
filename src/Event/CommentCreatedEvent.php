@@ -16,7 +16,7 @@ class CommentCreatedEvent extends Event
     /**
      * Get the value of comment
      */ 
-    public function getComment()
+    public function getComment(): Comment
     {
         return $this->comment;
     }
@@ -24,9 +24,10 @@ class CommentCreatedEvent extends Event
     /**
      * Set the value of comment
      *
+     * @param Comment $comment
      * @return  self
      */ 
-    public function setComment($comment)
+    public function setComment(Comment $comment): static
     {
         $this->comment = $comment;
 
@@ -36,7 +37,7 @@ class CommentCreatedEvent extends Event
     /**
      * Get the value of auth
      */ 
-    public function getAuth()
+    public function getAuth(): UserAuthentication
     {
         return $this->auth;
     }
@@ -44,9 +45,10 @@ class CommentCreatedEvent extends Event
     /**
      * Set the value of auth
      *
+     * @param UserAuthentication $auth
      * @return  self
      */ 
-    public function setAuth($auth)
+    public function setAuth(UserAuthentication $auth): static
     {
         $this->auth = $auth;
 

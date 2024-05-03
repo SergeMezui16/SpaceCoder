@@ -1,32 +1,31 @@
 <?php
+
 namespace App\Service;
 
 use App\Entity\Comment;
 use App\Entity\Notification;
 use App\Entity\User;
-use App\Repository\NotificationRepository;
-use App\Service\EarnCoinService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Notification Service
- * 
- * Permit you to create a notification and persist its 
+ *
+ * Permit you to create a notification and persist its
  * in the same way.
  */
 class NotificationService
 {
 
     public function __construct(
-        private NotificationRepository $notificationRepository,
-        private EntityManagerInterface $manager,
-        private UrlGeneratorInterface $url,
+        private readonly EntityManagerInterface $manager,
+        private readonly UrlGeneratorInterface  $url,
     )
-    {}
+    {
+    }
 
     /**
-     * Create and persist a notification 
+     * Create and persist a notification
      *
      * @param User[] $recipients Users that will receive the notification
      * @param string $content The content of the notification. That could be a text or HTML
@@ -36,10 +35,10 @@ class NotificationService
      * @return Notification
      */
     public function notify(
-        array $recipients, 
-        string $title, 
-        string $content, 
-        string $action, 
+        array  $recipients,
+        string $title,
+        string $content,
+        string $action,
         string $header
     ): Notification
     {
@@ -50,8 +49,7 @@ class NotificationService
             ->setAction($action)
             ->setSentAt(new \DateTimeImmutable())
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setUpdatedAt(new \DateTimeImmutable())
-        ;
+            ->setUpdatedAt(new \DateTimeImmutable());
 
         foreach ($recipients as $recipient) $notification->addRecipient($recipient);
 
@@ -63,10 +61,10 @@ class NotificationService
 
 
     /**
-     * Notify the owner of the artcile
-     * when a comment has submited
+     * Notify the owner of the article
+     * when a comment has submitted
      *
-     * @param Comment $comment Comment submited
+     * @param Comment $comment Comment submitted
      * @return Notification|null return null if the User don't exist
      */
     public function notifyArticleAuthorOnComment(Comment $comment): ?Notification
@@ -82,7 +80,7 @@ class NotificationService
                     $comment->getAuthor(),
                     $article
                 ),
-                $this->url->generate('article_detail', [
+                $this->url->generate('article.index', [
                     'slug' => $article->getSlug(),
                     '_fragment' => 'comment-' . $comment->getId()
                 ]),
@@ -96,7 +94,7 @@ class NotificationService
 
     /**
      * Notify the comment's owner if is a reply
-     * when comment has submited
+     * when comment has submitted
      *
      * @param Comment $comment
      * @return Notification|null
@@ -108,13 +106,13 @@ class NotificationService
         if ($replyTo instanceof Comment && $replyTo->getAuthor() !== null) {
             return $this->notify(
                 [$replyTo->getAuthor()],
-                'Reponse à votre commentaire',
+                'Réponse à votre commentaire',
                 sprintf(
                     '%s vient de répondre à votre commentaire à l\'article <strong>%s</strong>, cliquez pour voir ce nouveau commentaire.',
                     $comment->getAuthor(),
                     $comment->getArticle()
                 ),
-                $this->url->generate('article_detail', [
+                $this->url->generate('article.index', [
                     'slug' => $replyTo->getArticle()->getSlug(),
                     '_fragment' => 'comment-' . $comment->getId()
                 ]),
@@ -147,9 +145,9 @@ class NotificationService
      * Notify user when password has been changed
      *
      * @param User $user
-     * @return void
+     * @return Notification
      */
-    public function notifyOnPasswordChanged(User $user)
+    public function notifyOnPasswordChanged(User $user): Notification
     {
         return $this->notify(
             [$user],
@@ -161,12 +159,12 @@ class NotificationService
     }
 
     /**
-     * Notify user when password has succesfully reseted
+     * Notify user when password has successfully reset
      *
      * @param User $user
-     * @return void
+     * @return Notification
      */
-    public function notifyOnResetPassword(User $user)
+    public function notifyOnResetPassword(User $user): Notification
     {
         return $this->notify(
             [$user],
@@ -181,9 +179,9 @@ class NotificationService
      * Notify user when he is the first viewer of an article
      *
      * @param User $user
-     * @return void
+     * @return Notification
      */
-    public function notifyOnFirstViewOnArticle(User $user)
+    public function notifyOnFirstViewOnArticle(User $user): Notification
     {
         return $this->notify(
             [$user],
@@ -198,9 +196,9 @@ class NotificationService
      * Notify user if he is the first to comment on an article
      *
      * @param User $user
-     * @return void
+     * @return Notification
      */
-    public function notifyOnFirstCommentOnArticle(User $user)
+    public function notifyOnFirstCommentOnArticle(User $user): Notification
     {
         return $this->notify(
             [$user],
@@ -215,9 +213,9 @@ class NotificationService
      * Notify user if it is his first comment
      *
      * @param User $user
-     * @return void
+     * @return Notification
      */
-    public function notifyOnfirstComment(User $user)
+    public function notifyOnfirstComment(User $user): Notification
     {
         return $this->notify(
             [$user],
@@ -228,5 +226,5 @@ class NotificationService
         );
     }
 
-    
+
 }

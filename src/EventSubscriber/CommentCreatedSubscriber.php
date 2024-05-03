@@ -12,8 +12,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class CommentCreatedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private EarnCoinService $earner,
-        private NotificationService $notifier
+        private readonly EarnCoinService $earner,
+        private readonly NotificationService $notifier
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -48,7 +48,7 @@ class CommentCreatedSubscriber implements EventSubscriberInterface
      * @param Comment $comment
      * @return void
      */
-    public function earnCoins(User $user, Comment $comment)
+    public function earnCoins(User $user, Comment $comment): void
     {
         $this->earner->commentOn($user);
         $this->earner->firstComment($user);

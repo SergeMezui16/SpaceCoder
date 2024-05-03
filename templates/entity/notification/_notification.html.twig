@@ -1,0 +1,23 @@
+{% for notification in notifications %}
+    <a
+        href="{{ notification.action }}"
+        {% if not notification.hasBeenViewedBy(app.user.user) %} is="unsee-notification"{% endif %}
+        data-uri="{{ path('notification.see', {id: notification.id}) }}"
+        class="{% if notification.hasBeenViewedBy(app.user.user) == false %}bg-transparent-purple cursor-pointer shadow-md{% endif %} hover:shadow-md w-full p-2 pt-4 max-w-3xl {% if not loop.last %}border-b{% endif %}"
+    >
+        <div class="flex flex-col p-3">
+            <div class="flex items-center justify-start gap-2 mb-2 h-10">
+                <img src="/icons/notification/{{ notification.header }}.svg" alt="icon" class="w-6 h-6 mt-1">
+                <div class="text-xl">
+                    {{ notification.title }}
+                </div>
+            </div>
+            <div class="text-gray-500 text-md">
+                {{ notification.content | raw }}
+            </div>
+        </div>
+        <div class="text-xs text-gray-500 text-end pt-2">
+            {{ notification.sentAt | since }}
+        </div>
+    </a>
+{% endfor %}

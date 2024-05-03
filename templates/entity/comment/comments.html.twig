@@ -1,0 +1,8 @@
+<div class="comments mb-10 pb-10">
+    {% include "entity/comment/_comment_form.html.twig" %}
+    <div class="comment-list">
+        <h3 class="pl-6">Commentaires recent ({{ comments | length }})</h3>
+        <hr>
+        {% include "entity/comment/_comment.html.twig" %}
+    </div>
+</div>

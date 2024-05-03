@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changer d'adresse email{% endblock %}
+
+{% block body %}
+    <div class="container m-auto rounded bg-gray-100">
+        <nav class="breadcrumb w-full p-5">
+            <ul class="breadcrumb-list">
+                <li class="item"><a href="{{ path('home') }}">Accueil</a></li>
+                <li class="item"><a href="{{ path('profile', {slug: app.user.user.slug}) }}">Profil
+                        de {{ app.user.user }}</a></li>
+                <li class="item active">
+                    <a href="">Changer d'adresse mail</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container m-auto rounded flex flex-col md:flex-row gap-4 p-4 bg-gray-100">
+        <div class="flex-1 flex flex-col items-start justify-start p-3 text-gray-500">
+            <h3>Changer votre adresse mail</h3>
+            <hr class="w-full mb-4">
+            <p>Vous pouvez changer votre email à tout moment.</p>
+            <p>Pour le faire, il suffit de suivre ces étapes :</p>
+            <ol class="list-decimal  flex flex-col ml-8 gap-2">
+                <li>Renseignez votre nouvelle adresse mail ;</li>
+                <li>Une fois le formulaire soumis, vous recevrez un mail contenant un lien de confirmation qui nous
+                    permettra de savoir qu'il s'agit de bien de vous ;
+                </li>
+                <li>Cliquez sur ce lien et vous serez invité à vous connecter pour confirmer votre nouvelle adresse.
+                </li>
+            </ol>
+            <p>En cas de problème n'hésitez pas contacter notre équipe via le <a class="text-link"
+                                                                                 href="{{ path('contact') }}">formulaire
+                    de contact</a>.</p>
+        </div>
+        <form action="" method="post" class="flex justify-center items-center flex-1 py-7">
+
+            {{ form_start(form) }}
+
+            <div class="row w-full">
+
+                <div class="form-control {% if form_errors(form.email) %} invalid {% endif %}">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email) }}
+                    {{ form_errors(form.email) }}
+                    {{ form_help(form.email) }}
+                </div>
+
+                <div class="mt-6 text-center">
+                    <input type="submit" name="submit" id="sub" value="CHANGER D'EMAIL" class="btn btn-primary"/>
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+        </form>
+    </div>
+
+{% endblock %}
