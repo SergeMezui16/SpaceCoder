@@ -17,7 +17,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('pages/home/index.html.twig', [
 
         ]);
     }
@@ -25,7 +25,7 @@ class HomeController extends AbstractController
     #[Route('/search', name: 'search')]
     public function search(Request $request, SearchService $searchService): Response
     {
-        return $this->render('home/search.html.twig', [
+        return $this->render('pages/home/search.html.twig', [
             'title' => 'Recherche',
             'search' => $searchService->search($request->query->get('q', ''), $request->query->getInt('page', 1), 50, 10)
         ]);
@@ -60,7 +60,7 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('contact');
         }
 
-        return $this->render('home/contact.html.twig', [
+        return $this->render('pages/home/contact.html.twig', [
             'title' => 'Contact',
             'form' => $form
         ]);
@@ -70,7 +70,7 @@ class HomeController extends AbstractController
     #[Route('/terms-and-conditions', name: 'terms')]
     public function terms(): Response
     {
-        return $this->render('home/terms_and_conditions.html.twig', [
+        return $this->render('pages/home/terms_and_conditions.html.twig', [
             'title' => 'Conditions d\'utilisation'
         ]);
     }
