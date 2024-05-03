@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="container m-auto rounded shadow-md bg-gray-100">
+        <nav class="breadcrumb w-full p-5">
+            <ul class="breadcrumb-list">
+                <li class="item"><a href="{{ path('home') }}">Accueil</a></li>
+                <li class="item"><a href="{{ path('profile', {slug: app.user.user.slug}) }}">Profil
+                        de {{ app.user.user }}</a></li>
+                <li class="item active">
+                    <a href="">Supprimer mon compte</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container m-auto rounded shadow-md flex flex-col md:flex-row gap-4 p-4 bg-gray-100">
+        <div class="flex-1 flex flex-col items-start justify-start p-3 text-gray-500">
+            <h3>Supprimer mon compte.</h3>
+            <hr class="w-full mb-4">
+            <p>Vous pouvez supprimer votre compte à tout moment.</p>
+            <p>Pour le faire, il suffit de renseigner votre mot de passe et de soumettre le formulaire.</p>
+            <p>Une fois votre compte supprimé, vous disposez de 30 jours pour le restaurer. Une connexion au site suffit
+                pour le faire.</p>
+            <p>Toutes vos données seront supprimés de notre application. Néanmoins, vos commentaires ainsi que leurs
+                métadonnées seront conservé sans votre nom.</p>
+        </div>
+        <form action="" method="post" class="flex justify-center items-center flex-1 py-7">
+
+            {{ form_start(form)}}
+
+            <div class="row w-full flex items-center justify-center flex-col">
+
+                <div class="form-control {% if form_errors(form.password) %} invalid {% endif %}" is="password-input">
+                    {{ form_label(form.password) }}
+                    <div class="">
+                        {{ form_widget(form.password) }}
+                        <button class="show-btn" tabindex="-1">
+                            Voir
+                        </button>
+                    </div>
+                    {{ form_errors(form.password) }}
+                    {{ form_help(form.password) }}
+                </div>
+
+                <div class="mt-6 text-center">
+                    <input type="submit" name="submit" id="sub" value="SUPPRIMER" class="btn btn-danger"/>
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+        </form>
+    </div>
+
+{% endblock %}
