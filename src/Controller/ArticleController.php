@@ -83,7 +83,7 @@ class ArticleController extends AbstractController
 
             $dispatcher->dispatch(new CommentCreatedEvent($comment, $auth));
 
-            return $this->redirectToRoute('article.index', [
+            return $this->redirectToRoute('article.show', [
                 'slug' => $article->getSlug(),
                 '_fragment' => 'comment-' . $comment->getId()
             ]);
